@@ -1,0 +1,144 @@
+body{
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+}
+
+/* WRAPPER */
+
+.admin-wrapper{
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width: 270px;
+    background: #0f172a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 25px 20px;
+}
+
+.sidebar-logo h3{
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.sidebar-logo p{
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.sidebar-menu{
+    list-style: none;
+    padding: 0;
+    margin-top: 40px;
+}
+
+.sidebar-menu li{
+    margin-bottom: 10px;
+}
+
+.sidebar-menu li a{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #cbd5e1;
+    padding: 14px 16px;
+    border-radius: 14px;
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+.sidebar-menu li a:hover{
+    background: rgba(255,255,255,0.08);
+    color: white;
+}
+
+.sidebar-menu li a.active{
+    background: #2563eb;
+    color: white;
+}
+
+/* USER */
+
+.sidebar-user{
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 20px;
+}
+
+.sidebar-user h6{
+    margin: 0;
+}
+
+.sidebar-user small{
+    color: #94a3b8;
+}
+
+/* MAIN */
+
+.main-wrapper{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* TOPBAR */
+
+.topbar{
+    background: white;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.topbar h4{
+    margin: 0;
+    font-weight: bold;
+}
+
+/* CONTENT */
+
+.main-content{
+    padding: 30px;
+}
+
+/* DASHBOARD CARD */
+
+.dashboard-card{
+    background: white;
+    border-radius: 24px;
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.dashboard-label{
+    color: #64748b;
+    margin-bottom: 10px;
+}
+
+.dashboard-card h2{
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.dashboard-icon{
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 28px;
+}

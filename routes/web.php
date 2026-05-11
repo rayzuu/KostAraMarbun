@@ -17,12 +17,7 @@ Route::get('/', function (\Illuminate\Http\Request $request) {
 
     }
 
-    // FILTER LOKASI
-    if($request->location){
-
-        $query->where('location', $request->location);
-
-    }
+    
 
     // FILTER STATUS
     if($request->status){
@@ -35,14 +30,11 @@ Route::get('/', function (\Illuminate\Http\Request $request) {
     ->take(6)
     ->get();
 
-    // ambil lokasi unik
-    $locations = Room::select('location')
-        ->distinct()
-        ->pluck('location');
+
 
     return view('layouts.landingPage', compact(
         'rooms',
-        'locations'
+        
     ));
 
 });

@@ -39,25 +39,30 @@
 
             <div class="mb-3">
 
-                <label>Harga</label>
+                <label class="form-label">
 
-                <input type="number"
-                    name="price"
-                    value="{{ $room->price }}"
-                    class="form-control">
+                    Harga Kamar
+
+                </label>
+
+                <div class="input-group">
+
+                    <span class="input-group-text">
+                        Rp
+                    </span>
+
+                    <input type="text"
+                        id="price"
+                        name="price"
+                        value="{{ number_format($room->price,0,',','.') }}"
+                        class="form-control"
+                        required>
+
+                </div>
 
             </div>
 
-            <div class="mb-3">
-
-                <label>Lokasi</label>
-
-                <input type="text"
-                    name="location"
-                    value="{{ $room->location }}"
-                    class="form-control">
-
-            </div>
+            
 
             <div class="mb-3">
 
@@ -76,7 +81,7 @@
                     <option value="booked"
                         {{ $room->status == 'booked' ? 'selected' : '' }}>
 
-                        Booked
+                        Full
 
                     </option>
 
@@ -116,5 +121,18 @@
     </div>
 
 </form>
+<script>
 
+const priceInput = document.getElementById('price');
+
+priceInput.addEventListener('input', function(e){
+
+    let value = this.value.replace(/\D/g, '');
+
+    this.value = new Intl.NumberFormat('id-ID')
+        .format(value);
+
+});
+
+</script>
 @endsection

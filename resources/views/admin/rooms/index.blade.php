@@ -28,7 +28,6 @@
             <th>Gambar</th>
             <th>Nama</th>
             <th>Harga</th>
-            <th>Lokasi</th>
             <th>Status</th>
             <th>Aksi</th>
 
@@ -66,11 +65,6 @@
 
             </td>
 
-            <td>
-
-                {{ $room->location }}
-
-            </td>
 
             <td>
 
@@ -83,14 +77,13 @@
                 @else
 
                     <span class="badge bg-danger">
-                        Booked
+                        Full
                     </span>
 
                 @endif
 
             </td>
 
-            {{-- ACTION --}}
             <td>
 
                 <div class="d-flex gap-2">

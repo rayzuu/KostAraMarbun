@@ -30,9 +30,7 @@ class RoomController extends Controller
 
         'description' => $request->description,
 
-        'price' => $request->price,
-
-        'location' => $request->location,
+        'price' => str_replace('.', '', $request->price),
 
         'status' => 'available'
 
@@ -125,9 +123,8 @@ public function update(Request $request, Room $room)
 
         'description' => $request->description,
 
-        'price' => $request->price,
+       'price' => str_replace('.', '', $request->price),
 
-        'location' => $request->location,
 
         'status' => $request->status
 
@@ -187,12 +184,7 @@ public function allRooms(Request $request)
 
     }
 
-    if($request->location){
-
-        $query->where('location',
-            $request->location);
-
-    }
+   
 
     if($request->status){
 
@@ -204,13 +196,10 @@ public function allRooms(Request $request)
     $rooms = $query->latest()
         ->paginate(6);
 
-    $locations = Room::select('location')
-        ->distinct()
-        ->pluck('location');
+    
 
     return view('admin.rooms.room', compact(
         'rooms',
-        'locations'
     ));
 }
 }

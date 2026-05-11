@@ -41,7 +41,15 @@
                     <h2 class="mb-4 fw-bold">
                         Login
                     </h2>
+                     @if(session('status'))
 
+                        <div class="alert alert-danger">
+
+                            {{ session('status') }}
+
+                        </div>
+
+                    @endif
                     <form method="POST"
                         action="{{ route('login') }}">
 
@@ -56,13 +64,24 @@
 
                             <input type="email"
                                 name="email"
-                                class="form-control auth-input"
+                                value="{{ old('email') }}"
+                                class="form-control auth-input @error('email') is-invalid @enderror"
                                 required>
+
+                            @error('email')
+
+                                <div class="invalid-feedback">
+
+                                    {{ $message }}
+
+                                </div>
+
+                            @enderror
 
                         </div>
 
                         {{-- PASSWORD --}}
-                        <div class="mb-4">
+                       <div class="mb-4">
 
                             <label class="form-label">
                                 Password
@@ -70,8 +89,18 @@
 
                             <input type="password"
                                 name="password"
-                                class="form-control auth-input"
+                                class="form-control auth-input @error('password') is-invalid @enderror"
                                 required>
+
+                            @error('password')
+
+                                <div class="invalid-feedback">
+
+                                    {{ $message }}
+
+                                </div>
+
+                            @enderror
 
                         </div>
 

@@ -56,7 +56,7 @@
                 <ul class="footer-links">
 
                     <li>
-                        WhatsApp: 0812-3456-7890
+                        WhatsApp: 0852-2779-4397
                     </li>
 
                     <li>
@@ -64,7 +64,7 @@
                     </li>
 
                     <li>
-                        Jakarta, Indonesia
+                        Medan, Indonesia
                     </li>
 
                 </ul>

@@ -30,26 +30,30 @@
             class="form-control"></textarea>
 
     </div>
+<div class="mb-3">
 
-    <div class="mb-3">
+    <label class="form-label">
 
-        <label>Harga</label>
+        Harga Kamar
 
-        <input type="number"
-            name="price"
-            class="form-control">
+    </label>
 
-    </div>
+    <div class="input-group">
 
-    <div class="mb-3">
-
-        <label>Lokasi</label>
+        <span class="input-group-text">
+            Rp
+        </span>
 
         <input type="text"
-            name="location"
-            class="form-control">
+            id="price"
+            name="price"
+            class="form-control"
+            required>
 
     </div>
+
+</div>
+
 
    <div class="mb-3">
 
@@ -77,7 +81,20 @@
 
 </form>
 
+<script>
 
+const priceInput = document.getElementById('price');
+
+priceInput.addEventListener('input', function(e){
+
+    let value = this.value.replace(/\D/g, '');
+
+    this.value = new Intl.NumberFormat('id-ID')
+        .format(value);
+
+});
+
+</script>
 <script>
 
 let selectedFiles = [];

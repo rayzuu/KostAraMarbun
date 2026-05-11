@@ -20,7 +20,7 @@
 
                 <h1 class="hero-title text-white">
 
-                    KOST KETUA NAGA HITAM
+                    KOST ARA MARBUN
 
                 </h1>
 
@@ -75,30 +75,7 @@
 
                             </div>
 
-                            {{-- LOCATION --}}
-                            <div class="col-lg-3 mb-3">
-
-                                <select name="location"
-                                    class="form-control">
-
-                                    <option value="">
-                                        Semua Lokasi
-                                    </option>
-
-                                    @foreach($locations as $location)
-
-                                        <option value="{{ $location }}"
-                                            {{ request('location') == $location ? 'selected' : '' }}>
-
-                                            {{ $location }}
-
-                                        </option>
-
-                                    @endforeach
-
-                                </select>
-
-                            </div>
+                           
 
                             {{-- STATUS --}}
                             <div class="col-lg-3 mb-3">
@@ -120,7 +97,7 @@
                                     <option value="booked"
                                         {{ request('status') == 'booked' ? 'selected' : '' }}>
 
-                                        Booked
+                                        Full
 
                                     </option>
 
@@ -180,7 +157,7 @@
                     <h5>WiFi Cepat</h5>
 
                     <p>
-                        Internet stabil untuk kerja dan hiburan
+                        Free Wifi untuk penghuni Kost
                     </p>
 
                 </div>
@@ -296,11 +273,7 @@
 
                     <h5>{{ $room->name }}</h5>
 
-                    <p class="room-location">
-
-                        {{ $room->location }}
-
-                    </p>
+                   
 
                     <h4 class="room-price">
 
@@ -312,13 +285,13 @@
                     @if($room->status == 'available')
 
                         <span class="badge bg-success mb-3">
-                            Tersedia
+                            Available
                         </span>
 
                     @else
 
                         <span class="badge bg-danger mb-3">
-                            Penuh
+                            Full
                         </span>
 
                     @endif
@@ -386,7 +359,7 @@
     </div>
 
 </section>
-<a href="https://wa.me/6281385236632"
+<a href="https://wa.me/6285227794397?text=Saya%20ingin%20booking%20kamar%20{{ urlencode($room->name) }}"
     class="wa-floating"
     target="_blank">
 

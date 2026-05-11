@@ -243,13 +243,13 @@
                             @if($room->status == 'available')
 
                                 <span class="badge bg-success">
-                                    Tersedia
+                                    Available
                                 </span>
 
                             @else
 
                                 <span class="badge bg-danger">
-                                    Penuh
+                                    Full
                                 </span>
 
                             @endif

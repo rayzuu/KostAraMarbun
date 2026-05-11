@@ -82,12 +82,6 @@
 
                     </h1>
 
-                    <p class="text-muted mb-3">
-
-                        <i class="bi bi-geo-alt-fill text-danger"></i>
-                        {{ $room->location }}
-
-                    </p>
 
                     <h3 class="text-primary fw-bold mb-4">
 
@@ -102,7 +96,7 @@
 
                     </p>
 
-                    <a href="https://wa.me/6281234567890?text=Saya%20ingin%20booking%20kamar%20{{ urlencode($room->name) }}"
+                    <a href="https://wa.me/6285227794397?text=Saya%20ingin%20booking%20kamar%20{{ urlencode($room->name) }}"
                         target="_blank"
                         class="btn btn-success btn-lg w-100">
 

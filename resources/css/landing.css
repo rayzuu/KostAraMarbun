@@ -17,10 +17,14 @@ body{
 /* HERO SECTION */
 .hero-section{
     position: relative;
-    background-image: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267');
+   background-image:
+        linear-gradient(rgba(0,0,0,.5),
+        rgba(0,0,0,.5)),
+        url('/image/gambar kost 1.jpg');
     background-size: cover;
     background-position: center;
     min-height: 100vh;
+    background-attachment: fixed;
     display: flex;
     align-items: center;
     overflow: hidden;

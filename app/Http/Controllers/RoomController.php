@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Room;
-
+use App\Models\RoomImage;
 class RoomController extends Controller
 {
     public function index()
@@ -19,18 +19,12 @@ class RoomController extends Controller
         return view('admin.rooms.create');
     }
 
-   public function store(Request $request)
+ public function store(Request $request)
 {
-    $imageName = null;
+    $thumbnail = null;
 
-    if($request->hasFile('image')){
-
-        $imageName = $request->file('image')
-            ->store('rooms', 'public');
-
-    }
-
-    Room::create([
+    // CREATE ROOM
+    $room = Room::create([
 
         'name' => $request->name,
 
@@ -40,10 +34,43 @@ class RoomController extends Controller
 
         'location' => $request->location,
 
-        'image' => $imageName,
-
         'status' => 'available'
 
+    ]);
+
+    // MULTIPLE IMAGE
+    if($request->hasFile('images')){
+
+        foreach($request->file('images') as $index => $image){
+
+            $path = $image->store(
+                'rooms/gallery',
+                'public'
+            );
+
+            // IMAGE PERTAMA = THUMBNAIL
+            if($index == 0){
+
+                $thumbnail = $path;
+
+            }
+
+            // SAVE GALLERY
+            RoomImage::create([
+
+                'room_id' => $room->id,
+
+                'image' => $path
+
+            ]);
+
+        }
+
+    }
+
+    // UPDATE THUMBNAIL
+    $room->update([
+        'image' => $thumbnail
     ]);
 
     return redirect()->route('rooms.index')
@@ -51,9 +78,13 @@ class RoomController extends Controller
 }
 public function show(Room $room)
 {
-    return view('admin.rooms.detail', compact('room'));
-}
+    $room->load('images');
 
+    return view(
+        'admin.rooms.detail',
+        compact('room')
+    );
+}
 public function dashboard()
 {
     $totalRooms = Room::count();
@@ -86,14 +117,7 @@ public function edit(Room $room)
 
 public function update(Request $request, Room $room)
 {
-    $imageName = $room->image;
-
-    if($request->hasFile('image')){
-
-        $imageName = $request->file('image')
-            ->store('rooms', 'public');
-
-    }
+    $thumbnail = $room->image;
 
     $room->update([
 
@@ -105,11 +129,42 @@ public function update(Request $request, Room $room)
 
         'location' => $request->location,
 
-        'status' => $request->status,
-
-        'image' => $imageName
+        'status' => $request->status
 
     ]);
+
+    // MULTIPLE IMAGE
+    if($request->hasFile('images')){
+
+        foreach($request->file('images') as $index => $image){
+
+            $path = $image->store(
+                'rooms/gallery',
+                'public'
+            );
+
+            // JIKA BELUM ADA THUMBNAIL
+            if(!$thumbnail){
+
+                $thumbnail = $path;
+
+            }
+
+            RoomImage::create([
+
+                'room_id' => $room->id,
+
+                'image' => $path
+
+            ]);
+
+        }
+
+        $room->update([
+            'image' => $thumbnail
+        ]);
+
+    }
 
     return redirect()->route('rooms.index')
         ->with('success', 'Kamar berhasil diupdate');

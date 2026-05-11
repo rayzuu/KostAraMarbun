@@ -14,4 +14,12 @@ class Room extends Model
         'image',
         'status'
     ];
+    public function images()
+    {
+        return $this->hasMany(RoomImage::class);
+    }
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

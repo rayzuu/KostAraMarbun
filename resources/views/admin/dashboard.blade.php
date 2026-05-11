@@ -6,10 +6,8 @@
 
 @section('content')
 
-{{-- TOP CARD --}}
 <div class="row">
 
-    {{-- TOTAL ROOM --}}
     <div class="col-lg-4 mb-4">
 
         <div class="dashboard-card">
@@ -28,15 +26,14 @@
 
             <div class="dashboard-icon bg-primary">
 
-                🏠
+                <i class="bi bi-house-door-fill"></i>
 
             </div>
 
         </div>
 
     </div>
-
-    {{-- AVAILABLE --}}
+ 
     <div class="col-lg-4 mb-4">
 
         <div class="dashboard-card">
@@ -55,7 +52,7 @@
 
             <div class="dashboard-icon bg-success">
 
-                ✔
+               <i class="bi bi-check-circle-fill"></i>
 
             </div>
 
@@ -82,7 +79,7 @@
 
             <div class="dashboard-icon bg-danger">
 
-                ✖
+                <i class="bi bi-x-circle-fill"></i>
 
             </div>
 

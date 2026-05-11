@@ -4,38 +4,42 @@
 
     @section('content')
 
-    <section class="hero-section">
+   <section class="hero-section">
 
-        <div class="container">
+    <div class="hero-overlay"></div>
 
-            <div class="row align-items-center min-vh-75">
+    <div class="container position-relative">
 
-                <div class="col-lg-6">
+        <div class="row align-items-center min-vh-100">
 
-                    <span class="hero-badge">
-                        Kost Nyaman & Modern
-                    </span>
+            <div class="col-lg-7">
 
-                    <h1 class="hero-title">
-                        KOST KETUA NAGA HITAM
-                    </h1>
+                <span class="hero-badge">
+                    Kost Nyaman & Modern
+                </span>
 
-                    <p class="hero-text">
-                        LANGSUNG BOOKING KE NOMOR KETUA
-                    </p>
+                <h1 class="hero-title text-white">
 
-                    <div class="hero-action">
-                        <a href="#" class="btn btn-primary btn-lg">
-                            Cari Kamar
-                        </a>
-                    </div>
+                    KOST KETUA NAGA HITAM
 
-                </div>
+                </h1>
 
-                <div class="col-lg-6">
+                <p class="hero-text text-light">
 
-                    <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267"
-                        class="img-fluid hero-image">
+                    Langsung booking kamar
+                    nyaman dan strategis
+                    melalui WhatsApp pemilik kost.
+
+                </p>
+
+                <div class="hero-action">
+
+                    <a href="{{ route('rooms.all') }}"
+                        class="btn btn-primary btn-lg px-4 py-3">
+
+                        Cari Kamar
+
+                    </a>
 
                 </div>
 
@@ -43,7 +47,9 @@
 
         </div>
 
-    </section>
+    </div>
+
+</section>
     {{-- SEARCH FILTER --}}
     <section class="mb-5">
 
@@ -144,7 +150,102 @@
         </div>
 
     </section>
+{{-- FACILITIES --}}
+<section class="facility-section">
 
+    <div class="container">
+
+        <div class="section-header text-center mb-5">
+
+            <h2>
+                Fasilitas Kost
+            </h2>
+
+            <p>
+                Nikmati fasilitas nyaman dan lengkap
+            </p>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="facility-card">
+
+                    <div class="facility-icon">
+                        <i class="bi bi-file-bar-graph"></i>
+                    </div>
+
+                    <h5>WiFi Cepat</h5>
+
+                    <p>
+                        Internet stabil untuk kerja dan hiburan
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="facility-card">
+
+                    <div class="facility-icon">
+                        <i class="fa-solid fa-bath"></i>
+                    </div>
+
+                    <h5>Kamar Mandi</h5>
+
+                    <p>
+                        Kamar mandi bersih dan nyaman
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="facility-card">
+
+                    <div class="facility-icon">
+                        <i class="bi bi-lock-fill"></i>
+                    </div>
+
+                    <h5>Keamanan</h5>
+
+                    <p>
+                        Area aman dengan akses terjaga
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="facility-card">
+
+                    <div class="facility-icon">
+                        <i class="bi bi-car-front-fill"></i>
+                    </div>
+
+                    <h5>Parkiran</h5>
+
+                    <p>
+                        Area parkir luas untuk penghuni
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
     <section class="room-section">
 
         <div class="container">
@@ -252,5 +353,44 @@
         </div>
 
     </section>
+{{-- LOCATION --}}
+<section class="location-section">
 
+    <div class="container">
+
+        <div class="section-header text-center mb-5">
+
+            <h2>
+                Lokasi Kost
+            </h2>
+
+            <p>
+                Lokasi strategis dan mudah dijangkau
+            </p>
+
+        </div>
+
+       <div class="ratio ratio-16x9 rounded-4 overflow-hidden">
+
+           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31649.973596846652!2d109.21596780635792!3d-7.437932274658042!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e655ea49d9f9885%3A0x62be0b6159700ec9!2sTelkom%20University%20Purwokerto!5e0!3m2!1sid!2sid!4v1778365109788!5m2!1sid!2sid" 
+           width="600" 
+           height="450" 
+           style="border:0;" 
+           allowfullscreen="" 
+           loading="lazy" 
+           referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+
+        </div>
+
+    </div>
+
+</section>
+<a href="https://wa.me/6281385236632"
+    class="wa-floating"
+    target="_blank">
+
+    <i class="bi bi-whatsapp"></i>
+
+</a>
     @endsection

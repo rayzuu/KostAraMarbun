@@ -7,7 +7,8 @@
 
     {{-- Bootstrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     {{-- Custom CSS --}}
     @vite('resources/css/admin.css')
 </head>
@@ -35,7 +36,7 @@
                     <a href="{{ route('admin.dashboard') }}"
                         class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
 
-                        <span>🏠</span>
+                        <i class="bi bi-grid-fill"></i>
                         Dashboard
 
                     </a>
@@ -47,18 +48,28 @@
                     <a href="{{ route('rooms.index') }}"
                         class="{{ request()->routeIs('rooms.*') ? 'active' : '' }}">
 
-                        <span>🛏️</span>
+                       <i class="bi bi-building"></i>
                         Data Kamar
 
                     </a>
 
                 </li>
+                <li class="sidebar-item">
 
+                    <a href="{{ route('admin.dataBooking') }}"
+                        class="sidebar-link">
+
+                        <i class="bi bi-person-fill"></i>
+                        Data Penyewa Kost
+
+                    </a>
+
+                </li>
                 <li>
 
                     <a href="#">
 
-                        <span>📄</span>
+                        <i class="bi bi-file-earmark"></i>
                         Laporan
 
                     </a>

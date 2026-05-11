@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\BookingController;
 use App\Models\Room;
 
 Route::get('/', function (\Illuminate\Http\Request $request) {
@@ -50,6 +51,15 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::resource('rooms', RoomController::class);
 
 });
+Route::get('/ajukan-sewa', [BookingController::class, 'create'])
+    ->name('booking.create');
+
+Route::post('/ajukan-sewa', [BookingController::class, 'store'])
+    ->name('booking.store');
+
+Route::get('/admin/dataBooking',
+    [BookingController::class, 'index'])
+    ->name('admin.dataBooking');
 
 Route::get('/rooms/{room}',
     [RoomController::class, 'show'])

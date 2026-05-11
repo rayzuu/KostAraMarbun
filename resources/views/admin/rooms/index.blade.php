@@ -42,7 +42,6 @@
 
         <tr>
 
-            {{-- IMAGE --}}
             <td>
 
                 @if($room->image)
@@ -55,28 +54,24 @@
 
             </td>
 
-            {{-- NAME --}}
             <td>
 
                 {{ $room->name }}
 
             </td>
 
-            {{-- PRICE --}}
             <td>
 
                 Rp {{ number_format($room->price) }}
 
             </td>
 
-            {{-- LOCATION --}}
             <td>
 
                 {{ $room->location }}
 
             </td>
 
-            {{-- STATUS --}}
             <td>
 
                 @if($room->status == 'available')

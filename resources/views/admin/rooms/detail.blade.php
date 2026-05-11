@@ -8,67 +8,119 @@
 
     <div class="container">
 
-        <div class="row">
+        <div class="row g-4 align-items-start">
 
-            {{-- IMAGE --}}
-            <div class="col-lg-6 mb-4">
+            <div class="col-lg-7">
 
-                @if($room->image)
+               <div id="roomCarousel"
+                    class="carousel slide"
+                    data-bs-ride="carousel">
 
-                    <img src="{{ asset('storage/' . $room->image) }}"
-                        class="img-fluid rounded-4 shadow">
+                 <div class="carousel-inner rounded-4">
 
-                @endif
+                    @if($room->images->count() > 0)
+
+                        @foreach($room->images as $key => $image)
+
+                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+
+                            <img src="{{ asset('storage/' . $image->image) }}"
+                                class="d-block w-100 detail-main-image">
+
+                        </div>
+
+                         @endforeach
+
+                    @elseif($room->image)
+
+                        <div class="carousel-item active">
+
+                            <img src="{{ asset('storage/' . $room->image) }}"
+                                class="d-block w-100 detail-main-image">
+
+                        </div>
+
+                    @endif
+
+    </div>
+
+    <button class="carousel-control-prev"
+        type="button"
+        data-bs-target="#roomCarousel"
+        data-bs-slide="prev">
+
+        <span class="carousel-control-prev-icon"></span>
+
+    </button>
+
+    <button class="carousel-control-next"
+        type="button"
+        data-bs-target="#roomCarousel"
+        data-bs-slide="next">
+
+        <span class="carousel-control-next-icon"></span>
+
+    </button>
+
+    </div>
 
             </div>
 
-            {{-- DETAIL --}}
-            <div class="col-lg-6">
+            <div class="col-lg-5">
 
-                <span class="badge bg-success mb-3">
+                <div class="detail-card">
 
-                    {{ $room->status }}
+                    <span class="badge bg-primary mb-3">
 
-                </span>
+                        {{ ucfirst($room->status) }}
 
-                <h1 class="fw-bold">
+                    </span>
 
-                    {{ $room->name }}
+                    <h1 class="fw-bold mb-2">
 
-                </h1>
+                        {{ $room->name }}
 
-                <p class="text-muted">
+                    </h1>
 
-                    {{ $room->location }}
+                    <p class="text-muted mb-3">
 
-                </p>
+                        <i class="bi bi-geo-alt-fill text-danger"></i>
+                        {{ $room->location }}
 
-                <h2 class="text-primary fw-bold mb-4">
+                    </p>
 
-                    Rp {{ number_format($room->price) }} / bulan
+                    <h3 class="text-primary fw-bold mb-4">
 
-                </h2>
+                        Rp {{ number_format($room->price) }}
+                        / bulan
 
-                <div class="mb-4">
+                    </h3>
 
-                    <h5>Deskripsi</h5>
-
-                    <p>
+                    <p class="mb-4">
 
                         {{ $room->description }}
 
                     </p>
 
+                    <a href="https://wa.me/6281234567890?text=Saya%20ingin%20booking%20kamar%20{{ urlencode($room->name) }}"
+                        target="_blank"
+                        class="btn btn-success btn-lg w-100">
+
+                        <i class="bi bi-whatsapp me-2"></i>
+                            Booking via WhatsApp
+
+                    </a>
+
+                  <a href="{{ route('booking.create', [
+                        'room' => $room->id
+                    ]) }}"
+                        class="btn btn-primary btn-lg w-100 mt-3">
+
+                        Ajukan Sewa
+
+                    </a>
+
                 </div>
-
-                {{-- BOOKING BUTTON --}}
-                <a href="https://wa.me/6281234567890?text=Saya%20ingin%20booking%20kamar%20{{ urlencode($room->name) }}"
-                    target="_blank"
-                    class="btn btn-success btn-lg w-100">
-
-                    Booking via WhatsApp
-
-                </a>
 
             </div>
 

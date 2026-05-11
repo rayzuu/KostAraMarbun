@@ -84,15 +84,18 @@
 
             </div>
 
-            <div class="mb-3">
+           <div class="mb-3">
 
-                <label>Gambar</label>
+    <label class="form-label">
+        Upload / Tambah Gambar
+    </label>
 
-                <input type="file"
-                    name="image"
-                    class="form-control">
+    <input type="file"
+        name="images[]"
+        multiple
+        class="form-control">
 
-            </div>
+</div>
 
             @if($room->image)
 

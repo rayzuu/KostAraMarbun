@@ -359,7 +359,13 @@
     </div>
 
 </section>
-<a href="https://wa.me/6285227794397?text=Saya%20ingin%20booking%20kamar%20{{ urlencode($room->name) }}"
+<a href="https://wa.me/6285227794397?text=Saya%20ingin%20bertanya%20tentang%20kost"
+    class="wa-floating"
+    target="_blank">
+
+    <i class="bi bi-whatsapp"></i>
+
+</a>
     class="wa-floating"
     target="_blank">
 

@@ -34,7 +34,6 @@ Route::get('/', function (\Illuminate\Http\Request $request) {
 
     return view('layouts.landingPage', compact(
         'rooms',
-        
     ));
 
 });

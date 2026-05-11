@@ -18,8 +18,6 @@ return new class extends Migration
 
             $table->integer('price');
 
-            $table->string('location');
-
             $table->string('image')->nullable();
 
             $table->enum('status', [

@@ -230,24 +230,26 @@
 
             <div class="section-header d-flex justify-content-between align-items-center mb-4">
 
-    <div>
+            <div>
 
-        <h2>Katalog Kamar</h2>
+                <h2>
+                    Katalog Kamar
+                </h2>
 
-        <p>
-            Pilihan kamar terbaik dengan fasilitas lengkap
-        </p>
+                <p >
+                    Pilihan kamar terbaik dengan fasilitas lengkap
+                </p>
 
-    </div>
+            </div>
 
-    <a href="{{ route('rooms.all') }}"
-        class="btn btn-outline-primary">
+            <a href="{{ route('rooms.all') }}"
+                class="btn btn-outline-primary">
 
-        Lihat Semua Kamar
+                Lihat Semua Kamar
 
-    </a>
+            </a>
 
-</div>
+        </div>
 
         <div class="row">
 

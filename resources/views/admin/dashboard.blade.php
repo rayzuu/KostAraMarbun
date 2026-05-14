@@ -95,23 +95,19 @@
         {{-- CHART --}}
         <div class="col-lg-5 mb-4">
 
-            <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card border-0 shadow-sm rounded-4 mt-4">
 
-                <div class="card-body">
+    <div class="card-body">
 
-                    <h5 class="fw-bold mb-4">
-                        Statistik Kamar
-                    </h5>
+        <h5 class="fw-bold mb-4">
+            Statistik Pendapatan
+        </h5>
 
-                    <div style="max-width: 350px; margin:auto;">
+        <canvas id="incomeChart"></canvas>
 
-                        <canvas id="roomChart"></canvas>
+    </div>
 
-                    </div>
-
-                </div>
-
-            </div>
+</div>
 
         </div>
 
@@ -252,50 +248,48 @@
 
 @section('scripts')
 
-    <script>
-        const ctx = document.getElementById('roomChart');
+<script>
 
-        new Chart(ctx, {
+const ctx = document.getElementById('incomeChart');
 
-            type: 'doughnut',
+new Chart(ctx, {
 
-            data: {
+    type: 'doughnut',
 
-                labels: [
-                    'Sisa Kamar',
-                    'Kamar Terisi'
-                ],
+    data: {
 
-                datasets: [{
+        labels: ['Pendapatan Bulan Ini'],
 
-                    data: [
-                        {{ $sisaKamar }},
-                       {{ $kamarTerisi }}
-                    ],
+        datasets: [{
 
-                    borderWidth: 0
+            data: [{{ $totalPendapatan }}],
 
-                }]
+            backgroundColor: [
+                '#22c55e'
+            ],
 
-            },
+            borderWidth: 0
 
-            options: {
+        }]
 
-                responsive: true,
+    },
 
-                plugins: {
+    options: {
 
-                    legend: {
+        responsive: true,
 
-                        position: 'bottom'
+        plugins: {
 
-                    }
-
-                }
-
+            legend: {
+                display: true
             }
 
-        });
-    </script>
+        }
+
+    }
+
+});
+
+</script>
 
 @endsection

@@ -45,7 +45,7 @@
                     </p>
 
                     <h2>
-                       {{ $sisaKamar }}
+                        {{ $sisaKamar }}
                     </h2>
 
                 </div>
@@ -72,7 +72,7 @@
                     </p>
 
                     <h2>
-                       {{ $kamarTerisi }}
+                        {{ $kamarTerisi }}
                     </h2>
 
                 </div>
@@ -97,17 +97,17 @@
 
             <div class="card border-0 shadow-sm rounded-4 mt-4">
 
-    <div class="card-body">
+                <div class="card-body">
 
-        <h5 class="fw-bold mb-4">
-            Statistik Pendapatan
-        </h5>
+                    <h5 class="fw-bold mb-4">
+                        Statistik Pendapatan
+                    </h5>
 
-        <canvas id="incomeChart"></canvas>
+                    <canvas id="incomeChart"></canvas>
 
-    </div>
+                </div>
 
-</div>
+            </div>
 
         </div>
 
@@ -121,8 +121,6 @@
                     <h5 class="fw-bold mb-4">
                         Informasi Dashboard
                     </h5>
-
-                   
 
                     <div class="alert alert-success border-0">
 
@@ -147,6 +145,19 @@
                         kamar.
 
                     </div>
+
+                    <div class="alert alert-success border-0">
+
+                        Total Pendapatan
+
+                        <strong>
+                           Rp {{ $totalPendapatan }}
+                        </strong>
+
+                        
+
+                    </div>
+
 
                 </div>
 
@@ -248,48 +259,46 @@
 
 @section('scripts')
 
-<script>
+    <script>
+        const ctx = document.getElementById('incomeChart');
 
-const ctx = document.getElementById('incomeChart');
+        new Chart(ctx, {
 
-new Chart(ctx, {
+            type: 'doughnut',
 
-    type: 'doughnut',
+            data: {
 
-    data: {
+                labels: ['Pendapatan Bulan Ini'],
 
-        labels: ['Pendapatan Bulan Ini'],
+                datasets: [{
 
-        datasets: [{
+                    data: [{{ $totalPendapatan }}],
 
-            data: [{{ $totalPendapatan }}],
+                    backgroundColor: [
+                        '#22c55e'
+                    ],
 
-            backgroundColor: [
-                '#22c55e'
-            ],
+                    borderWidth: 0
 
-            borderWidth: 0
+                }]
 
-        }]
+            },
 
-    },
+            options: {
 
-    options: {
+                responsive: true,
 
-        responsive: true,
+                plugins: {
 
-        plugins: {
+                    legend: {
+                        display: true
+                    }
 
-            legend: {
-                display: true
+                }
+
             }
 
-        }
-
-    }
-
-});
-
-</script>
+        });
+    </script>
 
 @endsection

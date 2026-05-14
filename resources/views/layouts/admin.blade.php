@@ -18,8 +18,7 @@
     <div class="admin-wrapper">
 
         {{-- SIDEBAR --}}
-        <aside class="sidebar">
-
+        <aside class="sidebar" id="sidebar">
             <div>
 
                 <div class="sidebar-logo">
@@ -57,7 +56,8 @@
                     </li>
                     <li class="sidebar-item">
 
-                        <a href="{{ route('admin.dataBooking') }}" class="sidebar-link">
+                        <a href="{{ route('admin.dataBooking') }}"
+                            class="{{ request()->routeIs('admin.dataBooking') ? 'active' : '' }}">
 
                             <i class="bi bi-person-fill"></i>
                             Data Penyewa Kost
@@ -99,10 +99,14 @@
         {{-- MAIN --}}
         <main class="main-wrapper">
 
-            {{-- TOPBAR --}}
             <div class="topbar">
 
-                <div>
+                <div class="d-flex align-items-center gap-3">
+                    <button class="menu-toggle" id="menuToggle">
+
+                        <i class="bi bi-list"></i>
+                    </button>
+
 
                     <h4>@yield('page-title')</h4>
 
@@ -113,7 +117,7 @@
                     {{-- BACK TO LANDING --}}
                     <a href="{{ url('/') }}" class="btn btn-outline-primary me-2">
 
-                        ← Landing Page
+                        Home
 
                     </a>
 
@@ -133,7 +137,6 @@
                 </div>
 
             </div>
-
             {{-- CONTENT --}}
             <div class="main-content">
 
@@ -151,6 +154,8 @@
     @yield('scripts')
     @vite('resources/js/admin.js')
 
+
 </body>
+
 
 </html>

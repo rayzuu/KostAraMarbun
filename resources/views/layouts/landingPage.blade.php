@@ -235,20 +235,12 @@
 
                     <div class="carousel-inner rounded-4 shadow-lg">
 
-                        {{-- IMAGE UTAMA --}}
-                        @if ($room->image)
-                            <div class="carousel-item active">
 
-                                <img src="{{ asset('storage/' . $room->image) }}" class="facility-image d-block w-100">
 
-                            </div>
-                        @endif
+                        @foreach ($room->images as $key => $image)
+                            <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
 
-                        {{-- GALLERY --}}
-                        @foreach ($room->images as $image)
-                            <div class="carousel-item {{ !$room->image && $loop->first ? 'active' : '' }}">
-
-                                <img src="{{ asset('storage/' . $image->image) }}" class="facility-image d-block w-100">
+                                <img src="{{ asset('storage/' . $image->image) }}" class="facility-image">
 
                             </div>
                         @endforeach

@@ -6,131 +6,114 @@
 
 @section('content')
 
-<form action="{{ route('rooms.store') }}"
-    method="POST"
-    enctype="multipart/form-data">
+    <form action="{{ route('rooms.store') }}" method="POST" enctype="multipart/form-data">
 
-    @csrf
+        @csrf
 
-    <div class="mb-3">
+        <div class="mb-3">
 
-        <label>Nama Kamar</label>
+            <label>Nama Kamar</label>
 
-        <input type="text"
-            name="name"
-            class="form-control">
+            <input type="text" name="name" class="form-control">
 
-    </div>
+        </div>
 
-    <div class="mb-3">
+        <div class="mb-3">
 
-        <label>Deskripsi</label>
+            <label>Deskripsi</label>
 
-        <textarea name="description"
-            class="form-control"></textarea>
+            <textarea name="description" class="form-control"></textarea>
 
-    </div>
-<div class="mb-3">
+        </div>
+        <div class="mb-3">
 
-    <label class="form-label">
+            <label class="form-label">
 
-        Harga Kamar
+                Harga Kamar
 
-    </label>
+            </label>
 
-    <div class="input-group">
+            <div class="input-group">
 
-        <span class="input-group-text">
-            Rp
-        </span>
+                <span class="input-group-text">
+                    Rp
+                </span>
 
-        <input type="text"
-            id="price"
-            name="price"
-            class="form-control"
-            required>
+                <input type="text" id="price" name="price" class="form-control" required>
 
-    </div>
+            </div>
 
-</div>
+        </div>
 
 
-   <div class="mb-3">
+        <div class="mb-3">
 
-    <label class="form-label">
-        Upload Gambar Kamar
-    </label>
+            <label class="form-label">
+                Upload Gambar Kamar
+            </label>
 
-    <input type="file"
-        id="imageInput"
-        name="images[]"
-        multiple
-        class="form-control">
+            <input type="file" name="images[]" class="form-control" multiple accept="image/*">
 
-</div>
+        </div>
 
-<div class="row"
-    id="previewContainer">
+        <div class="row" id="previewContainer">
 
-</div>
+        </div>
 
 
-    <button class="btn btn-primary">
-        Simpan
-    </button>
+        <button class="btn btn-primary">
+            Simpan
+        </button>
 
-</form>
+    </form>
 
-<script>
+    <script>
+        const priceInput = document.getElementById('price');
 
-const priceInput = document.getElementById('price');
+        priceInput.addEventListener('input', function(e) {
 
-priceInput.addEventListener('input', function(e){
+            let value = this.value.replace(/\D/g, '');
 
-    let value = this.value.replace(/\D/g, '');
+            this.value = new Intl.NumberFormat('id-ID')
+                .format(value);
 
-    this.value = new Intl.NumberFormat('id-ID')
-        .format(value);
+        });
+    </script>
+    <script>
+        let selectedFiles = [];
 
-});
+        const imageInput = document.getElementById('imageInput');
+        const previewContainer = document.getElementById('previewContainer');
 
-</script>
-<script>
+        imageInput.addEventListener('change', function(e) {
 
-let selectedFiles = [];
+            const files = Array.from(e.target.files);
 
-const imageInput = document.getElementById('imageInput');
-const previewContainer = document.getElementById('previewContainer');
+            files.forEach(file => {
 
-imageInput.addEventListener('change', function(e){
+                selectedFiles.push(file);
 
-    const files = Array.from(e.target.files);
+            });
 
-    files.forEach(file => {
+            renderPreview();
 
-        selectedFiles.push(file);
+        });
 
-    });
+        function renderPreview() {
 
-    renderPreview();
+            previewContainer.innerHTML = '';
 
-});
+            const dataTransfer = new DataTransfer();
 
-function renderPreview(){
+            selectedFiles.forEach((file, index) => {
 
-    previewContainer.innerHTML = '';
+                dataTransfer.items.add(file);
 
-    const dataTransfer = new DataTransfer();
+                const reader = new FileReader();
 
-    selectedFiles.forEach((file, index) => {
+                reader.onload = function(e) {
 
-        dataTransfer.items.add(file);
-
-        const reader = new FileReader();
-
-        reader.onload = function(e){
-
-            previewContainer.innerHTML += `
+                    previewContainer.innerHTML += `
 
                 <div class="col-md-3 mb-3">
 
@@ -158,24 +141,23 @@ function renderPreview(){
 
             `;
 
+                }
+
+                reader.readAsDataURL(file);
+
+            });
+
+            imageInput.files = dataTransfer.files;
+
         }
 
-        reader.readAsDataURL(file);
+        function removeImage(index) {
 
-    });
+            selectedFiles.splice(index, 1);
 
-    imageInput.files = dataTransfer.files;
+            renderPreview();
 
-}
-
-function removeImage(index){
-
-    selectedFiles.splice(index, 1);
-
-    renderPreview();
-
-}
-
-</script>
+        }
+    </script>
 
 @endsection

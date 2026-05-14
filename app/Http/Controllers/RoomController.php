@@ -85,27 +85,27 @@ public function show(Room $room)
 }
 public function dashboard()
 {
-    $totalRooms = Room::count();
+    $room = Room::first();
 
-    $availableRooms = Room::where(
-        'status',
-        'available'
-    )->count();
+    $totalPenghuni = \App\Models\Booking::count();
 
-    $bookedRooms = Room::where(
-        'status',
-        'booked'
-    )->count();
+    $kapasitas = $room->kapasitas;
+
+    $sisaKamar = $kapasitas - $totalPenghuni;
+
+    $kamarTerisi = $totalPenghuni;
 
     $latestRooms = Room::latest()
         ->take(5)
         ->get();
 
     return view('admin.dashboard', compact(
-        'totalRooms',
-        'availableRooms',
-        'bookedRooms',
+
+        'totalPenghuni',
+        'sisaKamar',
+        'kamarTerisi',
         'latestRooms'
+
     ));
 }
 public function edit(Room $room)

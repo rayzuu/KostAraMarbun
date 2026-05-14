@@ -6,119 +6,147 @@
 
 @section('content')
 
-<div class="card border-0 shadow-sm rounded-4">
+    <div class="card border-0 shadow-sm rounded-4">
 
-    <div class="card-body">
+        <div class="card-body">
 
-        <h4 class="fw-bold mb-4">
 
-            Data Penyewa Kost
+            <div class="d-flex justify-content-between align-items-center mb-4">
 
-        </h4>
+                <h4 class="fw-bold">
+                    Data Penyewa Kost
+                </h4>
 
-        <div class="table-responsive">
+                <a href="{{ route('bookings.manual.create') }}" class="btn btn-primary">
 
-            <table class="table align-middle">
+                    Tambah Penyewa
 
-                <thead>
+                </a>
 
-                    <tr>
+            </div>
+            <div class="table-responsive">
 
-                        <th>Nama</th>
-                        <th>No HP</th>
-                        <th>Kamar</th>
-                        <th>Mulai Sewa</th>
-                        <th>Status</th>
+                <table class="table align-middle">
 
-                    </tr>
+                    <thead>
 
-                </thead>
+                        <tr>
 
-                <tbody>
+                            <th>Nama</th>
+                            <th>No HP</th>
+                            <th>Kamar</th>
+                            <th>Mulai Sewa</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
 
-                    @forelse($bookings as $booking)
+                        </tr>
 
-                    <tr>
+                    </thead>
 
-                        <td>
+                    <tbody>
 
-                            {{ $booking->name }}
+                        @forelse($bookings as $booking)
+                            <tr>
 
-                        </td>
+                                <td>
 
-                        <td>
+                                    {{ $booking->name }}
 
-                            {{ $booking->phone }}
+                                </td>
 
-                        </td>
+                                <td>
 
-                        <td>
+                                    {{ $booking->phone }}
 
-                            {{ $booking->room->name }}
+                                </td>
 
-                        </td>
+                                <td>
 
-                        <td>
+                                    {{ $booking->room->name }}
 
-                            {{ $booking->start_date }}
+                                </td>
 
-                        </td>
+                                <td>
 
-                        <td>
+                                    {{ $booking->start_date }}
 
-                            @if($booking->status == 'pending')
+                                </td>
 
-                                <span class="badge bg-warning">
+                                <td>
 
-                                    Pending
+                                    @if ($booking->status == 'pending')
+                                        <span class="badge bg-warning">
 
-                                </span>
+                                            Pending
 
-                            @elseif($booking->status == 'approved')
+                                        </span>
+                                    @elseif($booking->status == 'approved')
+                                        <span class="badge bg-success">
 
-                                <span class="badge bg-success">
+                                            Approved
 
-                                    Approved
+                                        </span>
+                                    @else
+                                        <span class="badge bg-danger">
 
-                                </span>
+                                            Rejected
 
-                            @else
+                                        </span>
+                                    @endif
 
-                                <span class="badge bg-danger">
+                                </td>
+                                <td>
 
-                                    Rejected
+                                    <div class="d-flex gap-2">
 
-                                </span>
+                                        <a href="{{ route('bookings.edit', $booking->id) }}" class="btn btn-warning btn-sm">
 
-                            @endif
+                                            Edit
 
-                        </td>
+                                        </a>
 
-                    </tr>
+                                        <form method="POST" action="{{ route('bookings.destroy', $booking->id) }}">
 
-                    @empty
+                                            @csrf
+                                            @method('DELETE')
 
-                    <tr>
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Hapus data penyewa?')">
 
-                        <td colspan="5"
-                            class="text-center">
+                                                Hapus
 
-                            Belum ada data penyewa
+                                            </button>
 
-                        </td>
+                                        </form>
 
-                    </tr>
+                                    </div>
 
-                    @endforelse
+                                </td>
 
-                </tbody>
+                            </tr>
 
-            </table>
+
+                        @empty
+
+                            <tr>
+
+                                <td colspan="5" class="text-center">
+
+                                    Belum ada data penyewa
+
+                                </td>
+
+                            </tr>
+                        @endforelse
+
+                    </tbody>
+
+                </table>
+
+            </div>
 
         </div>
 
     </div>
-
-</div>
 
 @endsection

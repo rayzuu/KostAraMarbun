@@ -17,8 +17,6 @@ Route::get('/', function (\Illuminate\Http\Request $request) {
 
     }
 
-    
-
     // FILTER STATUS
     if($request->status){
 
@@ -48,6 +46,36 @@ Route::get('/ajukan-sewa', [BookingController::class, 'create'])
 Route::post('/ajukan-sewa', [BookingController::class, 'store'])
     ->name('booking.store');
 
+Route::get(
+    '/admin/bookings/manual/create',
+    [BookingController::class, 'createManual']
+)->name('bookings.manual.create');
+
+Route::post(
+    '/admin/bookings/manual/store',
+    [BookingController::class, 'storeManual']
+)->name('bookings.manual.store');
+
+Route::get(
+    '/admin/bookings',
+    [BookingController::class, 'index']
+)->name('bookings.index');
+
+Route::get(
+    '/admin/bookings/{booking}/edit',
+    [BookingController::class, 'edit']
+)->name('bookings.edit');
+
+Route::put(
+    '/admin/bookings/{booking}',
+    [BookingController::class, 'update']
+)->name('bookings.update');
+
+Route::delete(
+    '/admin/bookings/{booking}',
+    [BookingController::class, 'destroy']
+)->name('bookings.destroy');
+    
 Route::get('/admin/dataBooking',
     [BookingController::class, 'index'])
     ->name('admin.dataBooking');

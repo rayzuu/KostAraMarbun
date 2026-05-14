@@ -4,115 +4,132 @@
 
 @section('content')
 
-<section class="py-5">
+    <section class="py-5">
 
-    <div class="container">
+        <div class="container">
 
-        <div class="row g-4 align-items-start">
+            <div class="row g-4 align-items-start">
 
-            <div class="col-lg-7">
+                <div class="col-lg-7">
 
-               <div id="roomCarousel"
-                    class="carousel slide"
-                    data-bs-ride="carousel">
+                    <div id="roomCarousel" class="carousel slide" data-bs-ride="carousel">
 
-                 <div class="carousel-inner rounded-4">
+                        <div class="carousel-inner rounded-4">
 
-                    @if($room->images->count() > 0)
+                            @if ($room->images->count() > 0)
 
-                        @foreach($room->images as $key => $image)
+                                @foreach ($room->images as $key => $image)
+                                    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
 
-                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                        <img src="{{ asset('storage/' . $image->image) }}"
+                                            class="d-block w-100 detail-main-image">
 
-                            <img src="{{ asset('storage/' . $image->image) }}"
-                                class="d-block w-100 detail-main-image">
+                                    </div>
+                                @endforeach
+                            @elseif($room->image)
+                                <div class="carousel-item active">
 
-                        </div>
+                                    <img src="{{ asset('storage/' . $room->image) }}"
+                                        class="d-block w-100 detail-main-image">
 
-                         @endforeach
+                                </div>
 
-                    @elseif($room->image)
-
-                        <div class="carousel-item active">
-
-                            <img src="{{ asset('storage/' . $room->image) }}"
-                                class="d-block w-100 detail-main-image">
+                            @endif
 
                         </div>
 
-                    @endif
+                        <button class="carousel-control-prev" type="button" data-bs-target="#roomCarousel"
+                            data-bs-slide="prev">
 
-    </div>
+                            <span class="carousel-control-prev-icon"></span>
 
-    <button class="carousel-control-prev"
-        type="button"
-        data-bs-target="#roomCarousel"
-        data-bs-slide="prev">
+                        </button>
 
-        <span class="carousel-control-prev-icon"></span>
+                        <button class="carousel-control-next" type="button" data-bs-target="#roomCarousel"
+                            data-bs-slide="next">
 
-    </button>
+                            <span class="carousel-control-next-icon"></span>
 
-    <button class="carousel-control-next"
-        type="button"
-        data-bs-target="#roomCarousel"
-        data-bs-slide="next">
+                        </button>
 
-        <span class="carousel-control-next-icon"></span>
+                    </div>
 
-    </button>
+                </div>
 
-    </div>
+                <div class="col-lg-5">
 
-            </div>
+                    <div class="detail-card">
 
-            <div class="col-lg-5">
+                        @if ($room->status == 'available')
+                            <span class="badge bg-success mb-3 px-3 py-2">
 
-                <div class="detail-card">
+                                Available
 
-                    <span class="badge bg-primary mb-3">
+                            </span>
+                        @else
+                            <span class="badge bg-danger mb-3 px-3 py-2">
 
-                        {{ ucfirst($room->status) }}
+                                Full
 
-                    </span>
+                            </span>
+                        @endif
 
-                    <h1 class="fw-bold mb-2">
+                        <h1 class="fw-bold mb-2">
 
-                        {{ $room->name }}
+                            {{ $room->name }}
 
-                    </h1>
+                        </h1>
+                        @php
 
+                            $totalPenghuni = $room->bookings->count();
 
-                    <h3 class="text-primary fw-bold mb-4">
+                            $sisaKamar = $room->kapasitas - $totalPenghuni;
 
-                        Rp {{ number_format($room->price) }}
-                        / bulan
+                        @endphp
 
-                    </h3>
+                        <div class="mb-3">
 
-                    <p class="mb-4">
+                            <span class="badge bg-success px-3 py-2">
 
-                        {{ $room->description }}
+                                Sisa Kamar:
+                                {{ $sisaKamar }}
+                                / {{ $room->kapasitas }}
 
-                    </p>
+                            </span>
 
-                    <a href="https://wa.me/6285227794397?text=Saya%20ingin%20booking%20kamar%20{{ urlencode($room->name) }}"
-                        target="_blank"
-                        class="btn btn-success btn-lg w-100">
+                        </div>
 
-                        <i class="bi bi-whatsapp me-2"></i>
+                        <h3 class="text-primary fw-bold mb-4">
+
+                            Rp {{ number_format($room->price) }}
+                            / bulan
+
+                        </h3>
+
+                        <p class="mb-4">
+
+                            {{ $room->description }}
+
+                        </p>
+
+                        <a href="https://wa.me/6285227794397?text=Saya%20ingin%20booking%20kamar%20{{ urlencode($room->name) }}"
+                            target="_blank" class="btn btn-success btn-lg w-100">
+
+                            <i class="bi bi-whatsapp me-2"></i>
                             Booking via WhatsApp
 
-                    </a>
+                        </a>
 
-                  <a href="{{ route('booking.create', [
-                        'room' => $room->id
-                    ]) }}"
-                        class="btn btn-primary btn-lg w-100 mt-3">
+                        <a href="{{ route('booking.create', [
+                            'room' => $room->id,
+                        ]) }}"
+                            class="btn btn-primary btn-lg w-100 mt-3">
 
-                        Ajukan Sewa
+                            Ajukan Sewa
 
-                    </a>
+                        </a>
+
+                    </div>
 
                 </div>
 
@@ -120,8 +137,6 @@
 
         </div>
 
-    </div>
-
-</section>
+    </section>
 
 @endsection

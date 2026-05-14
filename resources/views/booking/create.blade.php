@@ -4,67 +4,69 @@
 
 @section('content')
 
-<section class="booking-section py-5">
+    <section class="booking-section py-5">
 
-    <div class="container">
+        <div class="container">
 
-        <div class="row justify-content-center">
+            <div class="row justify-content-center">
 
-            <div class="col-lg-10">
+                <div class="col-lg-10">
 
-                <div class="booking-wrapper">
+                    <div class="booking-wrapper">
 
-                    <div class="row g-0">
+                        <div class="row g-0">
 
-                        {{-- LEFT --}}
-                        <div class="col-lg-5">
+                            {{-- LEFT --}}
+                            <div class="col-lg-5">
 
-                            <div class="booking-left">
+                                <div class="booking-left">
 
-                                <span class="booking-badge">
+                                    <span class="booking-badge">
 
-                                    Pengajuan Sewa
+                                        Pengajuan Sewa
 
-                                </span>
+                                    </span>
 
-                                <h1 class="booking-title">
+                                    <h1 class="booking-title">
 
-                                    Kost Ara Marbun
-                                </h1>
+                                        Kost Ara Marbun
+                                    </h1>
 
-                                <p class="booking-text">
+                                    <p class="booking-text">
 
-                                    Lengkapi data diri untuk
-                                    melanjutkan proses pengajuan
-                                    sewa kamar kost.
+                                        Lengkapi data diri untuk
+                                        melanjutkan proses pengajuan
+                                        sewa kamar kost.
 
-                                </p>
+                                    </p>
 
-                                <div class="booking-info">
+                                    <div class="booking-info">
 
-                                    <div class="booking-info-item">
+                                        <div class="booking-info-item">
 
-                                        <i class="bi bi-check-circle-fill"></i>
-                                        Proses cepat
+                                            <i class="bi bi-check-circle-fill"></i>
+                                            Proses cepat
 
-                                    </div>
+                                        </div>
 
-                                    <div class="booking-info-item">
+                                        <div class="booking-info-item">
 
-                                        <i class="bi bi-check-circle-fill"></i>
-                                        Data aman
+                                            <i class="bi bi-check-circle-fill"></i>
+                                            Data aman
 
-                                    </div>
+                                        </div>
 
-                                    <div class="booking-info-item">
+                                        <div class="booking-info-item">
 
-                                        <i class="bi bi-check-circle-fill"></i> Pembayaran online
+                                            <i class="bi bi-check-circle-fill"></i> Pembayaran online
 
-                                    </div>
+                                        </div>
 
-                                    <div class="booking-info-item">
+                                        <div class="booking-info-item">
 
-                                        <i class="bi bi-check-circle-fill"></i> Konfirmasi otomatis
+                                            <i class="bi bi-check-circle-fill"></i> Konfirmasi otomatis
+
+                                        </div>
 
                                     </div>
 
@@ -72,156 +74,138 @@
 
                             </div>
 
-                        </div>
+                            {{-- RIGHT --}}
+                            <div class="col-lg-7">
 
-                        {{-- RIGHT --}}
-                        <div class="col-lg-7">
+                                <div class="booking-right">
 
-                            <div class="booking-right">
+                                    <h3 class="fw-bold mb-4">
 
-                                <h3 class="fw-bold mb-4">
+                                        Form Data Penyewa
 
-                                    Form Data Penyewa
+                                    </h3>
 
-                                </h3>
+                                    <form method="POST" action="{{ route('booking.store') }}">
 
-                                <form method="POST"
-                                    action="{{ route('booking.store') }}">
+                                        @csrf
 
-                                    @csrf
+                                        <div class="row">
 
-                                    <div class="row">
+                                            {{-- NAMA --}}
+                                            <div class="col-md-12 mb-3">
 
-                                        {{-- NAMA --}}
-                                        <div class="col-md-12 mb-3">
+                                                <label class="form-label">
 
-                                            <label class="form-label">
+                                                    Nama Lengkap
 
-                                                Nama Lengkap
+                                                </label>
 
-                                            </label>
+                                                <input type="text" name="name" class="form-control booking-input"
+                                                    placeholder="Masukkan nama lengkap" required>
 
-                                            <input type="text"
-                                                name="name"
-                                                class="form-control booking-input"
-                                                placeholder="Masukkan nama lengkap"
-                                                required>
+                                            </div>
 
-                                        </div>
+                                            {{-- PHONE --}}
+                                            <div class="col-md-6 mb-3">
 
-                                        {{-- PHONE --}}
-                                        <div class="col-md-6 mb-3">
+                                                <label class="form-label">
 
-                                            <label class="form-label">
+                                                    Nomor Handphone
 
-                                                Nomor Handphone
+                                                </label>
 
-                                            </label>
+                                                <input type="text" name="phone" class="form-control booking-input"
+                                                    placeholder="08xxxxxxxxxx" required>
 
-                                            <input type="text"
-                                                name="phone"
-                                                class="form-control booking-input"
-                                                placeholder="08xxxxxxxxxx"
-                                                required>
+                                            </div>
 
-                                        </div>
+                                            {{-- TEMPAT LAHIR --}}
+                                            <div class="col-md-6 mb-3">
 
-                                        {{-- TEMPAT LAHIR --}}
-                                        <div class="col-md-6 mb-3">
+                                                <label class="form-label">
 
-                                            <label class="form-label">
+                                                    Tempat Lahir
 
-                                                Tempat Lahir
+                                                </label>
 
-                                            </label>
+                                                <input type="text" name="birth_place" class="form-control booking-input"
+                                                    placeholder="Contoh: Jakarta" required>
 
-                                            <input type="text"
-                                                name="birth_place"
-                                                class="form-control booking-input"
-                                                placeholder="Contoh: Jakarta"
-                                                required>
+                                            </div>
 
-                                        </div>
+                                            {{-- TANGGAL LAHIR --}}
+                                            <div class="col-md-6 mb-3">
 
-                                        {{-- TANGGAL LAHIR --}}
-                                        <div class="col-md-6 mb-3">
+                                                <label class="form-label">
 
-                                            <label class="form-label">
+                                                    Tanggal Lahir
 
-                                                Tanggal Lahir
+                                                </label>
 
-                                            </label>
+                                                <input type="date" name="birth_date" class="form-control booking-input"
+                                                    required>
 
-                                            <input type="date"
-                                                name="birth_date"
-                                                class="form-control booking-input"
-                                                required>
+                                            </div>
 
-                                        </div>
+                                            {{-- MULAI SEWA --}}
+                                            <div class="col-md-6 mb-3">
 
-                                        {{-- MULAI SEWA --}}
-                                        <div class="col-md-6 mb-3">
+                                                <label class="form-label">
 
-                                            <label class="form-label">
+                                                    Tanggal Mulai Sewa
 
-                                                Tanggal Mulai Sewa
+                                                </label>
 
-                                            </label>
+                                                <input type="date" name="start_date" class="form-control booking-input"
+                                                    required>
 
-                                            <input type="date"
-                                                name="start_date"
-                                                class="form-control booking-input"
-                                                required>
+                                            </div>
 
-                                        </div>
+                                            {{-- KAMAR --}}
+                                            <div class="col-md-12 mb-4">
 
-                                        {{-- KAMAR --}}
-                                        <div class="col-md-12 mb-4">
+                                                <label class="form-label">
 
-                                            <label class="form-label">
+                                                    Pilih Kamar
 
-                                                Pilih Kamar
+                                                </label>
 
-                                            </label>
+                                                <select name="room_id" class="form-control booking-input" required>
 
-                                            <select name="room_id"
-                                                class="form-control booking-input"
-                                                required>
+                                                    <option value="">
+                                                        -- Pilih Kamar --
+                                                    </option>
 
-                                                <option value="">
-                                                    -- Pilih Kamar --
-                                                </option>
+                                                    @foreach ($rooms as $room)
+                                                        <option value="{{ $room->id }}"
+                                                            {{ $selectedRoom == $room->id ? 'selected' : '' }}>
 
-                                                @foreach($rooms as $room)
+                                                            {{ $room->name }}
+                                                            -
+                                                            Rp {{ number_format($room->price) }}
 
-                                                <option value="{{ $room->id }}"
-                                                    {{ $selectedRoom == $room->id ? 'selected' : '' }}>
+                                                        </option>
+                                                    @endforeach
 
-                                                    {{ $room->name }}
-                                                    -
-                                                    Rp {{ number_format($room->price) }}
+                                                </select>
 
-                                                </option>
+                                            </div>
 
-                                                @endforeach
+                                            <div class="col-md-12">
 
-                                            </select>
+                                                <button class="btn booking-btn w-100">
 
-                                        </div>
-                                        
-                                        <div class="col-md-12">
+                                                    Lanjut ke Pembayaran
 
-                                            <button class="btn booking-btn w-100">
+                                                </button>
 
-                                                Lanjut ke Pembayaran
-
-                                            </button>
+                                            </div>
 
                                         </div>
 
-                                    </div>
+                                    </form>
 
-                                </form>
+                                </div>
 
                             </div>
 
@@ -235,8 +219,6 @@
 
         </div>
 
-    </div>
-
-</section>
+    </section>
 
 @endsection

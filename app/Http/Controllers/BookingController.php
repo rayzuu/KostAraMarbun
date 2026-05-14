@@ -24,40 +24,219 @@ class BookingController extends Controller
         ));
     }
 
+    public function createManual()
+    {
+        $rooms = Room::where(
+            'status',
+            'available'
+        )->get();
+
+        return view(
+            'booking.createManual',
+            compact('rooms')
+        );
+    }
+
     public function store(Request $request)
-{
-    Booking::create([
+    {
+        $room = Room::find($request->room_id);
 
-        'room_id' => $request->room_id,
+        $totalBooking = Booking::where(
+            'room_id',
+            $room->id
+        )->count();
 
-        'name' => $request->name,
+        if($totalBooking >= $room->kapasitas){
 
-        'phone' => $request->phone,
+            return back()->with(
+                'error',
+                'Kamar sudah penuh'
+            );
 
-        'birth_place' => $request->birth_place,
+        }
 
-        'birth_date' => $request->birth_date,
+        Booking::create([
 
-        'start_date' => $request->start_date,
+            'room_id' => $request->room_id,
 
-        'status' => 'pending'
+            'name' => $request->name,
 
-    ]);
+            'phone' => $request->phone,
 
-    return redirect()
-        ->route('booking.create')
-        ->with('success',
-            'Pengajuan sewa berhasil dikirim');
-}
-public function index()
-{
-    $bookings = Booking::with('room')
-        ->latest()
-        ->get();
+            'birth_place' => $request->birth_place,
 
-    return view(
-        'admin.dataBooking',
-        compact('bookings')
-    );
-}
+            'birth_date' => $request->birth_date,
+
+            'start_date' => $request->start_date,
+
+            'status' => 'pending'
+
+        ]);
+
+        $totalBooking = Booking::where(
+            'room_id',
+            $room->id
+        )->count();
+
+        if($totalBooking >= $room->kapasitas){
+
+            $room->update([
+
+                'status' => 'booked'
+
+            ]);
+
+        }
+
+        return redirect()
+            ->route('booking.create')
+            ->with(
+                'success',
+                'Pengajuan sewa berhasil dikirim'
+            );
+    }
+
+    public function storeManual(Request $request)
+    {
+        $room = Room::find($request->room_id);
+
+        $totalBooking = Booking::where(
+            'room_id',
+            $room->id
+        )->count();
+
+        if($totalBooking >= $room->kapasitas){
+
+            return back()->with(
+                'error',
+                'Kamar sudah penuh'
+            );
+
+        }
+
+        Booking::create([
+
+            'room_id' => $request->room_id,
+
+            'name' => $request->name,
+
+            'phone' => $request->phone,
+
+            'birth_place' => $request->birth_place,
+
+            'birth_date' => $request->birth_date,
+
+            'start_date' => $request->start_date,
+
+            'status' => 'approved'
+
+        ]);
+
+        $totalBooking = Booking::where(
+            'room_id',
+            $room->id
+        )->count();
+
+        if($totalBooking >= $room->kapasitas){
+
+            $room->update([
+
+                'status' => 'booked'
+
+            ]);
+
+        }
+
+        return redirect()
+            ->route('bookings.index')
+            ->with(
+                'success',
+                'Data penyewa berhasil ditambahkan'
+            );
+    }
+
+    public function index()
+    {
+        $bookings = Booking::with('room')
+            ->latest()
+            ->get();
+
+        return view(
+            'admin.dataBooking',
+            compact('bookings')
+        );
+    }
+
+    public function edit(Booking $booking)
+    {
+        $rooms = Room::all();
+
+        return view(
+            'admin.booking.edit',
+            compact(
+                'booking',
+                'rooms'
+            )
+        );
+    }
+
+    public function update(
+        Request $request,
+        Booking $booking
+    ){
+
+        $booking->update([
+
+            'room_id' => $request->room_id,
+
+            'name' => $request->name,
+
+            'phone' => $request->phone,
+
+            'birth_place' => $request->birth_place,
+
+            'birth_date' => $request->birth_date,
+
+            'start_date' => $request->start_date,
+
+            'status' => $request->status
+
+        ]);
+
+        return redirect()
+            ->route('bookings.index')
+            ->with(
+                'success',
+                'Data penyewa berhasil diupdate'
+            );
+    }
+
+    public function destroy(Booking $booking)
+    {
+        $room = Room::find($booking->room_id);
+
+        $booking->delete();
+
+        $totalBooking = Booking::where(
+            'room_id',
+            $room->id
+        )->count();
+
+        if($totalBooking < $room->kapasitas){
+
+            $room->update([
+
+                'status' => 'available'
+
+            ]);
+
+        }
+
+        return redirect()
+            ->route('bookings.index')
+            ->with(
+                'success',
+                'Data penyewa berhasil dihapus'
+            );
+    }
 }

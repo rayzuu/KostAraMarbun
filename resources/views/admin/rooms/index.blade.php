@@ -6,121 +6,107 @@
 
 @section('content')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <h4>Daftar Kamar</h4>
+        <h4>Daftar Kamar</h4>
 
-    <a href="{{ route('rooms.create') }}"
-        class="btn btn-primary">
+        <a href="{{ route('rooms.create') }}" class="btn btn-primary">
 
-        Tambah Kamar
+            Tambah Kamar
 
-    </a>
+        </a>
 
-</div>
+    </div>
 
-<table class="table table-bordered bg-white align-middle">
+    <table class="table table-bordered bg-white align-middle">
 
-    <thead>
+        <thead>
 
-        <tr>
+            <tr>
 
-            <th>Gambar</th>
-            <th>Nama</th>
-            <th>Harga</th>
-            <th>Status</th>
-            <th>Aksi</th>
+                <th>Gambar</th>
+                <th>Nama</th>
+                <th>Harga</th>
+                <th>Status</th>
+                <th>Aksi</th>
 
-        </tr>
+            </tr>
 
-    </thead>
+        </thead>
 
-    <tbody>
+        <tbody>
 
-        @foreach($rooms as $room)
+            @foreach ($rooms as $room)
+                <tr>
 
-        <tr>
+                    <td>
 
-            <td>
+                        @if ($room->image)
+                            <img src="{{ asset('storage/' . $room->image) }}" width="120" class="rounded">
+                        @endif
 
-                @if($room->image)
+                    </td>
 
-                    <img src="{{ asset('storage/' . $room->image) }}"
-                        width="120"
-                        class="rounded">
+                    <td>
 
-                @endif
+                        {{ $room->name }}
 
-            </td>
+                    </td>
 
-            <td>
+                    <td>
 
-                {{ $room->name }}
+                        Rp {{ number_format($room->price) }}
 
-            </td>
-
-            <td>
-
-                Rp {{ number_format($room->price) }}
-
-            </td>
+                    </td>
 
 
-            <td>
+                    <td>
 
-                @if($room->status == 'available')
+                        @if ($room->status == 'available')
+                            <span class="badge bg-success">
+                                Available
+                            </span>
+                        @else
+                            <span class="badge bg-danger">
+                                Full
+                            </span>
+                        @endif
 
-                    <span class="badge bg-success">
-                        Available
-                    </span>
+                    </td>
 
-                @else
+                    <td>
 
-                    <span class="badge bg-danger">
-                        Full
-                    </span>
+                        <div class="d-flex gap-2">
 
-                @endif
+                            <a href="{{ route('rooms.edit', $room->id) }}" class="btn btn-warning btn-sm">
 
-            </td>
+                                Edit
 
-            <td>
+                            </a>
 
-                <div class="d-flex gap-2">
+                            <form action="{{ route('rooms.destroy', $room->id) }}" method="POST">
 
-                    <a href="{{ route('rooms.edit', $room->id) }}"
-                        class="btn btn-warning btn-sm">
+                                @csrf
+                                @method('DELETE')
 
-                        Edit
+                                <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Hapus kamar ini?')">
 
-                    </a>
+                                    Hapus
 
-                    <form action="{{ route('rooms.destroy', $room->id) }}"
-                        method="POST">
+                                </button>
 
-                        @csrf
-                        @method('DELETE')
+                            </form>
 
-                        <button type="submit"
-                            class="btn btn-danger btn-sm"
-                            onclick="return confirm('Hapus kamar ini?')">
+                        </div>
 
-                            Hapus
+                    </td>
 
-                        </button>
+                </tr>
+            @endforeach
 
-                    </form>
+        </tbody>
 
-                </div>
-
-            </td>
-
-        </tr>
-
-        @endforeach
-
-    </tbody>
-
-</table>
+    </table>
 
 @endsection

@@ -172,7 +172,7 @@ class BookingController extends Controller
         $rooms = Room::all();
 
         return view(
-            'admin.booking.edit',
+            'booking.edit',
             compact(
                 'booking',
                 'rooms'

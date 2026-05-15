@@ -6,147 +6,118 @@
 
 @section('content')
 
-<div class="card border-0 shadow-sm rounded-4">
+    <div class="card border-0 shadow-sm rounded-4">
 
-    <div class="card-body p-4">
+        <div class="card-body p-4">
 
-        <form method="POST"
-            action="{{ route('bookings.update', $booking->id) }}">
+            <form method="POST" action="{{ route('bookings.update', $booking->id) }}">
 
-            @csrf
-            @method('PUT')
+                @csrf
+                @method('PUT')
 
-            <div class="mb-3">
+                <div class="mb-3">
 
-                <label class="form-label">
-                    Nama Penyewa
-                </label>
+                    <label class="form-label">
+                        Nama Penyewa
+                    </label>
 
-                <input type="text"
-                    name="name"
-                    class="form-control"
-                    value="{{ $booking->name }}"
-                    required>
+                    <input type="text" name="name" class="form-control" value="{{ $booking->name }}" required>
 
-            </div>
+                </div>
 
-            <div class="mb-3">
+                <div class="mb-3">
 
-                <label class="form-label">
-                    No HP
-                </label>
+                    <label class="form-label">
+                        No HP
+                    </label>
 
-                <input type="text"
-                    name="phone"
-                    class="form-control"
-                    value="{{ $booking->phone }}"
-                    required>
+                    <input type="text" name="phone" class="form-control" value="{{ $booking->phone }}" required>
 
-            </div>
+                </div>
 
-            <div class="mb-3">
+                <div class="mb-3">
 
-                <label class="form-label">
-                    Tempat Lahir
-                </label>
+                    <label class="form-label">
+                        Tempat Lahir
+                    </label>
 
-                <input type="text"
-                    name="birth_place"
-                    class="form-control"
-                    value="{{ $booking->birth_place }}"
-                    required>
+                    <input type="text" name="birth_place" class="form-control" value="{{ $booking->birth_place }}"
+                        required>
 
-            </div>
+                </div>
 
-            <div class="mb-3">
+                <div class="mb-3">
 
-                <label class="form-label">
-                    Tanggal Lahir
-                </label>
+                    <label class="form-label">
+                        Tanggal Lahir
+                    </label>
 
-                <input type="date"
-                    name="birth_date"
-                    class="form-control"
-                    value="{{ $booking->birth_date }}"
-                    required>
+                    <input type="date" name="birth_date" class="form-control" value="{{ $booking->birth_date }}"
+                        required>
 
-            </div>
+                </div>
 
-            <div class="mb-3">
+                <div class="mb-3">
 
-                <label class="form-label">
-                    Mulai Sewa
-                </label>
+                    <label class="form-label">
+                        Mulai Sewa
+                    </label>
 
-                <input type="date"
-                    name="start_date"
-                    class="form-control"
-                    value="{{ $booking->start_date }}"
-                    required>
+                    <input type="date" name="start_date" class="form-control" value="{{ $booking->start_date }}"
+                        required>
 
-            </div>
+                </div>
 
-            <div class="mb-3">
+                <div class="mb-3">
 
-                <label class="form-label">
-                    Status
-                </label>
+                    <label class="form-label">
+                        Status
+                    </label>
 
-                <select name="status"
-                    class="form-select">
+                    <select name="status" class="form-select">
 
-                    <option value="pending"
-                        {{ $booking->status == 'pending' ? 'selected' : '' }}>
-
-                        Pending
-
-                    </option>
-
-                    <option value="approved"
-                        {{ $booking->status == 'approved' ? 'selected' : '' }}>
-
-                        Approved
-
-                    </option>
-
-                </select>
-
-            </div>
-
-            <div class="mb-4">
-
-                <label class="form-label">
-                    Pilih Kamar
-                </label>
-
-                <select name="room_id"
-                    class="form-select">
-
-                    @foreach($rooms as $room)
-
-                        <option value="{{ $room->id }}"
-                            {{ $booking->room_id == $room->id ? 'selected' : '' }}>
-
-                            {{ $room->name }}
-
+                        <option value="paid" {{ $booking->status == 'paid' ? 'selected' : '' }}>
+                            Paid
                         </option>
 
-                    @endforeach
+                        <option value="unpaid" {{ $booking->status == 'unpaid' ? 'selected' : '' }}>
+                            Unpaid
+                        </option>
 
-                </select>
+                    </select>
 
-            </div>
+                </div>
 
-            <button class="btn btn-primary">
+                <div class="mb-4">
 
-                Update Penyewa
+                    <label class="form-label">
+                        Pilih Kamar
+                    </label>
 
-            </button>
+                    <select name="room_id" class="form-select">
 
-        </form>
+                        @foreach ($rooms as $room)
+                            <option value="{{ $room->id }}" {{ $booking->room_id == $room->id ? 'selected' : '' }}>
+
+                                {{ $room->name }}
+
+                            </option>
+                        @endforeach
+
+                    </select>
+
+                </div>
+
+                <button class="btn btn-primary">
+
+                    Update Penyewa
+
+                </button>
+
+            </form>
+
+        </div>
 
     </div>
-
-</div>
 
 @endsection

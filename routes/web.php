@@ -89,10 +89,19 @@ Route::get('/admin/dashboard', [RoomController::class, 'dashboard'])
 
 Route::get('/kamar', [RoomController::class, 'allRooms'])
     ->name('rooms.all');
+    
+Route::delete(
+    '/booking/{booking}/cancel',
+    [BookingController::class, 'cancelBooking']
+)->name('booking.cancel');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+
+Route::post('/midtrans/callback', [BookingController::class, 'callback']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -100,4 +109,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::resource('rooms', RoomController::class);
+
 require __DIR__.'/auth.php';

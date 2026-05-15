@@ -52,7 +52,7 @@
                 Upload Gambar Kamar
             </label>
 
-            <input type="file" name="images[]" class="form-control" multiple accept="image/*">
+            <input type="file" id = "imageInput" name="images[]" class="form-control" multiple accept="image/*">
 
         </div>
 

@@ -193,7 +193,8 @@
 
                                             <div class="col-md-12">
 
-                                                <button class="btn booking-btn w-100">
+                                               <button type="submit" class="btn booking-btn w-100">
+
 
                                                     Lanjut ke Pembayaran
 

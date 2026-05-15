@@ -5,9 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\Booking;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class BookingController extends Controller
 {
+
+    public function __construct()
+    {
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = config('midtrans.is_production');
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+    }
 
     public function create(Request $request)
     {
@@ -39,12 +49,25 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
+
         $room = Room::find($request->room_id);
 
+        if(!$room){
+
+            return back()->with(
+                'error',
+                'Kamar tidak ditemukan'
+            );
+
+        }
+
+        // HITUNG YANG SUDAH PAID AJA
         $totalBooking = Booking::where(
             'room_id',
             $room->id
-        )->count();
+        )
+        ->where('status', 'paid')
+        ->count();
 
         if($totalBooking >= $room->kapasitas){
 
@@ -55,7 +78,11 @@ class BookingController extends Controller
 
         }
 
-        Booking::create([
+        // ORDER ID
+        $orderId = 'BOOKING-' . time();
+
+        // SIMPAN BOOKING
+        $booking = Booking::create([
 
             'room_id' => $request->room_id,
 
@@ -69,41 +96,65 @@ class BookingController extends Controller
 
             'start_date' => $request->start_date,
 
-            'status' => 'pending'
+            'status' => 'unpaid',
+
+            'payment_status' => 'unpaid',
+
+            'midtrans_order_id' => $orderId
 
         ]);
 
-        $totalBooking = Booking::where(
-            'room_id',
-            $room->id
-        )->count();
+        // MIDTRANS PARAMS
+        $params = [
 
-        if($totalBooking >= $room->kapasitas){
+            'transaction_details' => [
 
-            $room->update([
+                'order_id' => $orderId,
 
-                'status' => 'booked'
+                'gross_amount' => $room->price,
 
-            ]);
+            ],
 
-        }
+            'customer_details' => [
 
-        return redirect()
-            ->route('booking.create')
-            ->with(
-                'success',
-                'Pengajuan sewa berhasil dikirim'
-            );
+                'first_name' => $booking->name,
+
+                'phone' => $booking->phone,
+
+            ],
+
+        ];
+
+        // SNAP TOKEN
+        $snapToken = Snap::getSnapToken($params);
+
+        return view('booking.payment', compact(
+            'snapToken',
+            'booking',
+            'room'
+        ));
     }
 
     public function storeManual(Request $request)
     {
         $room = Room::find($request->room_id);
 
+        if(!$room){
+
+            return back()->with(
+                'error',
+                'Kamar tidak ditemukan'
+            );
+
+        }
+
+        // HITUNG YANG SUDAH PAID AJA
         $totalBooking = Booking::where(
             'room_id',
             $room->id
-        )->count();
+        )
+        ->where('status', 'paid')
+        ->count();
 
         if($totalBooking >= $room->kapasitas){
 
@@ -128,14 +179,19 @@ class BookingController extends Controller
 
             'start_date' => $request->start_date,
 
-            'status' => 'approved'
+            'status' => 'paid',
+
+            'payment_status' => 'paid'
 
         ]);
 
+        // UPDATE STATUS ROOM
         $totalBooking = Booking::where(
             'room_id',
             $room->id
-        )->count();
+        )
+        ->where('status', 'paid')
+        ->count();
 
         if($totalBooking >= $room->kapasitas){
 
@@ -220,7 +276,9 @@ class BookingController extends Controller
         $totalBooking = Booking::where(
             'room_id',
             $room->id
-        )->count();
+        )
+        ->where('status', 'paid')
+        ->count();
 
         if($totalBooking < $room->kapasitas){
 
@@ -239,4 +297,100 @@ class BookingController extends Controller
                 'Data penyewa berhasil dihapus'
             );
     }
+    public function cancelBooking(Booking $booking)
+    {
+        $booking->delete();
+
+        return response()->json([
+            'message' => 'Booking dibatalkan'
+        ]);
+    }
+
+    // CALLBACK MIDTRANS
+    public function callback(Request $request)
+    {
+        $serverKey = config('midtrans.server_key');
+
+        $hashed = hash(
+            "sha512",
+            $request->order_id .
+            $request->status_code .
+            $request->gross_amount .
+            $serverKey
+        );
+
+        if($hashed == $request->signature_key){
+
+            $booking = Booking::where(
+                'midtrans_order_id',
+                $request->order_id
+            )->first();
+
+            if(!$booking){
+
+                return response()->json([
+                    'message' => 'Booking tidak ditemukan'
+                ], 404);
+
+            }
+
+            // PAYMENT SUCCESS
+            if(
+                $request->transaction_status == 'settlement' ||
+                $request->transaction_status == 'capture'
+            ){
+
+                $booking->update([
+
+                    'payment_status' => 'paid',
+
+                    'status' => 'paid',
+
+                ]);
+
+                // UPDATE STATUS ROOM
+                $room = Room::find($booking->room_id);
+
+                $totalBooking = Booking::where(
+                    'room_id',
+                    $room->id
+                )
+                ->where('status', 'paid')
+                ->count();
+
+                if($totalBooking >= $room->kapasitas){
+
+                    $room->update([
+
+                        'status' => 'booked'
+
+                    ]);
+
+                }
+
+            }
+
+            // PAYMENT FAILED / EXPIRE
+            if(
+                $request->transaction_status == 'expire' ||
+                $request->transaction_status == 'cancel'
+            ){
+
+                $booking->update([
+
+                    'payment_status' => 'unpaid',
+
+                    'status' => 'unpaid'
+
+                ]);
+
+            }
+
+        }
+
+        return response()->json([
+            'message' => 'Callback success'
+        ]);
+    }
+
 }

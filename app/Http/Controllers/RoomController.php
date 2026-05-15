@@ -86,32 +86,31 @@ public function show(Room $room)
 public function dashboard()
 {
     $room = Room::first();
-    $totalPenghuni = \App\Models\Booking::count();
-    $kapasitas = $room->kapasitas;
-    $sisaKamar = $kapasitas - $totalPenghuni; 
+
+    $totalPenghuni = \App\Models\Booking::where(
+        'status',
+        'paid'
+    )->count();
+
+    $kapasitas = $room->kapasitas ?? 0;
+
+    $sisaKamar = $kapasitas - $totalPenghuni;
+
     $kamarTerisi = $totalPenghuni;
+
+    $totalPendapatan = \App\Models\Booking::where(
+        'status',
+        'paid'
+    )->count() * 800000;
+
     $latestRooms = Room::latest()
         ->take(5)
         ->get();
 
-    $bulanIni = now()->month;
-    $tahunIni = now()->year;
-
-    $bookingsBulanIni = \App\Models\Booking::whereMonth('created_at', $bulanIni)
-        ->whereYear('created_at', $tahunIni)
-        ->with('room')
-        ->get();
-
-    $totalPendapatan = $bookingsBulanIni->sum(function ($booking) {
-
-        return $booking->room->price ?? 0;
-
-    });
-
     return view('admin.dashboard', compact(
 
         'totalPenghuni',
-        'sisaKamar', 
+        'sisaKamar',
         'kamarTerisi',
         'latestRooms',
         'totalPendapatan'

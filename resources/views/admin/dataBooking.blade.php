@@ -10,10 +10,9 @@
 
         <div class="card-body">
 
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
 
-            <div class="d-flex justify-content-between align-items-center mb-4">
-
-                <h4 class="fw-bold">
+                <h4 class="fw-bold mb-0">
                     Data Penyewa Kost
                 </h4>
 
@@ -24,6 +23,7 @@
                 </a>
 
             </div>
+
             <div class="table-responsive">
 
                 <table class="table align-middle">
@@ -36,7 +36,7 @@
                             <th>No HP</th>
                             <th>Kamar</th>
                             <th>Mulai Sewa</th>
-                            <th>Status</th>
+                            <th>Status Pembayaran</th>
                             <th>Aksi</th>
 
                         </tr>
@@ -46,11 +46,16 @@
                     <tbody>
 
                         @forelse($bookings as $booking)
+
                             <tr>
 
                                 <td>
 
-                                    {{ $booking->name }}
+                                    <div class="fw-semibold">
+
+                                        {{ $booking->name }}
+
+                                    </div>
 
                                 </td>
 
@@ -68,49 +73,51 @@
 
                                 <td>
 
-                                    {{ $booking->start_date }}
+                                    {{ \Carbon\Carbon::parse($booking->start_date)->format('d M Y') }}
 
                                 </td>
 
                                 <td>
 
-                                    @if ($booking->status == 'pending')
-                                        <span class="badge bg-warning">
+                                    @if ($booking->status == 'paid')
 
-                                            Pending
+                                        <span class="badge bg-success px-3 py-2">
 
-                                        </span>
-                                    @elseif($booking->status == 'approved')
-                                        <span class="badge bg-success">
-
-                                            Approved
+                                            Paid
 
                                         </span>
+
                                     @else
-                                        <span class="badge bg-danger">
 
-                                            Rejected
+                                        <span class="badge bg-warning text-dark px-3 py-2">
+
+                                            Unpaid
 
                                         </span>
+
                                     @endif
 
                                 </td>
+
                                 <td>
 
-                                    <div class="d-flex gap-2">
+                                    <div class="d-flex gap-2 flex-wrap">
 
-                                        <a href="{{ route('bookings.edit', $booking->id) }}" class="btn btn-warning btn-sm">
+                                        <a href="{{ route('bookings.edit', $booking->id) }}"
+                                            class="btn btn-warning btn-sm">
 
                                             Edit
 
                                         </a>
 
-                                        <form method="POST" action="{{ route('bookings.destroy', $booking->id) }}">
+                                        <form method="POST"
+                                            action="{{ route('bookings.destroy', $booking->id) }}">
 
                                             @csrf
                                             @method('DELETE')
 
-                                            <button type="submit" class="btn btn-danger btn-sm"
+                                            <button type="submit"
+                                                class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Hapus data penyewa?')">
 
                                                 Hapus
@@ -125,18 +132,18 @@
 
                             </tr>
 
-
                         @empty
 
                             <tr>
 
-                                <td colspan="5" class="text-center">
+                                <td colspan="6" class="text-center py-4">
 
                                     Belum ada data penyewa
 
                                 </td>
 
                             </tr>
+
                         @endforelse
 
                     </tbody>

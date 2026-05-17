@@ -6,9 +6,11 @@
 
 @section('content')
 
-    <div class="row">
+    {{-- TOP STATISTIC --}}
+    <div class="row g-4">
 
-        <div class="col-lg-4 mb-4">
+        {{-- TOTAL PENGHUNI --}}
+        <div class="col-lg-3 col-md-6">
 
             <div class="dashboard-card">
 
@@ -26,7 +28,7 @@
 
                 <div class="dashboard-icon bg-primary">
 
-                    <i class="bi bi-house-door-fill"></i>
+                    <i class="bi bi-people-fill"></i>
 
                 </div>
 
@@ -34,7 +36,35 @@
 
         </div>
 
-        <div class="col-lg-4 mb-4">
+        {{-- TOTAL KAMAR --}}
+        <div class="col-lg-3 col-md-6">
+
+            <div class="dashboard-card">
+
+                <div>
+
+                    <p class="dashboard-label">
+                        Total Kamar
+                    </p>
+
+                    <h2>
+                        {{ $totalKamar }}
+                    </h2>
+
+                </div>
+
+                <div class="dashboard-icon bg-dark">
+
+                    <i class="bi bi-building"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {{-- KAMAR TERSEDIA --}}
+        <div class="col-lg-3 col-md-6">
 
             <div class="dashboard-card">
 
@@ -45,7 +75,7 @@
                     </p>
 
                     <h2>
-                        {{ $sisaKamar }}
+                        {{ $kamarTersedia }}
                     </h2>
 
                 </div>
@@ -60,8 +90,8 @@
 
         </div>
 
-        {{-- BOOKED --}}
-        <div class="col-lg-4 mb-4">
+        {{-- KAMAR PENUH --}}
+        <div class="col-lg-3 col-md-6">
 
             <div class="dashboard-card">
 
@@ -72,7 +102,7 @@
                     </p>
 
                     <h2>
-                        {{ $kamarTerisi }}
+                        {{ $kamarPenuh }}
                     </h2>
 
                 </div>
@@ -89,18 +119,100 @@
 
     </div>
 
+    {{-- PENDAPATAN --}}
+    <div class="row mt-2 g-4">
+
+        {{-- TOTAL --}}
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted mb-2">
+
+                        Total Pendapatan
+
+                    </h6>
+
+                    <h2 class="fw-bold text-success">
+
+                        Rp {{ number_format($totalPendapatan,0,',','.') }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {{-- BULAN INI --}}
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted mb-2">
+
+                        Pendapatan Bulan Ini
+
+                    </h6>
+
+                    <h2 class="fw-bold text-primary">
+
+                        Rp {{ number_format($pendapatanBulanIni,0,',','.') }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {{-- BULAN LALU --}}
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted mb-2">
+
+                        Pendapatan Bulan Lalu
+
+                    </h6>
+
+                    <h2 class="fw-bold text-dark">
+
+                        Rp {{ number_format($pendapatanBulanLalu,0,',','.') }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
     {{-- CHART + INFO --}}
-    <div class="row">
+    <div class="row mt-2">
 
         {{-- CHART --}}
         <div class="col-lg-5 mb-4">
 
-            <div class="card border-0 shadow-sm rounded-4 mt-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
 
                 <div class="card-body">
 
                     <h5 class="fw-bold mb-4">
+
                         Statistik Pendapatan
+
                     </h5>
 
                     <canvas id="incomeChart"></canvas>
@@ -119,7 +231,9 @@
                 <div class="card-body">
 
                     <h5 class="fw-bold mb-4">
+
                         Informasi Dashboard
+
                     </h5>
 
                     <div class="alert alert-success border-0">
@@ -127,7 +241,7 @@
                         Kamar tersedia saat ini sebanyak
 
                         <strong>
-                            {{ $sisaKamar }}
+                            {{ $kamarTersedia }}
                         </strong>
 
                         kamar.
@@ -136,30 +250,150 @@
 
                     <div class="alert alert-danger border-0">
 
-                        Kamar yang sudah penuh sebanyak
+                        Kamar penuh saat ini sebanyak
 
                         <strong>
-                            {{ $kamarTerisi }}
+                            {{ $kamarPenuh }}
                         </strong>
 
                         kamar.
 
                     </div>
 
-                    <div class="alert alert-success border-0">
+                    <div class="alert alert-primary border-0">
 
-                        Total Pendapatan
+                        Total penghuni aktif saat ini sebanyak
 
                         <strong>
-                           Rp {{ $totalPendapatan }}
+                            {{ $totalPenghuni }}
                         </strong>
 
-                        
+                        orang.
 
                     </div>
 
+                    <div class="alert alert-warning border-0">
+
+                        Pendapatan bulan ini sebesar
+
+                        <strong>
+
+                            Rp {{ number_format($pendapatanBulanIni,0,',','.') }}
+
+                        </strong>
+
+                    </div>
 
                 </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {{-- PAYMENT TERBARU --}}
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <h5 class="fw-bold">
+                    Payment Terbaru
+                </h5>
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Nama</th>
+                            <th>Kamar</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Tanggal</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @forelse($latestPayments as $payment)
+
+                            <tr>
+
+                                <td>
+
+                                    {{ $payment->booking->name ?? '-' }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ $payment->booking->room->name ?? '-' }}
+
+                                </td>
+
+                                <td>
+
+                                    Rp {{ number_format($payment->amount,0,',','.') }}
+
+                                </td>
+
+                                <td>
+
+                                    @if($payment->status == 'paid')
+
+                                        <span class="badge bg-success">
+
+                                            Paid
+
+                                        </span>
+
+                                    @else
+
+                                        <span class="badge bg-warning text-dark">
+
+                                            Unpaid
+
+                                        </span>
+
+                                    @endif
+
+                                </td>
+
+                                <td>
+
+                                    {{ $payment->created_at->format('d M Y') }}
+
+                                </td>
+
+                            </tr>
+
+                        @empty
+
+                            <tr>
+
+                                <td colspan="5" class="text-center py-4">
+
+                                    Belum ada payment
+
+                                </td>
+
+                            </tr>
+
+                        @endforelse
+
+                    </tbody>
+
+                </table>
 
             </div>
 
@@ -205,13 +439,18 @@
 
                     <tbody>
 
-                        @foreach ($latestRooms as $room)
+                        @forelse ($latestRooms as $room)
+
                             <tr>
 
                                 <td>
 
                                     @if ($room->image)
-                                        <img src="{{ asset('storage/' . $room->image) }}" width="80" class="rounded-3">
+
+                                        <img src="{{ asset('storage/' . $room->image) }}"
+                                            width="80"
+                                            class="rounded-3">
+
                                     @endif
 
                                 </td>
@@ -224,26 +463,47 @@
 
                                 <td>
 
-                                    Rp {{ number_format($room->price) }}
+                                    Rp {{ number_format($room->price,0,',','.') }}
 
                                 </td>
 
                                 <td>
 
                                     @if ($room->status == 'available')
+
                                         <span class="badge bg-success">
+
                                             Available
+
                                         </span>
+
                                     @else
+
                                         <span class="badge bg-danger">
+
                                             Full
+
                                         </span>
+
                                     @endif
 
                                 </td>
 
                             </tr>
-                        @endforeach
+
+                        @empty
+
+                            <tr>
+
+                                <td colspan="4" class="text-center py-4">
+
+                                    Belum ada data kamar
+
+                                </td>
+
+                            </tr>
+
+                        @endforelse
 
                     </tbody>
 
@@ -260,6 +520,7 @@
 @section('scripts')
 
     <script>
+
         const ctx = document.getElementById('incomeChart');
 
         new Chart(ctx, {
@@ -268,14 +529,27 @@
 
             data: {
 
-                labels: ['Pendapatan Bulan Ini'],
+                labels: [
+
+                    'Bulan Ini',
+                    'Bulan Lalu'
+
+                ],
 
                 datasets: [{
 
-                    data: [{{ $totalPendapatan }}],
+                    data: [
+
+                        {{ $pendapatanBulanIni }},
+                        {{ $pendapatanBulanLalu }}
+
+                    ],
 
                     backgroundColor: [
-                        '#22c55e'
+
+                        '#22c55e',
+                        '#3b82f6'
+
                     ],
 
                     borderWidth: 0
@@ -291,7 +565,11 @@
                 plugins: {
 
                     legend: {
-                        display: true
+
+                        display: true,
+
+                        position: 'bottom'
+
                     }
 
                 }
@@ -299,6 +577,7 @@
             }
 
         });
+
     </script>
 
 @endsection

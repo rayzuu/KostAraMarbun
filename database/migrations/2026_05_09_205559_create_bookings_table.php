@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bookings', function (Blueprint $table) {
+       Schema::create('bookings', function (Blueprint $table) {
 
             $table->id();
 
@@ -29,15 +29,14 @@ return new class extends Migration
 
             $table->date('start_date');
 
-            // STATUS PEMBAYARAN
-            $table->enum('status', [
-                'paid',
-                'unpaid'
-            ])->default('unpaid');
+            // HARGA SAAT MULAI SEWA
+            $table->bigInteger('monthly_price');
 
-            // MIDTRANS
-            $table->string('midtrans_order_id')
-                ->nullable();
+            // STATUS PENYEWA
+            $table->enum('status', [
+                'active',
+                'inactive'
+            ])->default('active');
 
             $table->timestamps();
 

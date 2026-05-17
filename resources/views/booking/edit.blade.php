@@ -21,7 +21,13 @@
                         Nama Penyewa
                     </label>
 
-                    <input type="text" name="name" class="form-control" value="{{ $booking->name }}" required>
+                    <input
+                        type="text"
+                        name="name"
+                        class="form-control"
+                        value="{{ $booking->name }}"
+                        required
+                    >
 
                 </div>
 
@@ -31,7 +37,13 @@
                         No HP
                     </label>
 
-                    <input type="text" name="phone" class="form-control" value="{{ $booking->phone }}" required>
+                    <input
+                        type="text"
+                        name="phone"
+                        class="form-control"
+                        value="{{ $booking->phone }}"
+                        required
+                    >
 
                 </div>
 
@@ -41,8 +53,13 @@
                         Tempat Lahir
                     </label>
 
-                    <input type="text" name="birth_place" class="form-control" value="{{ $booking->birth_place }}"
-                        required>
+                    <input
+                        type="text"
+                        name="birth_place"
+                        class="form-control"
+                        value="{{ $booking->birth_place }}"
+                        required
+                    >
 
                 </div>
 
@@ -52,8 +69,13 @@
                         Tanggal Lahir
                     </label>
 
-                    <input type="date" name="birth_date" class="form-control" value="{{ $booking->birth_date }}"
-                        required>
+                    <input
+                        type="date"
+                        name="birth_date"
+                        class="form-control"
+                        value="{{ $booking->birth_date }}"
+                        required
+                    >
 
                 </div>
 
@@ -63,31 +85,65 @@
                         Mulai Sewa
                     </label>
 
-                    <input type="date" name="start_date" class="form-control" value="{{ $booking->start_date }}"
-                        required>
+                    <input
+                        type="date"
+                        name="start_date"
+                        class="form-control"
+                        value="{{ $booking->start_date }}"
+                        required
+                    >
 
                 </div>
 
                 <div class="mb-3">
 
-                    <label class="form-label">
-                        Status
-                    </label>
+    <label class="form-label">
+        Status Penyewa
+    </label>
 
-                    <select name="status" class="form-select">
+    <select name="tenant_status" class="form-select">
 
-                        <option value="paid" {{ $booking->status == 'paid' ? 'selected' : '' }}>
-                            Paid
-                        </option>
+        <option value="active"
+            {{ $booking->status == 'active' ? 'selected' : '' }}>
+            Active
+        </option>
 
-                        <option value="unpaid" {{ $booking->status == 'unpaid' ? 'selected' : '' }}>
-                            Unpaid
-                        </option>
+        <option value="inactive"
+            {{ $booking->status == 'inactive' ? 'selected' : '' }}>
+            Inactive
+        </option>
 
-                    </select>
+    </select>
 
-                </div>
+</div>
 
+<div class="mb-3">
+
+    <label class="form-label">
+        Status Pembayaran
+    </label>
+
+    <select name="payment_status" class="form-select">
+
+        @php
+            $payment = $booking->payments->last();
+        @endphp
+
+        <option value="paid"
+            {{ $payment && $payment->status == 'paid' ? 'selected' : '' }}>
+            Paid
+        </option>
+
+        <option value="unpaid"
+            {{ $payment && $payment->status == 'unpaid' ? 'selected' : '' }}>
+            Unpaid
+        </option>
+
+    </select>
+
+</div>
+
+                {{-- PILIH KAMAR --}}
                 <div class="mb-4">
 
                     <label class="form-label">
@@ -97,11 +153,16 @@
                     <select name="room_id" class="form-select">
 
                         @foreach ($rooms as $room)
-                            <option value="{{ $room->id }}" {{ $booking->room_id == $room->id ? 'selected' : '' }}>
+
+                            <option
+                                value="{{ $room->id }}"
+                                {{ $booking->room_id == $room->id ? 'selected' : '' }}
+                            >
 
                                 {{ $room->name }}
 
                             </option>
+
                         @endforeach
 
                     </select>

@@ -36,7 +36,9 @@
                             <th>No HP</th>
                             <th>Kamar</th>
                             <th>Mulai Sewa</th>
+                            <th>Status Penyewa</th>
                             <th>Status Pembayaran</th>
+                            <th>Total Bayar</th>
                             <th>Aksi</th>
 
                         </tr>
@@ -46,6 +48,10 @@
                     <tbody>
 
                         @forelse($bookings as $booking)
+
+                            @php
+                                $payment = $booking->payments->last();
+                            @endphp
 
                             <tr>
 
@@ -67,7 +73,7 @@
 
                                 <td>
 
-                                    {{ $booking->room->name }}
+                                    {{ $booking->room->name ?? '-' }}
 
                                 </td>
 
@@ -77,25 +83,56 @@
 
                                 </td>
 
+                                {{-- STATUS PENYEWA --}}
                                 <td>
 
-                                    @if ($booking->status == 'paid')
-
+                                    @if ($booking->status == 'active')
                                         <span class="badge bg-success px-3 py-2">
 
-                                            Paid
+                                            Active
 
                                         </span>
-
                                     @else
+                                        <span class="badge bg-secondary px-3 py-2">
 
-                                        <span class="badge bg-warning text-dark px-3 py-2">
-
-                                            Unpaid
+                                            Inactive
 
                                         </span>
-
                                     @endif
+
+                                </td>
+
+                                {{-- STATUS PAYMENT --}}
+                                <td>
+
+                                    @if ($payment)
+                                        @if ($payment->status == 'paid')
+                                            <span class="badge bg-success px-3 py-2">
+
+                                                Paid
+
+                                            </span>
+                                        @else
+                                            <span class="badge bg-warning text-dark px-3 py-2">
+
+                                                Unpaid
+
+                                            </span>
+                                        @endif
+                                    @else
+                                        <span class="badge bg-secondary px-3 py-2">
+
+                                            No Payment
+
+                                        </span>
+                                    @endif
+
+                                </td>
+
+                                {{-- TOTAL --}}
+                                <td>
+
+                                    Rp {{ number_format($payment->amount ?? 0, 0, ',', '.') }}
 
                                 </td>
 
@@ -103,21 +140,18 @@
 
                                     <div class="d-flex gap-2 flex-wrap">
 
-                                        <a href="{{ route('bookings.edit', $booking->id) }}"
-                                            class="btn btn-warning btn-sm">
+                                        <a href="{{ route('bookings.edit', $booking->id) }}" class="btn btn-warning btn-sm">
 
                                             Edit
 
                                         </a>
 
-                                        <form method="POST"
-                                            action="{{ route('bookings.destroy', $booking->id) }}">
+                                        <form method="POST" action="{{ route('bookings.destroy', $booking->id) }}">
 
                                             @csrf
                                             @method('DELETE')
 
-                                            <button type="submit"
-                                                class="btn btn-danger btn-sm"
+                                            <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Hapus data penyewa?')">
 
                                                 Hapus
@@ -136,7 +170,7 @@
 
                             <tr>
 
-                                <td colspan="6" class="text-center py-4">
+                                <td colspan="8" class="text-center py-4">
 
                                     Belum ada data penyewa
 

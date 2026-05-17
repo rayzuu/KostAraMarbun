@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\RoomImage;
+use App\Models\Booking;
+use App\Models\Payment;
 class RoomController extends Controller
 {
     public function index()
@@ -85,35 +87,70 @@ public function show(Room $room)
 }
 public function dashboard()
 {
-    $room = Room::first();
+        // TOTAL SELURUH KAMAR FISIK
+    $totalKamar = Room::sum('kapasitas');
 
+    // TOTAL PENGHUNI ACTIVE
     $totalPenghuni = \App\Models\Booking::where(
         'status',
-        'paid'
+        'active'
     )->count();
 
-    $kapasitas = $room->kapasitas ?? 0;
+    // SISA KAMAR
+    $kamarTersedia = $totalKamar - $totalPenghuni;
 
-    $sisaKamar = $kapasitas - $totalPenghuni;
+    // KAMAR TERISI
+    $kamarPenuh = $totalPenghuni;
+    
 
-    $kamarTerisi = $totalPenghuni;
-
-    $totalPendapatan = \App\Models\Booking::where(
+    // TOTAL PENDAPATAN
+    $totalPendapatan = \App\Models\Payment::where(
         'status',
         'paid'
-    )->count() * 800000;
+    )->sum('amount');
 
+    // BULAN INI
+    $pendapatanBulanIni = \App\Models\Payment::where(
+        'status',
+        'paid'
+    )
+    ->whereMonth('paid_at', now()->month)
+    ->whereYear('paid_at', now()->year)
+    ->sum('amount');
+
+    // BULAN LALU
+    $pendapatanBulanLalu = \App\Models\Payment::where(
+        'status',
+        'paid'
+    )
+    ->whereMonth('paid_at', now()->subMonth()->month)
+    ->whereYear('paid_at', now()->subMonth()->year)
+    ->sum('amount');
+
+    // ROOM TERBARU
     $latestRooms = Room::latest()
         ->take(5)
         ->get();
 
+    // PAYMENT TERBARU
+    $latestPayments = \App\Models\Payment::with([
+        'booking.room'
+    ])
+    ->latest()
+    ->take(5)
+    ->get();
+
     return view('admin.dashboard', compact(
 
+        'totalKamar',
         'totalPenghuni',
-        'sisaKamar',
-        'kamarTerisi',
+        'kamarTersedia',
+        'kamarPenuh',
+        'totalPendapatan',
+        'pendapatanBulanIni',
+        'pendapatanBulanLalu',
         'latestRooms',
-        'totalPendapatan'
+        'latestPayments'
 
     ));
 }

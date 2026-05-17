@@ -65,14 +65,56 @@
                         </a>
 
                     </li>
-                    <li>
+                    <li class="nav-item">
 
-                        <a href="#">
+                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
+                            href="#laporanMenu" role="button" aria-expanded="false">
 
-                            <i class="bi bi-file-earmark"></i>
-                            Laporan
+                            <div>
+
+                                <i class="bi bi-file-earmark-text"></i>
+
+                                <span>
+                                    Laporan
+                                </span>
+
+                            </div>
+
+                            <i class="bi bi-chevron-down small"></i>
 
                         </a>
+
+                        <div class="collapse" id="laporanMenu">
+
+                            <ul class="btn-toggle-nav list-unstyled fw-normal small ms-4 mt-2">
+
+                                <li class="mb-2">
+
+                                    <a href="{{ route('report.index') }}" class="nav-link">
+
+                                        <i class="bi bi-cash-stack"></i>
+
+                                        Laporan Pembayaran
+
+                                    </a>
+
+                                </li>
+
+                                <li>
+
+                                    <a href="{{ route('report.tenant') }}" class="nav-link">
+
+                                        <i class="bi bi-people-fill"></i>
+
+                                        Laporan Penyewa
+
+                                    </a>
+
+                                </li>
+
+                            </ul>
+
+                        </div>
 
                     </li>
 

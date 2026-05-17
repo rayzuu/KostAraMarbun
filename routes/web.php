@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ReportController;
+
 use App\Models\Room;
 
 Route::get('/', function (\Illuminate\Http\Request $request) {
@@ -89,11 +91,21 @@ Route::get('/admin/dashboard', [RoomController::class, 'dashboard'])
 
 Route::get('/kamar', [RoomController::class, 'allRooms'])
     ->name('rooms.all');
-    
+
 Route::delete(
     '/booking/{booking}/cancel',
     [BookingController::class, 'cancelBooking']
 )->name('booking.cancel');
+
+Route::get(
+    '/admin/laporan',
+    [ReportController::class, 'index']
+)->name('report.index');
+
+Route::get(
+    '/admin/laporan/penyewa',
+    [ReportController::class, 'reportPenyewa']
+)->name('report.tenant');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

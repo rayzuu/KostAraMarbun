@@ -82,7 +82,7 @@
                         Upload / Tambah Gambar
                     </label>
 
-                    <input type="file" name="images[]" multiple class="form-control">
+                    <input type="file" id = "imageInput" name="images[]" class="form-control" multiple accept=".jpg,.jpeg,.png">
 
                 </div>
 
@@ -112,5 +112,86 @@
                 .format(value);
 
         });
+    </script>
+
+    <script>
+        let selectedFiles = [];
+
+        const imageInput = document.getElementById('imageInput');
+        const previewContainer = document.getElementById('previewContainer');
+
+        imageInput.addEventListener('change', function(e) {
+
+            const files = Array.from(e.target.files);
+
+            files.forEach(file => {
+
+                selectedFiles.push(file);
+
+            });
+
+            renderPreview();
+
+        });
+
+        function renderPreview() {
+
+            previewContainer.innerHTML = '';
+
+            const dataTransfer = new DataTransfer();
+
+            selectedFiles.forEach((file, index) => {
+
+                dataTransfer.items.add(file);
+
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+
+                    previewContainer.innerHTML += `
+
+                <div class="col-md-3 mb-3">
+
+                    <div class="card border-0 shadow-sm">
+
+                        <img src="${e.target.result}"
+                            class="img-fluid rounded"
+                            style="height:180px;object-fit:cover;">
+
+                        <div class="card-body p-2">
+
+                            <button type="button"
+                                class="btn btn-danger btn-sm w-100"
+                                onclick="removeImage(${index})">
+
+                                Hapus
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+                }
+
+                reader.readAsDataURL(file);
+
+            });
+
+            imageInput.files = dataTransfer.files;
+
+        }
+
+        function removeImage(index) {
+
+            selectedFiles.splice(index, 1);
+
+            renderPreview();
+
+        }
     </script>
 @endsection

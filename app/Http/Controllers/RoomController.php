@@ -35,6 +35,7 @@ class RoomController extends Controller
         'price' => str_replace('.', '', $request->price),
 
         'status' => 'available'
+        
 
     ]);
 

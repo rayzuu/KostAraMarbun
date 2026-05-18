@@ -24,10 +24,15 @@ class RoomController extends Controller
  public function store(Request $request)
 {
     $thumbnail = null;
-    $request->validate([
+     $request->validate([
 
-    'image' => 'required|mimes:jpg,jpeg,png|max:2048'
-
+    'images'      => 'required|array|min:1', 
+    'images.*'    => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+    ],[
+    'images.required' => 'Kamu wajib mengunggah minimal satu gambar kamar.',
+    'images.*.image'  => 'File yang diunggah harus berupa gambar.',
+    'images.*.mimes'  => 'Format gambar harus berupa: jpg, jpeg, png, atau webp.',
+    'images.*.max'    => 'Ukuran tiap gambar tidak boleh lebih dari 2MB.',
     ]);
 
     // CREATE ROOM
@@ -171,8 +176,13 @@ public function update(Request $request, Room $room)
     $thumbnail = $room->image;
     $request->validate([
 
-    'image' => 'required|mimes:jpg,jpeg,png|max:2048'
-
+    'images'      => 'required|array|min:1', 
+    'images.*'    => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+    ],[
+    'images.required' => 'Kamu wajib mengunggah minimal satu gambar kamar.',
+    'images.*.image'  => 'File yang diunggah harus berupa gambar.',
+    'images.*.mimes'  => 'Format gambar harus berupa: jpg, jpeg, png, atau webp.',
+    'images.*.max'    => 'Ukuran tiap gambar tidak boleh lebih dari 2MB.',
     ]);
 
     $room->update([

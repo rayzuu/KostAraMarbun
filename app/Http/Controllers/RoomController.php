@@ -24,6 +24,11 @@ class RoomController extends Controller
  public function store(Request $request)
 {
     $thumbnail = null;
+    $request->validate([
+
+    'images.*' => 'required|mimes:jpg,jpeg,png|max:2048'
+
+    ]);
 
     // CREATE ROOM
     $room = Room::create([

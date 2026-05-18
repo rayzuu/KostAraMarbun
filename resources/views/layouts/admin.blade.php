@@ -111,6 +111,17 @@
                                     </a>
 
                                 </li>
+                                <li>
+
+                                    <a href="{{ route('report.arrears') }}" class="nav-link">
+
+                                        <i class="bi bi-exclamation-circle"></i>
+
+                                        Laporan Tunggakan
+
+                                    </a>
+
+                                </li>
 
                             </ul>
 

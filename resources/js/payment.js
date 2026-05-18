@@ -1,111 +1,78 @@
-const payButton = document.getElementById('payButton');
+const payButton = document.getElementById("payButton");
 
 const snapToken = payButton.dataset.token;
 
 const bookingId = payButton.dataset.booking;
 
-function cancelBooking(){
-
+function cancelBooking() {
     fetch(`/booking/${bookingId}/cancel`, {
-
-        method: 'DELETE',
+        method: "DELETE",
 
         headers: {
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                .content,
 
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-
-            'Content-Type': 'application/json'
-
-        }
-
+            "Content-Type": "application/json",
+        },
     });
-
 }
 
-payButton.addEventListener('click', function(){
-
+payButton.addEventListener("click", function () {
     snap.pay(snapToken, {
-
-        onSuccess: function(result){
-
+        onSuccess: function (result) {
             Swal.fire({
+                icon: "success",
+                title: "Pembayaran Berhasil",
+                text: "Penyewaan Kamar Berhasil",
 
-                icon: 'success',
-
-                title: 'Pembayaran Berhasil',
-
-                text: 'Penyewaan kamar berhasil diproses.',
-
-                confirmButtonColor: '#22c55e',
-
+                confirmButtonColor: "#16a34a",
             }).then(() => {
-
                 window.location.href = "/";
-
             });
-
         },
 
-        onPending: function(result){
-
+        onPending: function (result) {
             Swal.fire({
+                icon: "warning",
+                title: "Pembayaran Belum Selesai",
+                text: "Silakan selesaikan pembayaran",
 
-                icon: 'info',
-
-                title: 'Menunggu Pembayaran',
-
-                text: 'Silakan selesaikan pembayaran Anda.',
-
-                confirmButtonColor: '#22c55e',
-
+                confirmButtonColor: "#f59e0b",
             });
-
         },
 
-        onError: function(result){
-
-            cancelBooking();
-
+        onError: function (result) {
             Swal.fire({
+                icon: "error",
+                title: "Pembayaran Gagal",
+                text: "Transaksi gagal",
 
-                icon: 'error',
-
-                title: 'Pembayaran Gagal',
-
-                text: 'Booking dibatalkan.',
-
-                confirmButtonColor: '#ef4444',
-
+                confirmButtonColor: "#dc2626",
             }).then(() => {
-
-                window.location.href = "/ajukan-sewa";
-
+                window.location.href = '{{ route("booking.create") }}';
             });
-
         },
 
-        onClose: function(){
+        onClose: function () {
+            fetch("/cancel-booking/{{ $booking->id }}", {
+                method: "POST",
 
-            cancelBooking();
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
 
-            Swal.fire({
-
-                icon: 'warning',
-
-                title: 'Pembayaran Dibatalkan',
-
-                text: 'Booking dibatalkan.',
-
-                confirmButtonColor: '#f59e0b',
-
+                    Accept: "application/json",
+                },
             }).then(() => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Pembayaran Dibatalkan",
 
-                window.location.href = "/ajukan-sewa";
 
+                    confirmButtonColor: "#dc2626",
+                }).then(() => {
+                    window.location.href = '{{ route("booking.create") }}';
+                });
             });
-
-        }
-
+        },
     });
-
 });

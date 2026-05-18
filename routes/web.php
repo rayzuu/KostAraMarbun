@@ -8,6 +8,11 @@ use App\Http\Controllers\ReportController;
 
 use App\Models\Room;
 
+
+Route::post(
+    '/midtrans/callback',
+    [BookingController::class, 'callback']
+);
 Route::get('/', function (\Illuminate\Http\Request $request) {
 
     $query = Room::query();
@@ -107,13 +112,17 @@ Route::get(
     [ReportController::class, 'reportPenyewa']
 )->name('report.tenant');
 
+Route::get(
+    '/laporan/tunggakan',
+    [ReportController::class, 'arrears']
+)->name('report.arrears');
+
+
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-
-
-Route::post('/midtrans/callback', [BookingController::class, 'callback']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

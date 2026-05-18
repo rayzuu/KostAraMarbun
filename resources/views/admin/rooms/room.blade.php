@@ -1,583 +1,172 @@
-@extends('layouts.admin')
-
-@section('title', 'Dashboard Admin')
-
-@section('page-title', 'Dashboard')
+@extends('layouts.app')
 
 @section('content')
 
-    {{-- TOP STATISTIC --}}
-    <div class="row g-4">
+<section class="py-5">
 
-        {{-- TOTAL PENGHUNI --}}
-        <div class="col-lg-3 col-md-6">
+    <div class="container">
 
-            <div class="dashboard-card">
+        <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
 
-                <div>
+            <div>
 
-                    <p class="dashboard-label">
-                        Total Penghuni
-                    </p>
+                <h2 class="fw-bold mb-2">
 
-                    <h2>
-                        {{ $totalPenghuni }}
-                    </h2>
+                    Semua Kamar Kost
 
-                </div>
+                </h2>
 
-                <div class="dashboard-icon bg-primary">
+                <p class="text-muted mb-0">
 
-                    <i class="bi bi-people-fill"></i>
+                    Pilih kamar yang sesuai kebutuhan kamu
 
-                </div>
+                </p>
 
             </div>
 
-        </div>
+            {{-- SEARCH --}}
+            <form method="GET" class="d-flex gap-2">
 
-        {{-- TOTAL KAMAR --}}
-        <div class="col-lg-3 col-md-6">
+                <input type="text"
+                       name="search"
+                       class="form-control"
+                       placeholder="Cari kamar..."
+                       value="{{ request('search') }}">
 
-            <div class="dashboard-card">
+                <select name="status" class="form-select">
 
-                <div>
+                    <option value="">
+                        Semua
+                    </option>
 
-                    <p class="dashboard-label">
-                        Total Kamar
-                    </p>
+                    <option value="available"
+                        {{ request('status') == 'available' ? 'selected' : '' }}>
 
-                    <h2>
-                        {{ $totalKamar }}
-                    </h2>
+                        Available
 
-                </div>
+                    </option>
 
-                <div class="dashboard-icon bg-dark">
+                    <option value="booked"
+                        {{ request('status') == 'booked' ? 'selected' : '' }}>
 
-                    <i class="bi bi-building"></i>
+                        Full
 
-                </div>
+                    </option>
 
-            </div>
+                </select>
 
-        </div>
+                <button class="btn btn-primary">
 
-        {{-- KAMAR TERSEDIA --}}
-        <div class="col-lg-3 col-md-6">
+                    Cari
 
-            <div class="dashboard-card">
+                </button>
 
-                <div>
-
-                    <p class="dashboard-label">
-                        Kamar Tersedia
-                    </p>
-
-                    <h2>
-                        {{ $kamarTersedia }}
-                    </h2>
-
-                </div>
-
-                <div class="dashboard-icon bg-success">
-
-                    <i class="bi bi-check-circle-fill"></i>
-
-                </div>
-
-            </div>
+            </form>
 
         </div>
 
-        {{-- KAMAR PENUH --}}
-        <div class="col-lg-3 col-md-6">
+        <div class="row g-4">
 
-            <div class="dashboard-card">
+            @forelse($rooms as $room)
 
-                <div>
+                <div class="col-lg-4 col-md-6">
 
-                    <p class="dashboard-label">
-                        Kamar Penuh
-                    </p>
+                    <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
 
-                    <h2>
-                        {{ $kamarPenuh }}
-                    </h2>
+                        {{-- IMAGE --}}
+                        @if($room->image)
 
-                </div>
+                            <img src="{{ asset('storage/' . $room->image) }}"
+                                 class="card-img-top"
+                                 style="height:250px; object-fit:cover;">
 
-                <div class="dashboard-icon bg-danger">
+                        @endif
 
-                    <i class="bi bi-x-circle-fill"></i>
+                        <div class="card-body d-flex flex-column">
 
-                </div>
+                            {{-- STATUS --}}
+                            @if($room->status == 'available')
 
-            </div>
+                                <span class="badge bg-success mb-3 align-self-start">
 
-        </div>
+                                    Available
 
-    </div>
+                                </span>
 
-    {{-- PENDAPATAN --}}
-    <div class="row mt-2 g-4">
+                            @else
 
-        {{-- TOTAL --}}
-        <div class="col-lg-4">
+                                <span class="badge bg-danger mb-3 align-self-start">
 
-            <div class="card border-0 shadow-sm rounded-4 h-100">
+                                    Full
 
-                <div class="card-body">
+                                </span>
 
-                    <h6 class="text-muted mb-2">
+                            @endif
 
-                        Total Pendapatan
+                            {{-- NAME --}}
+                            <h5 class="fw-bold">
 
-                    </h6>
+                                {{ $room->name }}
 
-                    <h2 class="fw-bold text-success">
+                            </h5>
 
-                        Rp {{ number_format($totalPendapatan,0,',','.') }}
+                            {{-- PRICE --}}
+                            <h4 class="text-primary fw-bold mb-3">
 
-                    </h2>
+                                Rp {{ number_format($room->price,0,',','.') }}
 
-                </div>
+                                <small class="fs-6 text-muted">
+                                    / bulan
+                                </small>
 
-            </div>
+                            </h4>
 
-        </div>
+                            {{-- DESC --}}
+                            <p class="text-muted small flex-grow-1">
 
-        {{-- BULAN INI --}}
-        <div class="col-lg-4">
+                                {{ Str::limit($room->description, 100) }}
 
-            <div class="card border-0 shadow-sm rounded-4 h-100">
+                            </p>
 
-                <div class="card-body">
+                            {{-- BUTTON --}}
+                            <a href="{{ route('rooms.show', $room->id) }}"
+                               class="btn btn-primary rounded-pill mt-3">
 
-                    <h6 class="text-muted mb-2">
+                                Lihat Detail
 
-                        Pendapatan Bulan Ini
+                            </a>
 
-                    </h6>
+                        </div>
 
-                    <h2 class="fw-bold text-primary">
-
-                        Rp {{ number_format($pendapatanBulanIni,0,',','.') }}
-
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        {{-- BULAN LALU --}}
-        <div class="col-lg-4">
-
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-
-                <div class="card-body">
-
-                    <h6 class="text-muted mb-2">
-
-                        Pendapatan Bulan Lalu
-
-                    </h6>
-
-                    <h2 class="fw-bold text-dark">
-
-                        Rp {{ number_format($pendapatanBulanLalu,0,',','.') }}
-
-                    </h2>
+                    </div>
 
                 </div>
 
-            </div>
+            @empty
 
-        </div>
+                <div class="col-12 text-center py-5">
 
-    </div>
+                    <h5 class="text-muted">
 
-    {{-- CHART + INFO --}}
-    <div class="row mt-2">
-
-        {{-- CHART --}}
-        <div class="col-lg-5 mb-4">
-
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-
-                <div class="card-body">
-
-                    <h5 class="fw-bold mb-4">
-
-                        Statistik Pendapatan
+                        Kamar tidak ditemukan
 
                     </h5>
 
-                    <canvas id="incomeChart"></canvas>
-
                 </div>
 
-            </div>
+            @endforelse
 
         </div>
 
-        {{-- INFO --}}
-        <div class="col-lg-7 mb-4">
+        {{-- PAGINATION --}}
+        <div class="mt-5 d-flex justify-content-center">
 
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-
-                <div class="card-body">
-
-                    <h5 class="fw-bold mb-4">
-
-                        Informasi Dashboard
-
-                    </h5>
-
-                    <div class="alert alert-success border-0">
-
-                        Kamar tersedia saat ini sebanyak
-
-                        <strong>
-                            {{ $kamarTersedia }}
-                        </strong>
-
-                        kamar.
-
-                    </div>
-
-                    <div class="alert alert-danger border-0">
-
-                        Kamar penuh saat ini sebanyak
-
-                        <strong>
-                            {{ $kamarPenuh }}
-                        </strong>
-
-                        kamar.
-
-                    </div>
-
-                    <div class="alert alert-primary border-0">
-
-                        Total penghuni aktif saat ini sebanyak
-
-                        <strong>
-                            {{ $totalPenghuni }}
-                        </strong>
-
-                        orang.
-
-                    </div>
-
-                    <div class="alert alert-warning border-0">
-
-                        Pendapatan bulan ini sebesar
-
-                        <strong>
-
-                            Rp {{ number_format($pendapatanBulanIni,0,',','.') }}
-
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </div>
+            {{ $rooms->links() }}
 
         </div>
 
     </div>
 
-    {{-- PAYMENT TERBARU --}}
-    <div class="card border-0 shadow-sm rounded-4 mb-4">
-
-        <div class="card-body">
-
-            <div class="d-flex justify-content-between align-items-center mb-4">
-
-                <h5 class="fw-bold">
-                    Payment Terbaru
-                </h5>
-
-            </div>
-
-            <div class="table-responsive">
-
-                <table class="table align-middle">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>Nama</th>
-                            <th>Kamar</th>
-                            <th>Total</th>
-                            <th>Status</th>
-                            <th>Tanggal</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        @forelse($latestPayments as $payment)
-
-                            <tr>
-
-                                <td>
-
-                                    {{ $payment->booking->name ?? '-' }}
-
-                                </td>
-
-                                <td>
-
-                                    {{ $payment->booking->room->name ?? '-' }}
-
-                                </td>
-
-                                <td>
-
-                                    Rp {{ number_format($payment->amount,0,',','.') }}
-
-                                </td>
-
-                                <td>
-
-                                    @if($payment->status == 'paid')
-
-                                        <span class="badge bg-success">
-
-                                            Paid
-
-                                        </span>
-
-                                    @else
-
-                                        <span class="badge bg-warning text-dark">
-
-                                            Unpaid
-
-                                        </span>
-
-                                    @endif
-
-                                </td>
-
-                                <td>
-
-                                    {{ $payment->created_at->format('d M Y') }}
-
-                                </td>
-
-                            </tr>
-
-                        @empty
-
-                            <tr>
-
-                                <td colspan="5" class="text-center py-4">
-
-                                    Belum ada payment
-
-                                </td>
-
-                            </tr>
-
-                        @endforelse
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    {{-- RECENT ROOM --}}
-    <div class="card border-0 shadow-sm rounded-4">
-
-        <div class="card-body">
-
-            <div class="d-flex justify-content-between align-items-center mb-4">
-
-                <h5 class="fw-bold">
-                    Data Kamar Terbaru
-                </h5>
-
-                <a href="{{ route('rooms.index') }}" class="btn btn-primary">
-
-                    Kelola Kamar
-
-                </a>
-
-            </div>
-
-            <div class="table-responsive">
-
-                <table class="table align-middle">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>Gambar</th>
-                            <th>Nama</th>
-                            <th>Harga</th>
-                            <th>Status</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        @forelse ($latestRooms as $room)
-
-                            <tr>
-
-                                <td>
-
-                                    @if ($room->image)
-
-                                        <img src="{{ asset('storage/' . $room->image) }}"
-                                            width="80"
-                                            class="rounded-3">
-
-                                    @endif
-
-                                </td>
-
-                                <td>
-
-                                    {{ $room->name }}
-
-                                </td>
-
-                                <td>
-
-                                    Rp {{ number_format($room->price,0,',','.') }}
-
-                                </td>
-
-                                <td>
-
-                                    @if ($room->status == 'available')
-
-                                        <span class="badge bg-success">
-
-                                            Available
-
-                                        </span>
-
-                                    @else
-
-                                        <span class="badge bg-danger">
-
-                                            Full
-
-                                        </span>
-
-                                    @endif
-
-                                </td>
-
-                            </tr>
-
-                        @empty
-
-                            <tr>
-
-                                <td colspan="4" class="text-center py-4">
-
-                                    Belum ada data kamar
-
-                                </td>
-
-                            </tr>
-
-                        @endforelse
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </div>
-
-@endsection
-
-@section('scripts')
-
-    <script>
-
-        const ctx = document.getElementById('incomeChart');
-
-        new Chart(ctx, {
-
-            type: 'doughnut',
-
-            data: {
-
-                labels: [
-
-                    'Bulan Ini',
-                    'Bulan Lalu'
-
-                ],
-
-                datasets: [{
-
-                    data: [
-
-                        {{ $pendapatanBulanIni }},
-                        {{ $pendapatanBulanLalu }}
-
-                    ],
-
-                    backgroundColor: [
-
-                        '#22c55e',
-                        '#3b82f6'
-
-                    ],
-
-                    borderWidth: 0
-
-                }]
-
-            },
-
-            options: {
-
-                responsive: true,
-
-                plugins: {
-
-                    legend: {
-
-                        display: true,
-
-                        position: 'bottom'
-
-                    }
-
-                }
-
-            }
-
-        });
-
-    </script>
+</section>
 
 @endsection

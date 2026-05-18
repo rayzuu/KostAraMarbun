@@ -28,7 +28,7 @@ class ReportController extends Controller
             ->sum('amount');
 
         return view(
-            'admin.laporan.report',
+            'admin.laporan.report', 
             compact(
                 'reports',
                 'totalIncome',
@@ -101,6 +101,30 @@ class ReportController extends Controller
             'year',
             'tenantStatus',
             'paymentStatus'
+        )
+    );
+}
+public function arrears(Request $request)
+{
+    $month = $request->month ?? now()->month;
+
+    $year = $request->year ?? now()->year;
+
+    $arrears = Payment::with([
+        'booking.room'
+    ])
+    ->where('status', 'unpaid')
+    ->where('payment_month', $month)
+    ->where('payment_year', $year)
+    ->latest()
+    ->get();
+
+    return view(
+        'admin.laporan.reportTunggakan',
+        compact(
+            'arrears',
+            'month',
+            'year'
         )
     );
 }

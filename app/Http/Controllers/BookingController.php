@@ -278,7 +278,7 @@ class BookingController extends Controller
     );
 }
 
-   public function update(
+  public function update(
     Request $request,
     Booking $booking
 ){
@@ -294,7 +294,7 @@ class BookingController extends Controller
 
     }
 
-    // UPDATE BOOKING
+    // UPDATE DATA BOOKING
     $booking->update([
 
         'room_id' => $request->room_id,
@@ -314,45 +314,74 @@ class BookingController extends Controller
 
     ]);
 
-    // PAYMENT TERAKHIR
-    $payment = Payment::where(
+    
+    $currentMonth = now()->month;
+    $currentYear  = now()->year;
+
+    // Cek payment bulan ini
+    $existingPayment = Payment::where(
         'booking_id',
         $booking->id
     )
-    ->latest()
+    ->where('payment_month', $currentMonth)
+    ->where('payment_year', $currentYear)
     ->first();
 
-    if($payment){
+    // Kalau belum ada payment bulan ini
+    if(!$existingPayment){
 
-        $payment->update([
+        Payment::create([
 
-            // STATUS PAYMENT
-            'status' => $request->payment_status
+            'booking_id' => $booking->id,
+
+            'midtrans_order_id' => 'MANUAL-' . time(),
+
+            'payment_month' => $currentMonth,
+
+            'payment_year' => $currentYear,
+
+            'amount' => $booking->monthly_price,
+
+            'status' => $request->payment_status,
+
+            'paid_at' => $request->payment_status == 'paid'
+                ? now()
+                : null
 
         ]);
 
-        // AUTO UPDATE PAID_AT
-        if($request->payment_status == 'paid'){
+    }else{
 
-            $payment->update([
+        $existingPayment->update([
 
-                'paid_at' => now()
+            'status' => $request->payment_status,
 
-            ]);
+            'paid_at' => $request->payment_status == 'paid'
+                ? now()
+                : null
 
-        }else{
-
-            $payment->update([
-
-                'paid_at' => null
-
-            ]);
-
-        }
+        ]);
 
     }
 
-    // UPDATE STATUS ROOM
+    if($request->payment_status == 'paid'){
+
+        $booking->update([
+
+            'status' => 'active'
+
+        ]);
+
+    }else{
+
+        $booking->update([
+
+            'status' => 'inactive'
+
+        ]);
+
+    }
+
     $totalBooking = Booking::where(
         'room_id',
         $room->id
@@ -515,6 +544,16 @@ class BookingController extends Controller
 
                 }
 
+            }   
+
+            if($request->transaction_status == 'pending'){
+
+                $payment->update([
+
+                    'status' => 'unpaid'
+
+                ]);
+
             }
 
             // PAYMENT FAILED / CANCEL / EXPIRE
@@ -524,20 +563,13 @@ class BookingController extends Controller
                 $request->transaction_status == 'deny'
             ){
 
-                $payment->update([
+                // DELETE PAYMENT
+                $payment->delete();
 
-                    'status' => 'unpaid'
-
-                ]);
-
-                $booking->update([
-
-                    'status' => 'inactive'
-
-                ]);
+                // DELETE BOOKING
+                $booking->delete();
 
             }
-
         }
 
         return response()->json([

@@ -50,7 +50,19 @@
                         @forelse($bookings as $booking)
 
                             @php
-                                $payment = $booking->payments->last();
+
+                                // PAYMENT TERBARU
+                                $latestPayment = $booking->payments
+                                    ->sortByDesc(function($item){
+                                        return $item->payment_year . $item->payment_month;
+                                    })
+                                    ->first();
+
+                                // TOTAL PAYMENT PAID
+                                $totalPaid = $booking->payments
+                                    ->where('status', 'paid')
+                                    ->sum('amount');
+
                             @endphp
 
                             <tr>
@@ -87,17 +99,21 @@
                                 <td>
 
                                     @if ($booking->status == 'active')
+
                                         <span class="badge bg-success px-3 py-2">
 
                                             Active
 
                                         </span>
+
                                     @else
+
                                         <span class="badge bg-secondary px-3 py-2">
 
                                             Inactive
 
                                         </span>
+
                                     @endif
 
                                 </td>
@@ -105,34 +121,42 @@
                                 {{-- STATUS PAYMENT --}}
                                 <td>
 
-                                    @if ($payment)
-                                        @if ($payment->status == 'paid')
+                                    @if ($latestPayment)
+
+                                        @if ($latestPayment->status == 'paid')
+
                                             <span class="badge bg-success px-3 py-2">
 
                                                 Paid
 
                                             </span>
+
                                         @else
+
                                             <span class="badge bg-warning text-dark px-3 py-2">
 
                                                 Unpaid
 
                                             </span>
+
                                         @endif
+
                                     @else
+
                                         <span class="badge bg-secondary px-3 py-2">
 
                                             No Payment
 
                                         </span>
+
                                     @endif
 
                                 </td>
 
-                                {{-- TOTAL --}}
+                                {{-- TOTAL PEMBAYARAN --}}
                                 <td>
 
-                                    Rp {{ number_format($payment->amount ?? 0, 0, ',', '.') }}
+                                    Rp {{ number_format($totalPaid, 0, ',', '.') }}
 
                                 </td>
 
@@ -140,18 +164,21 @@
 
                                     <div class="d-flex gap-2 flex-wrap">
 
-                                        <a href="{{ route('bookings.edit', $booking->id) }}" class="btn btn-warning btn-sm">
+                                        <a href="{{ route('bookings.edit', $booking->id) }}"
+                                            class="btn btn-warning btn-sm">
 
                                             Edit
 
                                         </a>
 
-                                        <form method="POST" action="{{ route('bookings.destroy', $booking->id) }}">
+                                        <form method="POST"
+                                            action="{{ route('bookings.destroy', $booking->id) }}">
 
                                             @csrf
                                             @method('DELETE')
 
-                                            <button type="submit" class="btn btn-danger btn-sm"
+                                            <button type="submit"
+                                                class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Hapus data penyewa?')">
 
                                                 Hapus

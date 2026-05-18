@@ -51,73 +51,75 @@
     </section>
 
     {{-- SEARCH FILTER --}}
-    <section class="py-4">
+    {{-- 
+<section class="py-4">
 
-        <div class="container">
+    <div class="container">
 
-            <div class="card border-0 shadow-sm rounded-4">
+        <div class="card border-0 shadow-sm rounded-4">
 
-                <div class="card-body p-4">
+            <div class="card-body p-4">
 
-                    <form method="GET" action="/">
+                <form method="GET" action="/">
 
-                        <div class="row align-items-center">
+                    <div class="row align-items-center">
 
-                            {{-- SEARCH --}}
-                            <div class="col-lg-4 col-md-6 mb-3">
+                        
+                        <div class="col-lg-4 col-md-6 mb-3">
 
-                                <input type="text" name="search" value="{{ request('search') }}"
-                                    class="form-control rounded-3" placeholder="Cari kamar...">
-
-                            </div>
-
-                            {{-- STATUS --}}
-                            <div class="col-lg-3 col-md-6 mb-3">
-
-                                <select name="status" class="form-control rounded-3">
-
-                                    <option value="">
-                                        Semua Status
-                                    </option>
-
-                                    <option value="available" {{ request('status') == 'available' ? 'selected' : '' }}>
-
-                                        Available
-
-                                    </option>
-
-                                    <option value="booked" {{ request('status') == 'booked' ? 'selected' : '' }}>
-
-                                        Full
-
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-                            {{-- BUTTON --}}
-                            <div class="col-lg-2 col-md-12 mb-3">
-
-                                <button class="btn btn-success w-100 rounded-3">
-
-                                    Cari
-
-                                </button>
-
-                            </div>
+                            <input type="text" name="search" value="{{ request('search') }}"
+                                class="form-control rounded-3" placeholder="Cari kamar...">
 
                         </div>
 
-                    </form>
+                        
+                        <div class="col-lg-3 col-md-6 mb-3">
 
-                </div>
+                            <select name="status" class="form-control rounded-3">
+
+                                <option value="">
+                                    Semua Status
+                                </option>
+
+                                <option value="available" {{ request('status') == 'available' ? 'selected' : '' }}>
+
+                                    Available
+
+                                </option>
+
+                                <option value="booked" {{ request('status') == 'booked' ? 'selected' : '' }}>
+
+                                    Full
+
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        
+                        <div class="col-lg-2 col-md-12 mb-3">
+
+                            <button class="btn btn-success w-100 rounded-3">
+
+                                Cari
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
 
             </div>
 
         </div>
 
-    </section>
+    </div>
+
+</section>
+--}}
 
     {{-- FACILITY --}}
     <section class="facility-gallery py-5">
@@ -303,11 +305,9 @@
             <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow">
 
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31649.973596846652!2d109.21596780635792!3d-7.437932274658042!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e655ea49d9f9885%3A0x62be0b6159700ec9!2sTelkom%20University%20Purwokerto!5e0!3m2!1sid!2sid!4v1778365109788!5m2!1sid!2sid"
+                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d498.07012354577535!2d99.0721545!3d2.9416532!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3031844c9530597d%3A0x46b933a2264379d6!2sTOKO%20Marbun!5e0!3m2!1sid!2sid!4v1779110362235!5m2!1sid!2sid"
                     width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade">
-
-                </iframe>
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
 
             </div>
 

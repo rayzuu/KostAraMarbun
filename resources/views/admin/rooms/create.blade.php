@@ -46,7 +46,7 @@
 
             <div id="alertContainer"></div>
 
-            <input type="file" id="imageInput" name="images[]" class="form-control" multiple
+            <input type="file" id="imageInput" name="image[]" class="form-control" multiple
                 accept=".jpg,.jpeg,.png,.webp">
             <small class="text-muted">Format File: JPG, JPEG, PNG, WEBP. Maksimal 2MB.</small>
         </div>

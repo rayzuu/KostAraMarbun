@@ -26,7 +26,7 @@ class RoomController extends Controller
     $thumbnail = null;
     $request->validate([
 
-    'images.*' => 'required|mimes:jpg,jpeg,png|max:2048'
+    'image' => 'required|mimes:jpg,jpeg,png|max:2048'
 
     ]);
 
@@ -162,12 +162,18 @@ public function dashboard()
 }
 public function edit(Room $room)
 {
+    
     return view('admin.rooms.edit', compact('room'));
 }
 
 public function update(Request $request, Room $room)
 {
     $thumbnail = $room->image;
+    $request->validate([
+
+    'image' => 'required|mimes:jpg,jpeg,png|max:2048'
+
+    ]);
 
     $room->update([
 

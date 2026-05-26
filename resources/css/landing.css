@@ -424,6 +424,127 @@ FEATURE BAR
     padding: 100px 0;
 }
 
+.booking-section{
+    padding-top: 120px;
+    padding-bottom: 80px;
+    background:
+        linear-gradient(
+            rgba(248,250,252,0.94),
+            rgba(248,250,252,0.94)
+        ),
+        url('/image/background.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
+
+.booking-wrapper{
+    background: white;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.08);
+}
+
+.booking-left{
+    height: 100%;
+    padding: 60px 45px;
+    background:
+        linear-gradient(
+            rgba(76,175,80,0.92),
+            rgba(67,160,71,0.92)
+        ),
+        url('/image/kost.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.booking-badge{
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    width: fit-content;
+    backdrop-filter: blur(10px);
+}
+
+.booking-title{
+    font-size: 52px;
+    line-height: 1.1;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.booking-text{
+    font-size: 17px;
+    line-height: 1.8;
+    opacity: 0.95;
+    margin-bottom: 35px;
+}
+
+.booking-info{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.booking-info-item{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.booking-info-item i{
+    font-size: 18px;
+}
+
+.booking-right{
+    padding: 60px 50px;
+    background: white;
+    height: 100%;
+}
+
+.booking-right h3{
+    font-size: 38px;
+    font-weight: 800 !important;
+    margin-bottom: 35px !important;
+    color: #111827;
+}
+
+.booking-input{
+    border-radius: 14px !important;
+    min-height: 54px;
+    border: 1px solid #dbe3ea !important;
+    padding: 14px 16px !important;
+    box-shadow: none !important;
+}
+
+.booking-input:focus{
+    border-color: #4CAF50 !important;
+}
+
+.booking-btn{
+    background: #4CAF50 !important;
+    border: none !important;
+    border-radius: 16px !important;
+    padding: 16px !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    transition: .3s;
+}
+
+.booking-btn:hover{
+    background: #43a047 !important;
+}
+
 /* =========================
 FOOTER
 ========================= */
@@ -589,6 +710,19 @@ FOOTER
         height: 300px;
     }
 
+    .booking-left{
+        border-radius: 0;
+        padding: 45px 30px;
+    }
+
+    .booking-right{
+        padding: 40px 30px;
+    }
+
+    .booking-title{
+        font-size: 40px;
+    }
+
     .footer-section{
         text-align:center;
     }
@@ -636,6 +770,21 @@ FOOTER
 
     .facility-card {
         padding: 25px 18px;
+    }
+    .booking-section{
+        padding-top: 110px;
+    }
+
+    .booking-title{
+        font-size: 34px;
+    }
+
+    .booking-text{
+        font-size: 15px;
+    }
+
+    .booking-right h3{
+        font-size: 30px;
     }
     .footer-section{
         text-align:center;

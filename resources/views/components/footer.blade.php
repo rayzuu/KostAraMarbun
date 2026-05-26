@@ -2,95 +2,98 @@
 
     <div class="container">
 
-        <div class="row gy-4">
+        <div class="row">
 
-            {{-- BRAND --}}
             <div class="col-lg-4">
 
-                <h4 class="footer-brand">
+                <h2 class="footer-brand">
+
                     Kost Ara Marbun
-                </h4>
+
+                </h2>
 
                 <p class="footer-text">
 
-                    Kost nyaman, aman, dan strategis
-                    dengan fasilitas lengkap untuk kebutuhan
-                    tempat tinggal anda.
+                    Kost putri nyaman, aman dan strategis
+                    untuk pelajar SMP & SMA.
 
                 </p>
 
             </div>
 
-            {{-- MENU --}}
-            <div class="col-lg-2">
+            <div class="col-lg-3">
 
                 <h5 class="footer-title">
+
                     Menu
+
                 </h5>
 
                 <ul class="footer-links">
 
                     <li>
+
                         <a href="{{ url('/') }}">
+
                             Beranda
+
                         </a>
+
                     </li>
 
                     <li>
+
                         <a href="{{ route('rooms.all') }}">
+
                             Kamar
+
                         </a>
+
                     </li>
 
                 </ul>
 
             </div>
 
-            {{-- KONTAK --}}
-            <div class="col-lg-3">
+            <div class="col-lg-5">
 
                 <h5 class="footer-title">
+
                     Kontak
+
                 </h5>
 
-                <ul class="footer-links">
+                <div class="footer-contact">
 
-                    <li>
-                        WhatsApp: 0852-2779-4397
-                    </li>
+                    <div class="footer-contact-item">
 
-                    <li>
-                        Email: info@kostaramarbun.com
-                    </li>
+                        <i class="bi bi-geo-alt-fill"></i>
 
-                    <li>
-                        Medan, Indonesia
-                    </li>
+                        <span>
+                            Pematangsiantar, Sumatera Utara
+                        </span>
 
-                </ul>
+                    </div>
 
-            </div>
+                    <div class="footer-contact-item">
 
-            {{-- SOSMED --}}
-            <div class="col-lg-3">
+                        <i class="bi bi-whatsapp"></i>
 
-                <h5 class="footer-title">
-                    Sosial Media
-                </h5>
+                        <span>
+                            0852-2779-4397
+                        </span>
 
-                <div class="footer-social">
+                    </div>
 
-                    <a href="#">
-                        Instagram
-                    </a>
+                    <div class="footer-contact-item">
 
-                    <a href="#">
-                        TikTok
-                    </a>
+                        <i class="bi bi-envelope-fill"></i>
 
-                    <a href="#">
-                        Facebook
-                    </a>
+                        <span>
+                            kostaramarbun@gmail.com
+                        </span>
+
+                    </div>
 
                 </div>
 
@@ -98,13 +101,12 @@
 
         </div>
 
-        {{-- COPYRIGHT --}}
         <div class="footer-bottom">
 
             <p>
 
                 © {{ date('Y') }} Kost Ara Marbun.
-                All Rights Reserved.
+                All rights reserved.
 
             </p>
 

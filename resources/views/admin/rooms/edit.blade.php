@@ -63,6 +63,14 @@
 
                 </div>
 
+                <div class="mb-3">
+
+                    <label>Kapasitas Kamar</label>
+
+                    <input type="number" name="kapasitas" class="form-control"
+                        value="{{ old('kapasitas', $room->kapasitas ?? 6) }}">
+
+                </div>
 
 
                 <div class="mb-3">
@@ -86,7 +94,6 @@
                     </select>
 
                 </div>
-
                 <div class="mb-3">
                     <label class="form-label">Upload Gambar Kamar</label>
 
@@ -97,12 +104,36 @@
                         accept=".jpg,.jpeg,.png,.webp">
                     <small class="text-muted">Format File: JPG, JPEG, PNG, WEBP. Maksimal 2MB.</small>
                 </div>
+                <div class="row mt-3">
 
+                    <div id="oldImageContainer" class="row">
 
-                @if ($room->image)
-                    <img src="{{ asset('storage/' . $room->image) }}" width="200" class="rounded mb-3">
-                @endif
+                        @foreach ($room->images as $image)
+                            <div class="col-md-3 mb-3 image-old-wrapper">
 
+                                <div class="card border-0 shadow-sm position-relative">
+
+                                    <img src="{{ asset('storage/' . $image->image) }}" class="img-fluid rounded"
+                                        style="height:180px;object-fit:cover;">
+
+                                    <button type="button"
+                                        class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 rounded-circle remove-old-image"
+                                        data-id="{{ $image->id }}">
+
+                                        <i class="fa-solid fa-times"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        @endforeach
+
+                    </div>
+
+                </div>
+
+                <div id="deletedImagesContainer"></div>
                 <button class="btn btn-primary">
 
                     Update Kamar
@@ -205,5 +236,38 @@
             selectedFiles.splice(index, 1);
             renderPreview();
         }
+    </script>
+
+    <script>
+        const deletedImagesContainer = document.getElementById(
+            'deletedImagesContainer'
+        );
+
+        document.querySelectorAll('.remove-old-image')
+            .forEach(button => {
+
+                button.addEventListener('click', function() {
+
+                    const imageId = this.dataset.id;
+
+                    // HAPUS CARD DARI UI
+                    this.closest('.image-old-wrapper').remove();
+
+                    // BUAT INPUT HIDDEN
+                    const hiddenInput = document.createElement('input');
+
+                    hiddenInput.type = 'hidden';
+
+                    hiddenInput.name = 'delete_images[]';
+
+                    hiddenInput.value = imageId;
+
+                    deletedImagesContainer.appendChild(hiddenInput);
+
+                    console.log('DELETE IMAGE ID:', imageId);
+
+                });
+
+            });
     </script>
 @endsection

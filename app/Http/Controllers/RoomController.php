@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Room;
 use App\Models\RoomImage;
 use App\Models\Booking;
@@ -96,6 +97,16 @@ public function show(Room $room)
         compact('room')
     );
 }
+
+public function getSisaKamarAttribute()
+{
+    $aktif = $this->bookings()
+        ->where('status', 'active')
+        ->count();
+
+    return max(0, $this->kapasitas - $aktif);
+}
+
 public function dashboard()
 {
         // TOTAL SELURUH KAMAR FISIK
@@ -174,41 +185,86 @@ public function edit(Room $room)
 public function update(Request $request, Room $room)
 {
     $thumbnail = $room->image;
+
     $request->validate([
 
-    'images'      => 'required|array|min:1', 
-    'images.*'    => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
-    ],[
-    'images.required' => 'Kamu wajib mengunggah minimal satu gambar kamar.',
-    'images.*.image'  => 'File yang diunggah harus berupa gambar.',
-    'images.*.mimes'  => 'Format gambar harus berupa: jpg, jpeg, png, atau webp.',
-    'images.*.max'    => 'Ukuran tiap gambar tidak boleh lebih dari 2MB.',
+        'name'        => 'required|string|max:255',
+        'description' => 'required',
+        'price'       => 'required',
+
+        'kapasitas'   => 'required|integer|min:1',
+
+        // OPTIONAL
+        'images'      => 'nullable|array',
+        'images.*'    => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+
+    ], [
+
+        'images.*.image' => 'File harus berupa gambar.',
+        'images.*.mimes' => 'Format gambar harus jpg/jpeg/png/webp.',
+        'images.*.max'   => 'Ukuran gambar maksimal 2MB.',
+
     ]);
 
+    
+    $penghuniAktif = $room->bookings()
+        ->where('status', 'active')
+        ->count();
+
+    $status = $penghuniAktif >= $request->kapasitas
+        ? 'booked'
+        : 'available';
+
+    // UPDATE ROOM
     $room->update([
 
-        'name' => $request->name,
+        'name'        => $request->name,
 
         'description' => $request->description,
 
-       'price' => str_replace('.', '', $request->price),
+        'price'       => str_replace('.', '', $request->price),
 
+        'kapasitas'   => $request->kapasitas,
 
-        'status' => $request->status
+        'status'      => $status,
 
     ]);
 
-    // MULTIPLE IMAGE
+    
+// HAPUS GAMBAR LAMA
+if($request->has('delete_images')){
+
+    $imagesToDelete = RoomImage::whereIn(
+        'id',
+        $request->delete_images
+    )->get();
+
+    foreach($imagesToDelete as $img){
+
+        // HAPUS FILE
+        if(Storage::disk('public')->exists($img->image)){
+
+            Storage::disk('public')->delete($img->image);
+
+        }
+
+        // HAPUS DATABASE
+        $img->delete();
+
+    }
+
+}
+    // UPLOAD GAMBAR BARU
     if($request->hasFile('images')){
 
-        foreach($request->file('images') as $index => $image){
+        foreach($request->file('images') as $image){
 
             $path = $image->store(
                 'rooms/gallery',
                 'public'
             );
 
-            // JIKA BELUM ADA THUMBNAIL
+            // SET THUMBNAIL
             if(!$thumbnail){
 
                 $thumbnail = $path;
@@ -225,11 +281,16 @@ public function update(Request $request, Room $room)
 
         }
 
-        $room->update([
-            'image' => $thumbnail
-        ]);
-
     }
+
+    // UPDATE THUMBNAIL BARU
+    $firstImage = RoomImage::where('room_id', $room->id)->first();
+
+    $room->update([
+
+        'image' => $firstImage?->image
+
+    ]);
 
     return redirect()->route('rooms.index')
         ->with('success', 'Kamar berhasil diupdate');

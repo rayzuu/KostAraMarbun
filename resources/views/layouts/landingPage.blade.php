@@ -4,41 +4,80 @@
 
 @section('content')
 
-    <section class="hero-section" style="background-image: url('{{ asset('image/kost.jpg') }}');">
+    <section class="hero-section" style="background-image:url('{{ asset('image/background.jpg') }}')">
 
-        <div class="hero-overlay"></div>
-
-        <div class="container position-relative">
+        <div class="container">
 
             <div class="row align-items-center min-vh-100">
 
-                <div class="col-lg-7 col-12">
+                {{-- LEFT --}}
+                <div class="col-lg-5">
 
-                    <span class="hero-badge">
-                        Kost Nyaman & Modern
-                    </span>
+                    <div class="hero-content">
 
-                    <h1 class="hero-title text-white">
+                        <div class="hero-tag">
 
-                        KOST ARA MARBUN
+                            <i class="bi bi-shield-check-fill"></i>
 
-                    </h1>
+                            Kost Putri SMP & SMA
 
-                    <p class="hero-text text-light">
+                        </div>
 
-                        Langsung booking kamar
-                        nyaman dan strategis
-                        melalui WhatsApp pemilik kost.
+                        <h1 class="hero-title">
 
-                    </p>
+                            Hunian Aman & Nyaman untuk
+                            <span>Pelajar Putri</span>
 
-                    <div class="hero-action">
+                        </h1>
 
-                        <a href="{{ route('rooms.all') }}" class="btn btn-success btn-lg px-4 py-3 rounded-pill">
+                        <p class="hero-text">
 
-                            Cari Kamar
+                            Kost khusus putri tingkat SMP & SMA dengan lingkungan nyaman,
+                            aman, bersih dan strategis untuk mendukung kegiatan belajar.
 
-                        </a>
+                        </p>
+
+                        <div class="hero-action">
+
+                            <a href="{{ route('rooms.all') }}" class="hero-btn-primary">
+
+                                <i class="bi bi-building"></i>
+
+                                Lihat Kamar
+
+                            </a>
+
+                            <a href="https://wa.me/6285227794397" target="_blank" class="hero-btn-secondary">
+
+                                <i class="bi bi-whatsapp"></i>
+
+                                Hubungi WhatsApp
+
+                            </a>
+
+                        </div>
+
+                        <div class="hero-trusted">
+                            <p>
+
+                                Dipercaya oleh orang tua & siswi
+
+                                <i class="bi bi-heart-fill"></i>
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {{-- RIGHT --}}
+                <div class="col-lg-7">
+
+                    <div class="hero-image-wrapper">
+
+                        <img src="{{ asset('image/kost.jpg') }}" class="hero-image">
 
                     </div>
 
@@ -49,6 +88,120 @@
         </div>
 
     </section>
+    {{-- FEATURE BAR --}}
+    <section class="feature-bar">
+
+        <div class="container">
+
+            <div class="feature-wrapper">
+
+                <div class="row g-4">
+
+                    <div class="col-lg-3 col-md-6">
+
+                        <div class="feature-item">
+
+                            <div class="feature-icon">
+
+                                <i class="bi bi-shield-check"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h5>Aman & Terpercaya</h5>
+
+                                <p>
+                                    Lingkungan terjaga dan pengawasan 24 jam.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+
+                        <div class="feature-item">
+
+                            <div class="feature-icon">
+
+                                <i class="bi bi-geo-alt-fill"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h5>Lokasi Strategis</h5>
+
+                                <p>
+                                    Dekat sekolah, minimarket, dan fasilitas umum.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+
+                        <div class="feature-item">
+
+                            <div class="feature-icon">
+
+                                <i class="fa-solid fa-bed"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h5>Kamar Nyaman</h5>
+
+                                <p>
+                                    Kamar bersih, rapi, dan nyaman untuk belajar.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+
+                        <div class="feature-item">
+
+                            <div class="feature-icon">
+
+                                <i class="fa-solid fa-wifi"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h5>Fasilitas Lengkap</h5>
+
+                                <p>
+                                    WiFi, kamar mandi dalam, lemari, dan lainnya.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
 
     {{-- SEARCH FILTER --}}
     {{-- 
@@ -121,12 +274,9 @@
 </section>
 --}}
 
-    {{-- FACILITY --}}
-    <section class="facility-gallery py-5">
-
-        <div class="container">
-
-            <div class="section-header text-center mb-5">
+    {{-- FACILITY 
+    
+    div class="section-header text-center mb-5">
 
                 <h2 class="fw-bold">
                     Fasilitas Kost
@@ -138,8 +288,6 @@
                 </p>
 
             </div>
-
-            {{-- FACILITY CARD --}}
             <div class="row g-3 mb-5">
 
                 <div class="col-6 col-md-6 col-lg-3">
@@ -222,8 +370,11 @@
 
                 </div>
 
-            </div>
+            </div> --}}
 
+    <section class="facility-gallery py-5">
+
+        <div class="container">
             @php
 
                 $room = \App\Models\Room::first();
@@ -273,7 +424,7 @@
                     <a href="{{ route('rooms.show', $room->id) }}"
                         class="btn btn-success btn-lg px-5 py-3 rounded-pill shadow">
 
-                        Sewa Kamar
+                        Detail Kamar
 
                     </a>
 

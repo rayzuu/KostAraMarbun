@@ -11,6 +11,7 @@ class Room extends Model
         'description',
         'price',
         'image',
+        'kapasitas',
         'status'
     ];
     public function images()

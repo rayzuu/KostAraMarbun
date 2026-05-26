@@ -1,31 +1,49 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-white navbar-custom fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top py-3">
 
     <div class="container">
 
-        {{-- LOGO --}}
-        <a class="navbar-brand fw-bold" href="{{ url('/') }}">
+        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold"
+            href="{{ url('/') }}">
 
-            Kost Ara Marbun
+            <div class="logo-box">
+
+                <i class="bi bi-house-door-fill"></i>
+
+            </div>
+
+            <div class="d-flex flex-column lh-sm">
+
+                <span class="fw-bold text-dark">
+
+                    Kost Ara Marbun
+
+                </span>
+
+                
+
+            </div>
 
         </a>
 
-        {{-- TOGGLER --}}
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+        <button class="navbar-toggler border-0 shadow-none"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarMenu">
 
-            <i class="bi bi-list"></i>
+            <i class="bi bi-list fs-3"></i>
 
         </button>
 
-        {{-- MENU --}}
+        
         <div class="collapse navbar-collapse" id="navbarMenu">
 
-            <ul class="navbar-nav ms-auto align-items-center">
+            <ul class="navbar-nav mx-auto align-items-lg-center gap-lg-3">
 
-                {{-- BERANDA --}}
-                <li class="nav-item me-3">
+                
+                <li class="nav-item">
 
                     <a href="{{ url('/') }}"
-                        class="nav-link {{ request()->is('/') ? 'active fw-semibold text-primary' : '' }}">
+                        class="nav-link nav-custom {{ request()->is('/') ? 'active-nav' : '' }}">
 
                         Beranda
 
@@ -33,11 +51,11 @@
 
                 </li>
 
-                {{-- KAMAR --}}
-                <li class="nav-item me-3">
+                
+                <li class="nav-item">
 
                     <a href="{{ route('rooms.all') }}"
-                        class="nav-link {{ request()->is('kamar') ? 'active fw-semibold text-primary' : '' }}">
+                        class="nav-link nav-custom {{ request()->is('kamar') ? 'active-nav' : '' }}">
 
                         Kamar
 
@@ -45,87 +63,87 @@
 
                 </li>
 
-                {{-- GUEST --}}
-                @guest
-                    <div class="navbar-action ms-lg-3">
+            </ul>
 
-                        <a href="{{ route('login') }}" class="btn btn-login">
-                            Login
-                        </a>
+            {{-- GUEST --}}
+            @guest
 
-                        <a href="{{ route('register') }}"class="btn btn-register">
-                            Register
-                        </a>
+                <div class="d-flex gap-2">
 
-                    </div>
+                    <a href="{{ route('login') }}"
+                        class="btn btn-outline-success px-4 rounded-3 fw-semibold">
 
-                @endguest
+                        Login
 
-                {{-- AUTH --}}
-                @auth
+                    </a>
 
-                    <li class="nav-item dropdown">
+                    <a href="{{ route('register') }}"
+                        class="btn btn-success px-4 rounded-3 fw-semibold">
 
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        Register
 
-                            {{ Auth::user()->name }}
+                    </a>
 
-                        </a>
+                </div>
 
-                        <ul class="dropdown-menu dropdown-menu-end">
+            @endguest
 
-                            {{-- ADMIN --}}
-                            @if (Auth::user()->role == 'admin')
-                                <li>
+            {{-- AUTH --}}
+            @auth
 
-                                    <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                <li class="nav-item dropdown list-unstyled">
 
-                                        Dashboard Admin
+                    <a class="nav-link dropdown-toggle fw-semibold"
+                        href="#"
+                        data-bs-toggle="dropdown">
 
-                                    </a>
+                        {{ Auth::user()->name }}
 
-                                </li>
+                    </a>
 
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                            @endif
+                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow rounded-4">
 
-                            {{-- PROFILE --}}
+                        @if (Auth::user()->role == 'admin')
+
                             <li>
 
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item py-2"
+                                    href="{{ route('admin.dashboard') }}">
 
-                                    Profil
+                                    Dashboard Admin
 
                                 </a>
 
                             </li>
 
-                            {{-- LOGOUT --}}
                             <li>
-
-                                <form method="POST" action="{{ route('logout') }}">
-
-                                    @csrf
-
-                                    <button type="submit" class="dropdown-item">
-
-                                        Logout
-
-                                    </button>
-
-                                </form>
-
+                                <hr class="dropdown-divider">
                             </li>
 
-                        </ul>
+                        @endif
 
-                    </li>
+                        <li>
 
-                @endauth
+                            <form method="POST" action="{{ route('logout') }}">
 
-            </ul>
+                                @csrf
+
+                                <button type="submit"
+                                    class="dropdown-item py-2">
+
+                                    Logout
+
+                                </button>
+
+                            </form>
+
+                        </li>
+
+                    </ul>
+
+                </li>
+
+            @endauth
 
         </div>
 

@@ -79,13 +79,18 @@
                             {{ $room->name }}
 
                         </h1>
-                        @php
+                       @php
 
-                            $totalPenghuni = $room->bookings->count();
+$totalPenghuni = $room->bookings
+    ->where('status', 'active')
+    ->count();
 
-                            $sisaKamar = $room->kapasitas - $totalPenghuni;
+$sisaKamar = max(
+    0,
+    $room->kapasitas - $totalPenghuni
+);
 
-                        @endphp
+@endphp
 
                         <div class="mb-3">
 

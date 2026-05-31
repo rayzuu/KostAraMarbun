@@ -79,18 +79,13 @@
                             {{ $room->name }}
 
                         </h1>
-                       @php
+                        @php
 
-$totalPenghuni = $room->bookings
-    ->where('status', 'active')
-    ->count();
+                            $totalPenghuni = $room->bookings->where('status', 'active')->count();
 
-$sisaKamar = max(
-    0,
-    $room->kapasitas - $totalPenghuni
-);
+                            $sisaKamar = max(0, $room->kapasitas - $totalPenghuni);
 
-@endphp
+                        @endphp
 
                         <div class="mb-3">
 
@@ -125,14 +120,16 @@ $sisaKamar = max(
 
                         </a>
 
-                        <a href="{{ route('booking.create', [
-                            'room' => $room->id,
-                        ]) }}"
-                            class="btn btn-primary btn-lg w-100 mt-3">
-
-                            Ajukan Sewa
-
-                        </a>
+                        @if ($sisaKamar > 0)
+                            <a href="{{ route('booking.create', ['room' => $room->id]) }}" class="btn btn-primary btn-lg w-100 mt-3">
+                                Ajukan Sewa
+                            </a>
+                        @else
+                            <button class="btn btn-primary btn-lg w-100 mt-3 room-full-btn">
+                                Kamar Penuh
+                            </button>
+                        @endif
+                        
 
                     </div>
 

@@ -2,8 +2,7 @@
 
     <div class="container">
 
-        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold"
-            href="{{ url('/') }}">
+        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="{{ url('/') }}">
 
             <div class="logo-box">
 
@@ -19,27 +18,25 @@
 
                 </span>
 
-                
+
 
             </div>
 
         </a>
 
-        <button class="navbar-toggler border-0 shadow-none"
-            type="button"
-            data-bs-toggle="collapse"
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarMenu">
 
             <i class="bi bi-list fs-3"></i>
 
         </button>
 
-        
+
         <div class="collapse navbar-collapse" id="navbarMenu">
 
             <ul class="navbar-nav mx-auto align-items-lg-center gap-lg-3">
 
-                
+
                 <li class="nav-item">
 
                     <a href="{{ url('/') }}"
@@ -51,7 +48,7 @@
 
                 </li>
 
-                
+
                 <li class="nav-item">
 
                     <a href="{{ route('rooms.all') }}"
@@ -70,15 +67,13 @@
 
                 <div class="d-flex gap-2">
 
-                    <a href="{{ route('login') }}"
-                        class="btn btn-outline-success px-4 rounded-3 fw-semibold">
+                    <a href="{{ route('login') }}" class="btn btn-outline-success px-4 rounded-3 fw-semibold">
 
                         Login
 
                     </a>
 
-                    <a href="{{ route('register') }}"
-                        class="btn btn-success px-4 rounded-3 fw-semibold">
+                    <a href="{{ route('register') }}" class="btn btn-success px-4 rounded-3 fw-semibold">
 
                         Register
 
@@ -93,9 +88,7 @@
 
                 <li class="nav-item dropdown list-unstyled">
 
-                    <a class="nav-link dropdown-toggle fw-semibold"
-                        href="#"
-                        data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle fw-semibold" href="#" data-bs-toggle="dropdown">
 
                         {{ Auth::user()->name }}
 
@@ -104,11 +97,9 @@
                     <ul class="dropdown-menu dropdown-menu-end border-0 shadow rounded-4">
 
                         @if (Auth::user()->role == 'admin')
-
                             <li>
 
-                                <a class="dropdown-item py-2"
-                                    href="{{ route('admin.dashboard') }}">
+                                <a class="dropdown-item py-2" href="{{ route('admin.dashboard') }}">
 
                                     Dashboard Admin
 
@@ -119,8 +110,24 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-
                         @endif
+
+                        @auth
+
+                            {{-- MENU KHUSUS CUSTOMER --}}
+                            @if (auth()->user()->role == 'customer')
+                                <li class="nav-item">
+
+                                    <a class="nav-link" href="{{ route('payment.history') }}">
+
+                                        History Pembayaran
+
+                                    </a>
+
+                                </li>
+                            @endif
+
+                        @endauth
 
                         <li>
 
@@ -128,8 +135,7 @@
 
                                 @csrf
 
-                                <button type="submit"
-                                    class="dropdown-item py-2">
+                                <button type="submit" class="dropdown-item py-2">
 
                                     Logout
 

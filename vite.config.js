@@ -25,6 +25,7 @@ export default defineConfig({
                 'resources/js/admin.js',
                 'resources/js/bootstrap.js',
                 'resources/js/payment.js',
+                'resources/js/room.js',
             ],
             refresh: true,
         }),

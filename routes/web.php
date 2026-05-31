@@ -42,18 +42,11 @@ Route::get('/', function (\Illuminate\Http\Request $request) {
     ));
 
 });
-Route::middleware(['auth', 'admin'])->group(function(){
+Route::middleware(['auth'])->group(function(){
 
     Route::resource('rooms', RoomController::class);
 
-});
-Route::get('/ajukan-sewa', [BookingController::class, 'create'])
-    ->name('booking.create');
-
-Route::post('/ajukan-sewa', [BookingController::class, 'store'])
-    ->name('booking.store');
-
-Route::get(
+    Route::get(
     '/admin/bookings/manual/create',
     [BookingController::class, 'createManual']
 )->name('bookings.manual.create');
@@ -118,10 +111,29 @@ Route::get(
 )->name('report.arrears');
 
 
-
+});
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+Route::middleware('auth')->group(function(){
+
+    Route::get('/history-pembayaran',
+        [BookingController::class, 'history']
+    )->name('payment.history');
+
+});
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('/ajukan-sewa', [BookingController::class, 'create'])
+        ->name('booking.create');
+
+    Route::post('/ajukan-sewa', [BookingController::class, 'store'])
+        ->name('booking.store');
+
+ });
+
 
 
 Route::middleware('auth')->group(function () {

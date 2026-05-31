@@ -2,77 +2,70 @@ const payButton = document.getElementById("payButton");
 
 const snapToken = payButton.dataset.token;
 
-const bookingId = payButton.dataset.booking;
-
-function cancelBooking() {
-    fetch(`/booking/${bookingId}/cancel`, {
-        method: "DELETE",
-
-        headers: {
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
-                .content,
-
-            "Content-Type": "application/json",
-        },
-    });
-}
-
 payButton.addEventListener("click", function () {
+
     snap.pay(snapToken, {
-        onSuccess: function (result) {
+
+        onSuccess: function(result) {
+
             Swal.fire({
                 icon: "success",
                 title: "Pembayaran Berhasil",
-                text: "Penyewaan Kamar Berhasil",
+                text: "Penyewaan kamar berhasil",
 
                 confirmButtonColor: "#16a34a",
             }).then(() => {
-                window.location.href = "/";
+
+                window.location.href = "/history-pembayaran";
+
             });
+
         },
 
-        onPending: function (result) {
+        onPending: function(result) {
+
             Swal.fire({
                 icon: "warning",
-                title: "Pembayaran Belum Selesai",
+                title: "Pembayaran Pending",
                 text: "Silakan selesaikan pembayaran",
 
                 confirmButtonColor: "#f59e0b",
+            }).then(() => {
+
+                window.location.href = "/history-pembayaran";
+
             });
+
         },
 
-        onError: function (result) {
+        onError: function(result) {
+
             Swal.fire({
                 icon: "error",
                 title: "Pembayaran Gagal",
                 text: "Transaksi gagal",
 
                 confirmButtonColor: "#dc2626",
-            }).then(() => {
-                window.location.href = '{{ route("booking.create") }}';
             });
+
         },
 
-        onClose: function () {
-            fetch("/cancel-booking/{{ $booking->id }}", {
-                method: "POST",
+        onClose: function() {
 
-                headers: {
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+            Swal.fire({
+                icon: "info",
+                title: "Pembayaran Belum Diselesaikan",
+                text: "Data pembayaran tersimpan di history pembayaran",
 
-                    Accept: "application/json",
-                },
+                confirmButtonColor: "#2563eb",
             }).then(() => {
-                Swal.fire({
-                    icon: "error",
-                    title: "Pembayaran Dibatalkan",
 
+                window.location.href = "/history-pembayaran";
 
-                    confirmButtonColor: "#dc2626",
-                }).then(() => {
-                    window.location.href = '{{ route("booking.create") }}';
-                });
             });
-        },
+
+        }
+
     });
+
 });

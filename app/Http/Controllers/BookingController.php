@@ -49,107 +49,103 @@ class BookingController extends Controller
     }
 
     public function store(Request $request)
-    {
+{
 
-        $room = Room::find($request->room_id);
+    $room = Room::find($request->room_id);
 
-        if(!$room){
+    if(!$room){
 
-            return back()->with(
-                'error',
-                'Kamar tidak ditemukan'
-            );
+        return back()->with(
+            'error',
+            'Kamar tidak ditemukan'
+        );
 
-        }
-
-        // HITUNG PENYEWA ACTIVE
-        $totalBooking = Booking::where(
-            'room_id',
-            $room->id
-        )
-        ->where('status', 'active')
-        ->count();
-
-        if($totalBooking >= $room->kapasitas){
-
-            return back()->with(
-                'error',
-                'Kamar sudah penuh'
-            );
-
-        }
-
-        // ORDER ID
-        $orderId = 'BOOKING-' . time();
-
-        // CREATE BOOKING
-        $booking = Booking::create([
-
-            'room_id' => $request->room_id,
-
-            'name' => $request->name,
-
-            'phone' => $request->phone,
-
-            'birth_place' => $request->birth_place,
-
-            'birth_date' => $request->birth_date,
-
-            'start_date' => $request->start_date,
-
-            'monthly_price' => $room->price,
-
-            'status' => 'inactive'
-
-        ]);
-
-        // CREATE PAYMENT
-        $payment = Payment::create([
-
-            'booking_id' => $booking->id,
-
-            'midtrans_order_id' => $orderId,
-
-            'payment_month' => now()->month,
-
-            'payment_year' => now()->year,
-
-            'amount' => $room->price,
-
-            'status' => 'unpaid'
-
-        ]);
-
-        // MIDTRANS PARAMS
-        $params = [
-
-            'transaction_details' => [
-
-                'order_id' => $orderId,
-
-                'gross_amount' => $room->price,
-
-            ],
-
-            'customer_details' => [
-
-                'first_name' => $booking->name,
-
-                'phone' => $booking->phone,
-
-            ],
-
-        ];
-
-        // SNAP TOKEN
-        $snapToken = Snap::getSnapToken($params);
-
-        return view('booking.payment', compact(
-            'snapToken',
-            'booking',
-            'room'
-        ));
     }
+
+    $totalBooking = Booking::where(
+        'room_id',
+        $room->id
+    )
+    ->where('status', 'active')
+    ->count();
+
+    if($totalBooking >= $room->kapasitas){
+
+        return back()->with(
+            'error',
+            'Kamar sudah penuh'
+        );
+
+    }
+
+    $orderId = 'BOOKING-' . time();
+
+    $booking = Booking::create([
+
+        'user_id' => auth()->id(),
+
+        'room_id' => $request->room_id,
+
+        'name' => $request->name,
+
+        'phone' => $request->phone,
+
+        'birth_place' => $request->birth_place,
+
+        'birth_date' => $request->birth_date,
+
+        'start_date' => $request->start_date,
+
+        'monthly_price' => $room->price,
+
+        'status' => 'inactive'
+
+    ]);
+
+    $payment = Payment::create([
+
+    'booking_id' => $booking->id,
+
+    'midtrans_order_id' => $orderId,
+
+    'payment_month' => now()->month,
+
+    'payment_year' => now()->year,
+
+    'amount' => $room->price,
+
+    'status' => 'unpaid'
+
+]);
+
+    $params = [
+
+        'transaction_details' => [
+
+            'order_id' => $orderId,
+
+            'gross_amount' => $room->price,
+
+        ],
+
+        'customer_details' => [
+
+            'first_name' => $booking->name,
+
+            'phone' => $booking->phone,
+
+        ],
+
+    ];
+
+    $snapToken = Snap::getSnapToken($params);
+
+    return view('booking.payment', compact(
+        'snapToken',
+        'booking',
+        'room'
+    ));
+}
 
     public function storeManual(Request $request)
     {
@@ -262,6 +258,29 @@ class BookingController extends Controller
             compact('bookings')
         );
     }
+
+public function history()
+{
+    $payments = Payment::with([
+            'booking.room'
+        ])
+        ->whereHas('booking', function($q){
+
+            $q->where(
+                'user_id',
+                auth()->id()
+            );
+
+        })
+        ->latest()
+        ->get();
+
+    return view(
+        'booking.history',
+        compact('payments')
+    );
+}
+
 
     public function edit(Booking $booking)
 {
@@ -546,16 +565,40 @@ class BookingController extends Controller
 
             }   
 
-            if($request->transaction_status == 'pending'){
+          if($request->transaction_status == 'pending'){
+
+                $vaNumber = null;
+                $bank = null;
+
+                if(isset($request->va_numbers[0])){
+
+                    $vaNumber = $request->va_numbers[0]['va_number'];
+                    $bank = $request->va_numbers[0]['bank'];
+
+                }
+
+                if(isset($request->permata_va_number)){
+
+                    $vaNumber = $request->permata_va_number;
+                    $bank = 'permata';
+
+                }
 
                 $payment->update([
 
-                    'status' => 'unpaid'
+                    'status' => 'unpaid',
+
+                    'transaction_status' => 'pending',
+
+                    'payment_type' => $request->payment_type,
+
+                    'bank' => $bank,
+
+                    'va_number' => $vaNumber
 
                 ]);
 
             }
-
             // PAYMENT FAILED / CANCEL / EXPIRE
             if(
                 $request->transaction_status == 'expire' ||
@@ -563,11 +606,17 @@ class BookingController extends Controller
                 $request->transaction_status == 'deny'
             ){
 
-                // DELETE PAYMENT
-                $payment->delete();
+                 $payment->update([
 
-                // DELETE BOOKING
-                $booking->delete();
+                'transaction_status' => $request->transaction_status
+
+             ]);
+
+                $booking->update([
+
+                'status' => 'inactive'
+
+            ]);
 
             }
         }

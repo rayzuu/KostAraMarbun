@@ -44,7 +44,7 @@ NAVBAR
     display: flex;
     align-items: center;
     gap: 12px;
-    color: #4CAF50;
+    color:  #4CAF50;
 
 }
 
@@ -182,7 +182,7 @@ HERO SECTION
 .hero-text {
     font-size: 18px;
     line-height: 1.8;
-    color: #6b7280;
+    color: #000000;
     margin-bottom: 35px;
     max-width: 560px;
 }

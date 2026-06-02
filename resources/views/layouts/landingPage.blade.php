@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <section class="hero-section" style="background-image:url('{{ asset('image/background.jpg') }}')">
+    <section class="hero-section" style="background-image:url('{{ asset('image/background1.png') }}')">
 
         <div class="container">
 
@@ -77,7 +77,7 @@
 
                     <div class="hero-image-wrapper">
 
-                        <img src="{{ asset('image/kost.jpg') }}" class="hero-image">
+                        <img src="{{ asset('image/kosara.jpg') }}" class="hero-image">
 
                     </div>
 

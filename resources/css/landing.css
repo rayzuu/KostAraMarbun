@@ -386,37 +386,92 @@ FEATURE BAR
     margin: 18px 0;
 }
 
-/* FACILITY */
-.facility-gallery {
-    background: #f8fafc;
-    padding: 100px 0;
+/* FACILITY SECTION */
+
+.facility-gallery{
+    padding:100px 0;
+    background:#f8fafc;
 }
 
-.facility-card {
-    background: white;
-    padding: 35px 25px;
-    border-radius: 24px;
-    text-align: center;
-    transition: 0.3s;
-    height: 100%;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+.facility-wrapper{
+    display:grid;
+    grid-template-columns:350px 1fr;
+    gap:40px;
+    align-items:center;
 }
 
-.facility-card:hover {
-    transform: translateY(-10px);
+.facility-content h2{
+    font-size:52px;
+    line-height:1.1;
+    font-weight:800;
+    color:#0f172a;
+    margin-bottom:20px;
 }
 
-.facility-icon {
-    font-size: 42px;
-    margin-bottom: 18px;
-    color: #4CAF50;
+.facility-content p{
+    color:#64748b;
+    line-height:1.8;
+    margin-bottom:30px;
 }
 
-.facility-image {
-    width: 100%;
-    height: 580px;
-    object-fit: cover;
-    border-radius: 28px;
+.facility-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 18px;
+    border-radius:999px;
+    background:white;
+    border:1px solid #e5e7eb;
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:30px;
+}
+
+.facility-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    background:#4CAF50;
+    color:white;
+    padding:14px 24px;
+    border-radius:14px;
+    font-weight:700;
+    transition:.3s;
+}
+
+.facility-btn:hover{
+    background:#3e9441;
+    color:white;
+}
+
+.facility-slider{
+    position:relative;
+}
+
+.facility-image{
+    width:100%;
+    height:550px;
+    object-fit:cover;
+    border-radius:24px;
+}
+
+.carousel-control-prev,
+.carousel-control-next{
+    width:50px;
+    height:50px;
+    background:rgba(255,255,255,.9);
+    border-radius:50%;
+    top:50%;
+    transform:translateY(-50%);
+}
+
+.carousel-control-prev{
+    left:20px;
+}
+
+.carousel-control-next{
+    right:20px;
 }
 
 /* LOCATION */
@@ -787,8 +842,20 @@ FOOTER
         padding: 22px;
     }
 
-    .facility-image {
-        height: 300px;
+    .facility-wrapper{
+        grid-template-columns:1fr;
+    }
+
+    .facility-content{
+        text-align:center;
+    }
+
+    .facility-content h2{
+        font-size:38px;
+    }
+
+    .facility-image{
+        height:350px;
     }
 
     .booking-left{
@@ -854,9 +921,22 @@ FOOTER
         border-radius: 18px;
     }
 
-    .facility-card {
-        padding: 25px 18px;
+   .facility-wrapper{
+        grid-template-columns:1fr;
     }
+
+    .facility-content{
+        text-align:center;
+    }
+
+    .facility-content h2{
+        font-size:38px;
+    }
+
+    .facility-image{
+        height:350px;
+    }
+
     .booking-section{
         padding-top: 110px;
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Payment;
 use App\Models\Booking;
 
@@ -37,6 +38,38 @@ class ReportController extends Controller
             )
         );
     }
+
+    public function exportPaymentPdf(Request $request)
+{
+    $month = $request->month ?? now()->month;
+    $year = $request->year ?? now()->year;
+
+    $reports = Payment::with([
+        'booking.room'
+    ])
+    ->where('payment_month', $month)
+    ->where('payment_year', $year)
+    ->latest()
+    ->get();
+
+    $totalIncome = $reports
+        ->where('status', 'paid')
+        ->sum('amount');
+
+    $pdf = Pdf::loadView(
+        'pdf.laporanPembayaran',
+        compact(
+            'reports',
+            'month',
+            'year',
+            'totalIncome'
+        )
+    );
+
+    return $pdf->download(
+        'Laporan-Pembayaran.pdf'
+    );
+}
 
     public function reportPenyewa(Request $request)
 {
@@ -104,10 +137,73 @@ class ReportController extends Controller
         )
     );
 }
-public function arrears(Request $request)
+
+public function exportTenantPdf(Request $request)
 {
     $month = $request->month ?? now()->month;
+    $year = $request->year ?? now()->year;
 
+    $tenantStatus = $request->tenant_status;
+    $paymentStatus = $request->payment_status;
+
+    $query = Booking::with([
+        'room',
+        'payments'
+    ]);
+
+    $query->whereMonth(
+        'start_date',
+        $month
+    );
+
+    $query->whereYear(
+        'start_date',
+        $year
+    );
+
+    if($tenantStatus){
+
+        $query->where(
+            'status',
+            $tenantStatus
+        );
+
+    }
+
+    $reports = $query
+        ->latest()
+        ->get();
+
+    if($paymentStatus){
+
+        $reports = $reports->filter(function($booking) use ($paymentStatus){
+
+            $payment = $booking->payments->last();
+
+            return $payment &&
+                $payment->status == $paymentStatus;
+
+        });
+
+    }
+
+    $pdf = Pdf::loadView(
+        'pdf.laporanPenyewa',
+        compact(
+            'reports',
+            'month',
+            'year'
+        )
+    );
+
+    return $pdf->download(
+        'Laporan-Penyewa.pdf'
+    );
+}
+
+public function exportArrearsPdf(Request $request)
+{
+    $month = $request->month ?? now()->month;
     $year = $request->year ?? now()->year;
 
     $arrears = Payment::with([
@@ -119,13 +215,19 @@ public function arrears(Request $request)
     ->latest()
     ->get();
 
-    return view(
-        'admin.laporan.reportTunggakan',
+    $pdf = Pdf::loadView(
+        'pdf.laporanTunggakan',
         compact(
             'arrears',
             'month',
             'year'
         )
     );
+
+    return $pdf->download(
+        'Laporan-Tunggakan.pdf'
+    );
 }
+
+
 }

@@ -49,17 +49,6 @@
                 </li>
 
 
-                <li class="nav-item">
-
-                    <a href="{{ route('rooms.all') }}"
-                        class="nav-link nav-custom {{ request()->is('kamar') ? 'active-nav' : '' }}">
-
-                        Kamar
-
-                    </a>
-
-                </li>
-
             </ul>
 
             {{-- GUEST --}}

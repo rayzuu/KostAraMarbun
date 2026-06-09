@@ -14,6 +14,7 @@ class Booking extends Model
         'birth_place',
         'birth_date',
         'start_date',
+        'end_date',
         'monthly_price',
         'status'
 

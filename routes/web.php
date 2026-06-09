@@ -110,6 +110,21 @@ Route::get(
     [ReportController::class, 'arrears']
 )->name('report.arrears');
 
+Route::get(
+    '/admin/laporan/pembayaran/pdf',
+    [ReportController::class, 'exportPaymentPdf']
+)->name('report.payment.pdf');
+
+Route::get(
+    '/admin/laporan/penyewa/pdf',
+    [ReportController::class, 'exportTenantPdf']
+)->name('report.tenant.pdf');
+
+Route::get(
+    '/admin/laporan/tunggakan/pdf',
+    [ReportController::class, 'exportArrearsPdf']
+)->name('report.arrears.pdf');
+
 
 });
 Route::get('/dashboard', function () {
@@ -122,6 +137,15 @@ Route::middleware('auth')->group(function(){
     Route::get('/history-pembayaran',
         [BookingController::class, 'history']
     )->name('payment.history');
+
+});
+
+Route::middleware('auth')->group(function () {
+
+    Route::get(
+        '/payment/{payment}/receipt',
+        [BookingController::class, 'downloadReceipt']
+    )->name('payment.receipt');
 
 });
 

@@ -34,6 +34,8 @@ return new class extends Migration
 
             $table->date('start_date');
 
+            $table->date('end_date')->nullable();
+
             // HARGA SAAT MULAI SEWA
             $table->bigInteger('monthly_price');
 

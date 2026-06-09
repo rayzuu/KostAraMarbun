@@ -7,6 +7,8 @@
 .phpunit.result.cache
 /.codex
 /.cursor/
+/cloudflared.exe
+/config.yml
 /.idea
 /.nova
 /.phpunit.cache

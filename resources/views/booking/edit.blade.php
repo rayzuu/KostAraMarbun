@@ -68,6 +68,18 @@
 
                 </div>
 
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+
+                        Tanggal Keluar
+
+                    </label>
+
+                    <input type="date" name="end_date" class="form-control" value="{{ $booking->end_date }}">
+
+                </div>
+
                 <div class="mb-3">
 
                     <label class="form-label">
@@ -91,7 +103,7 @@
                 <div class="mb-3">
 
                     <label class="form-label">
-                        Status Pembayaran 
+                        Status Pembayaran
                     </label>
 
                     <select name="payment_status" class="form-select">

@@ -167,14 +167,22 @@
 
             <div class="d-flex justify-content-between align-items-center mb-4">
 
-                <h5 class="fw-bold mb-0">
+    <h5 class="fw-bold mb-0">
+        Data Pembayaran
+    </h5>
 
-                    Data Pembayaran
+    <a
+        href="{{ route('report.payment.pdf', request()->query()) }}"
+        class="btn btn-danger">
 
-                </h5>
+        <i class="bi bi-file-earmark-pdf"></i>
+        Download PDF
 
-            </div>
+    </a>
 
+</div>
+
+            
             <div class="table-responsive">
 
                 <table class="table align-middle">

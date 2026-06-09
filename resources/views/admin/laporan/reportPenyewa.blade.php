@@ -152,7 +152,18 @@
 <div class="card border-0 shadow-sm rounded-4">
 
     <div class="card-body">
+<div class="mb-3">
 
+    <a
+        href="{{ route('report.tenant.pdf', request()->query()) }}"
+        class="btn btn-danger">
+
+        <i class="bi bi-file-earmark-pdf"></i>
+        Download PDF
+
+    </a>
+
+</div>
         <div class="table-responsive">
 
             <table class="table align-middle">

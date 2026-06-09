@@ -372,44 +372,78 @@
 
             </div> --}}
 
-    <section class="facility-gallery py-5">
+<section class="facility-gallery">
 
-        <div class="container">
-            @php
+    <div class="container">
 
-                $room = \App\Models\Room::first();
+        @php
+            $room = \App\Models\Room::first();
+        @endphp
 
-            @endphp
+        @if($room)
 
-            @if ($room)
+        <div class="facility-wrapper">
 
-                {{-- CAROUSEL --}}
-                <div id="facilityCarousel" class="carousel slide" data-bs-ride="carousel">
+            {{-- LEFT --}}
+            <div class="facility-content">
 
-                    <div class="carousel-inner rounded-4 shadow-lg">
+                <span class="facility-badge">
+                    Kost Ara Marbun
+                </span>
 
+                <h2>
+                    Lihat suasana kamar dan fasilitas
+                </h2>
 
+                <p>
+                    Preview Fasilitas Kamar Kost
+                </p>
+
+                <a href="{{ route('rooms.show', $room->id) }}"
+                   class="facility-btn">
+
+                    Detail Kamar
+                    
+
+                </a>
+
+            </div>
+
+            {{-- RIGHT --}}
+            <div class="facility-slider">
+
+                <div id="facilityCarousel"
+                     class="carousel slide"
+                     data-bs-ride="carousel">
+
+                    <div class="carousel-inner">
 
                         @foreach ($room->images as $key => $image)
+
                             <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
 
-                                <img src="{{ asset('storage/' . $image->image) }}" class="facility-image">
+                                <img
+                                    src="{{ asset('storage/' . $image->image) }}"
+                                    class="facility-image">
 
                             </div>
+
                         @endforeach
 
                     </div>
 
-                    {{-- PREV --}}
-                    <button class="carousel-control-prev" type="button" data-bs-target="#facilityCarousel"
+                    <button class="carousel-control-prev"
+                        type="button"
+                        data-bs-target="#facilityCarousel"
                         data-bs-slide="prev">
 
                         <span class="carousel-control-prev-icon"></span>
 
                     </button>
 
-                    {{-- NEXT --}}
-                    <button class="carousel-control-next" type="button" data-bs-target="#facilityCarousel"
+                    <button class="carousel-control-next"
+                        type="button"
+                        data-bs-target="#facilityCarousel"
                         data-bs-slide="next">
 
                         <span class="carousel-control-next-icon"></span>
@@ -418,23 +452,15 @@
 
                 </div>
 
-                {{-- BUTTON --}}
-                <div class="text-center mt-4">
-
-                    <a href="{{ route('rooms.show', $room->id) }}"
-                        class="btn btn-success btn-lg px-5 py-3 rounded-pill shadow">
-
-                        Detail Kamar
-
-                    </a>
-
-                </div>
-
-            @endif
+            </div>
 
         </div>
 
-    </section>
+        @endif
+
+    </div>
+
+</section>
 
     {{-- LOCATION --}}
     <section class="location-section">

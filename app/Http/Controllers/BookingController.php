@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\Booking;
@@ -328,10 +329,36 @@ public function history()
 
         'start_date' => $request->start_date,
 
-        // STATUS PENYEWA
+        'end_date' => $request->end_date,
+
         'status' => $request->tenant_status
 
     ]);
+
+
+    //UPDATE TANGGAL PENYEWA
+    if($request->tenant_status == 'active'){
+
+    $booking->update([
+
+        'end_date' => null
+
+    ]);
+
+    }
+
+    if(
+        $request->tenant_status == 'inactive'
+        && !$booking->end_date
+    ){
+
+        $booking->update([
+
+            'end_date' => now()->toDateString()
+
+        ]);
+
+    }
 
     
     $currentMonth = now()->month;
@@ -383,23 +410,7 @@ public function history()
 
     }
 
-    if($request->payment_status == 'paid'){
-
-        $booking->update([
-
-            'status' => 'active'
-
-        ]);
-
-    }else{
-
-        $booking->update([
-
-            'status' => 'inactive'
-
-        ]);
-
-    }
+    
 
     $totalBooking = Booking::where(
         'room_id',
@@ -533,7 +544,13 @@ public function history()
 
                     'status' => 'paid',
 
-                    'paid_at' => now()
+                    'paid_at' => now(),
+
+                    'payment_type' => $request->payment_type ?? $payment->payment_type,
+
+                    'bank' => $bank ?? $payment->bank,
+
+                    'va_number' => $vaNumber ?? $payment->va_number
 
                 ]);
 
@@ -625,5 +642,30 @@ public function history()
             'message' => 'Callback success'
         ]);
     }
+
+    public function downloadReceipt(Payment $payment)
+        {
+            // Security
+            if (
+                $payment->booking->user_id != auth()->id()
+            ) {
+                abort(403);
+            }
+
+            if ($payment->status != 'paid') {
+                abort(404);
+            }
+
+            $pdf = Pdf::loadView(
+                'pdf.receipt',
+                compact('payment')
+            );
+
+            return $pdf->download(
+                'Bukti-Pembayaran-' .
+                $payment->id .
+                '.pdf'
+            );
+        }
 
 }

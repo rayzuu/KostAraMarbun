@@ -201,6 +201,32 @@ public function exportTenantPdf(Request $request)
     );
 }
 
+public function arrears(Request $request)
+{
+    $month = $request->month ?? now()->month;
+
+    $year = $request->year ?? now()->year;
+
+    $arrears = Payment::with([
+        'booking.room'
+    ])
+    ->where('status', 'unpaid')
+    ->where('payment_month', $month)
+    ->where('payment_year', $year)
+    ->latest()
+    ->get();
+
+    return view(
+        'admin.laporan.reportTunggakan',
+        compact(
+            'arrears',
+            'month',
+            'year'
+        )
+    );
+}
+
+
 public function exportArrearsPdf(Request $request)
 {
     $month = $request->month ?? now()->month;

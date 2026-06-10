@@ -15,18 +15,16 @@
 
                     <div class="auth-left">
 
-                        <h1>
-                            Selamat Datang Kembali
+                        <h1 style="font-weight: 800;">
+                            Selamat Datang
                         </h1>
 
-                        <p>
+                        <p class="text-muted" style="font-size: 14px;">
+                            Login untuk mulai memesan kamar di Kost Ara Marbun.
+                         </p>
 
-                            Login untuk mulai mencari
-                            kamar kost terbaik untuk anda.
-
-                        </p>
-
-                        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267"
+                        <img src="https://i.ibb.co.com/yFPxq6tj/kosara1.png"
+                               
                             class="img-fluid rounded-4 shadow">
 
                     </div>
@@ -38,7 +36,7 @@
 
                     <div class="auth-card">
 
-                        <h2 class="mb-4 fw-bold">
+                        <h2 class="mb-4 fw-bold" style="text-align: center;">
                             Login
                         </h2>
                         @if (session('status'))

@@ -157,19 +157,19 @@ HERO SECTION
 .hero-tag {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    background: #f0fdf4;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.350);
+    background: white;
     color: #4CAF50;
-    padding: 10px 18px;
-    border-radius: 999px;
-    font-size: 14px;
+    padding: 10px 30px;
+    border-radius: 25px;
+    font-size: 16px;
     font-weight: 700;
-    margin-bottom: 28px;
+    margin-bottom: 35px;
 }
 
 .hero-title {
-    font-size: 64px;
-    line-height: 1.05;
+    font-size: 70px;
+    line-height: 1.1;
     font-weight: 800;
     color: #111827;
     margin-bottom: 24px;
@@ -182,8 +182,10 @@ HERO SECTION
 .hero-text {
     font-size: 18px;
     line-height: 1.8;
-    color: #000000;
+    color: #6b7280;
     margin-bottom: 35px;
+    font-weight: 500;
+    text-align: left;
     max-width: 560px;
 }
 
@@ -191,7 +193,7 @@ HERO SECTION
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
-    margin-bottom: 38px;
+    margin-bottom: 35px;
 }
 
 .hero-btn-primary {
@@ -232,6 +234,7 @@ HERO SECTION
 .hero-trusted {
     display: flex;
     align-items: center;
+    font-weight: 500;
     gap: 16px;
 }
 
@@ -254,8 +257,8 @@ HERO SECTION
 
 .hero-trusted p {
     margin: 0;
-    color: #374151;
-    font-size: 14px;
+    color: #6b7280;
+    font-size: 16px;
     font-weight: 500;
 }
 
@@ -390,40 +393,42 @@ FEATURE BAR
 
 .facility-gallery{
     padding:100px 0;
-    background:#f8fafc;
+    background: #f8fafc;
 }
 
 .facility-wrapper{
     display:grid;
-    grid-template-columns:350px 1fr;
-    gap:40px;
+    grid-template-columns:500px 1fr;
+    gap:30px;
     align-items:center;
 }
 
 .facility-content h2{
-    font-size:52px;
-    line-height:1.1;
-    font-weight:800;
-    color:#0f172a;
-    margin-bottom:20px;
+    font-size: 48px;
+    line-height: 1.1;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 10px;
 }
 
 .facility-content p{
     color:#64748b;
-    line-height:1.8;
-    margin-bottom:30px;
+    font-size: 14px;
+    line-height: 1.8;
+    font-weight: 500;
+    margin-bottom: 30px;
 }
 
 .facility-badge{
     display:inline-flex;
     align-items:center;
-    gap:8px;
-    padding:10px 18px;
+    padding: 8px 14px;
     border-radius:999px;
     background:white;
-    border:1px solid #e5e7eb;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.350);
+    color: #4CAF50;
     font-size:14px;
-    font-weight:600;
+    font-weight:700;
     margin-bottom:30px;
 }
 
@@ -434,7 +439,8 @@ FEATURE BAR
     text-decoration:none;
     background:#4CAF50;
     color:white;
-    padding:14px 24px;
+    padding:16px 28px;
+    font-size: 16px;
     border-radius:14px;
     font-weight:700;
     transition:.3s;
@@ -460,10 +466,16 @@ FEATURE BAR
 .carousel-control-next{
     width:50px;
     height:50px;
-    background:rgba(255,255,255,.9);
+    background:rgba(128, 126, 126, 0.397);
     border-radius:50%;
     top:50%;
     transform:translateY(-50%);
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
 }
 
 .carousel-control-prev{
@@ -476,7 +488,7 @@ FEATURE BAR
 
 /* LOCATION */
 .location-section {
-    padding: 100px 0;
+    margin-bottom: 100px;
 }
 
 .booking-section{
@@ -706,31 +718,33 @@ FOOTER
 }
 
 .footer-brand{
-    font-size:28px;
+    font-size:18px;
     font-weight:800;
-    margin-bottom:18px;
+    margin-bottom:12px;
 }
 
 .footer-text{
     color:#9ca3af;
+    font-size: 16px;
     line-height:1.8;
-    margin-bottom:0;
+    margin-bottom:25px;
 }
 
 .footer-title{
     font-size:18px;
-    font-weight:700;
-    margin-bottom:20px;
+    font-weight:800;
+    margin-bottom:12px;
 }
 
 .footer-links{
-    list-style:none;
-    padding:0;
-    margin:0;
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
 }
 
 .footer-links li{
-    margin-bottom:14px;
+    font-size: 16px;
+    margin-bottom:10px;
 }
 
 .footer-links a{
@@ -753,14 +767,15 @@ FOOTER
 .footer-contact-item{
     display:flex;
     align-items:flex-start;
-    gap:12px;
+    gap:10px;
     color:#9ca3af;
 }
 
 .footer-contact-item i{
     color:#4CAF50;
-    font-size:18px;
-    margin-top:2px;
+    font-size:16px;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 .footer-bottom{

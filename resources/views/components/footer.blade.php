@@ -4,7 +4,7 @@
 
         <div class="row">
 
-            <div class="col-lg-4">
+            <div class="col-lg-5">
 
                 <h2 class="footer-brand">
 
@@ -13,15 +13,12 @@
                 </h2>
 
                 <p class="footer-text">
-
-                    Kost putri nyaman, aman dan strategis
-                    untuk pelajar SMP & SMA.
-
+                    Hunian putri yang nyaman, aman, dan strategis untuk mendukung aktivitas belajar pelajar SMP dan SMA. 
                 </p>
 
             </div>
 
-            <div class="col-lg-3">
+            <div class="col-lg-2">
 
                 <h5 class="footer-title">
 
@@ -55,11 +52,11 @@
 
             </div>
 
-            <div class="col-lg-5">
+            <div class="col-lg-3">
 
                 <h5 class="footer-title">
 
-                    Kontak
+                    Kontak Kami
 
                 </h5>
 
@@ -90,7 +87,7 @@
                         <i class="bi bi-envelope-fill"></i>
 
                         <span>
-                            kostaramarbun@gmail.com
+                            kosaramarbun@gmail.com
                         </span>
 
                     </div>
@@ -106,7 +103,7 @@
             <p>
 
                 © {{ date('Y') }} Kost Ara Marbun.
-                All rights reserved.
+                Seluruh hak cipta dilindungi.
 
             </p>
 

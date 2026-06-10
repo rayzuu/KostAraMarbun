@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <section class="hero-section" style="background-image:url('{{ asset('image/background1.png') }}')">
+    <section class="hero-section" style="background-image:url('{{ asset('image/background7.png') }}')">
 
         <div class="container">
 
@@ -19,14 +19,14 @@
 
                             <i class="bi bi-shield-check-fill"></i>
 
-                            Kost Putri SMP & SMA
+                        Kost Putri SMP & SMA
 
                         </div>
 
                         <h1 class="hero-title">
 
-                            Hunian Aman & Nyaman untuk
-                            <span>Pelajar Putri</span>
+                            Hunian Nyaman dan Aman
+                            <span>untuk Putri</span>
 
                         </h1>
 
@@ -51,7 +51,7 @@
 
                                 <i class="bi bi-whatsapp"></i>
 
-                                Hubungi WhatsApp
+                            Hubungi WhatsApp
 
                             </a>
 
@@ -60,7 +60,7 @@
                         <div class="hero-trusted">
                             <p>
 
-                                Dipercaya oleh orang tua & siswi
+                            Dipercaya oleh orang tua & siswi
 
                                 <i class="bi bi-heart-fill"></i>
 
@@ -283,8 +283,7 @@
                 </h2>
 
                 <p class="text-muted">
-                    Suasana nyaman dan fasilitas lengkap
-                    untuk penghuni kost
+                    Suasana nyaman dan fasilitas lengkap untuk penghuni kost
                 </p>
 
             </div>
@@ -388,15 +387,15 @@
             <div class="facility-content">
 
                 <span class="facility-badge">
-                    Kost Ara Marbun
+                    Suasana Kost
                 </span>
 
                 <h2>
-                    Lihat suasana kamar dan fasilitas
+                    Lihat Suasana Kamar dan Fasilitas Kost
                 </h2>
 
                 <p>
-                    Preview Fasilitas Kamar Kost
+                Preview fasilitas Kost Ara Marbun
                 </p>
 
                 <a href="{{ route('rooms.show', $room->id) }}"
@@ -467,14 +466,14 @@
 
         <div class="container">
 
-            <div class="section-header text-center mb-5">
+            <div class="section-header text-center mb-4">
 
                 <h2>
                     Lokasi Kost
                 </h2>
 
                 <p>
-                    Lokasi strategis dan mudah dijangkau
+                    Lokasi Strategis dan Mudah Dijangkau
                 </p>
 
             </div>
@@ -483,7 +482,7 @@
 
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d498.07012354577535!2d99.0721545!3d2.9416532!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3031844c9530597d%3A0x46b933a2264379d6!2sTOKO%20Marbun!5e0!3m2!1sid!2sid!4v1779110362235!5m2!1sid!2sid"
-                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                    width="600" height="550" style="border:0;" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"></iframe>
 
             </div>

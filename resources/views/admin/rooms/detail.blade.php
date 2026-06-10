@@ -74,10 +74,8 @@
                             </span>
                         @endif
 
-                        <h1 class="fw-bold mb-2">
-
+                        <h1 class="mb-3" style="font-weight: 700; font-size: 2rem;">
                             {{ $room->name }}
-
                         </h1>
                         @php
 
@@ -99,15 +97,14 @@
 
                         </div>
 
-                        <h3 class="text-primary fw-bold mb-4">
+                        <h3 class="text-primary fw-bold mb-3">
 
                             Rp {{ number_format($room->price) }}
                             / bulan
 
                         </h3>
 
-                        <p class="mb-4">
-
+                        <p class="mb-5" style="text-align: justify;">
                             {{ $room->description }}
 
                         </p>

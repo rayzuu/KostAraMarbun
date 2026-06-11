@@ -28,13 +28,22 @@ class AuthenticatedSessionController extends Controller
 
     $request->session()->regenerate();
 
-    if(Auth::user()->role == 'admin'){
+   if(Auth::user()->role == 'admin'){
 
-        return redirect()->route('admin.dashboard');
+    return redirect()
+        ->route('admin.dashboard')
+        ->with(
+            'success',
+            'Selamat datang kembali, ' . Auth::user()->name
+        );
 
     }
 
-    return redirect('/');
+    return redirect('/')
+        ->with(
+            'success',
+            'Selamat datang kembali, ' . Auth::user()->name
+        );
 }
 
     /**
@@ -48,6 +57,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/')
+        ->with(
+            'success',
+            'Logout berhasil'
+        );
     }
 }

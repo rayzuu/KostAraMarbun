@@ -499,149 +499,166 @@ public function history()
         ]);
     }
 
-    // CALLBACK MIDTRANS
-    public function callback(Request $request)
-    {
+       public function callback(Request $request)
+{
 
-        $serverKey = config('midtrans.server_key');
+    $serverKey = config('midtrans.server_key');
 
-        $hashed = hash(
-            "sha512",
-            $request->order_id .
-            $request->status_code .
-            $request->gross_amount .
-            $serverKey
+    $hashed = hash(
+        "sha512",
+        $request->order_id .
+        $request->status_code .
+        $request->gross_amount .
+        $serverKey
+    );
+
+    if($hashed == $request->signature_key){
+
+        $payment = Payment::where(
+            'midtrans_order_id',
+            $request->order_id
+        )->first();
+
+        if(!$payment){
+
+            return response()->json([
+                'message' => 'Payment tidak ditemukan'
+            ], 404);
+
+        }
+
+        $booking = Booking::find(
+            $payment->booking_id
         );
 
-        if($hashed == $request->signature_key){
 
-            // CARI PAYMENT
-            $payment = Payment::where(
-                'midtrans_order_id',
-                $request->order_id
-            )->first();
+        $vaNumber = null;
+        $bank = null;
 
-            if(!$payment){
+        if(isset($request->va_numbers[0])){
 
-                return response()->json([
-                    'message' => 'Payment tidak ditemukan'
-                ], 404);
+            $vaNumber = $request->va_numbers[0]['va_number'];
+            $bank = $request->va_numbers[0]['bank'];
 
-            }
+        }
 
-            // CARI BOOKING
-            $booking = Booking::find(
-                $payment->booking_id
+        
+        elseif(isset($request->permata_va_number)){
+
+            $vaNumber = $request->permata_va_number;
+            $bank = 'permata';
+
+        }
+
+        elseif($request->payment_type == 'echannel'){
+
+            $bank = 'mandiri';
+            $vaNumber = $request->bill_key ?? null;
+
+        }
+
+
+        if($request->transaction_status == 'pending'){
+
+            $payment->update([
+
+                'status' => 'unpaid',
+
+                'transaction_status' => 'pending',
+
+                'payment_type' => $request->payment_type,
+
+                'bank' => $bank,
+
+                'va_number' => $vaNumber
+
+            ]);
+
+        }
+
+
+        if(
+            $request->transaction_status == 'settlement' ||
+            $request->transaction_status == 'capture'
+        ){
+
+            $payment->update([
+
+                'status' => 'paid',
+
+                'paid_at' => now(),
+
+                'transaction_status' => 'settlement',
+
+                'payment_type' => $request->payment_type,
+
+                'bank' => $bank,
+
+                'va_number' => $vaNumber
+
+            ]);
+
+            $booking->update([
+
+                'status' => 'active'
+
+            ]);
+
+            $room = Room::find(
+                $booking->room_id
             );
 
-            // PAYMENT SUCCESS
-            if(
-                $request->transaction_status == 'settlement' ||
-                $request->transaction_status == 'capture'
-            ){
+            $totalBooking = Booking::where(
+                'room_id',
+                $room->id
+            )
+            ->where(
+                'status',
+                'active'
+            )
+            ->count();
 
-                $payment->update([
+            if($totalBooking >= $room->kapasitas){
 
-                    'status' => 'paid',
+                $room->update([
 
-                    'paid_at' => now(),
-
-                    'payment_type' => $request->payment_type ?? $payment->payment_type,
-
-                    'bank' => $bank ?? $payment->bank,
-
-                    'va_number' => $vaNumber ?? $payment->va_number
-
-                ]);
-
-                $booking->update([
-
-                    'status' => 'active'
-
-                ]);
-
-                // UPDATE ROOM STATUS
-                $room = Room::find($booking->room_id);
-
-                $totalBooking = Booking::where(
-                    'room_id',
-                    $room->id
-                )
-                ->where('status', 'active')
-                ->count();
-
-                if($totalBooking >= $room->kapasitas){
-
-                    $room->update([
-
-                        'status' => 'booked'
-
-                    ]);
-
-                }
-
-            }   
-
-          if($request->transaction_status == 'pending'){
-
-                $vaNumber = null;
-                $bank = null;
-
-                if(isset($request->va_numbers[0])){
-
-                    $vaNumber = $request->va_numbers[0]['va_number'];
-                    $bank = $request->va_numbers[0]['bank'];
-
-                }
-
-                if(isset($request->permata_va_number)){
-
-                    $vaNumber = $request->permata_va_number;
-                    $bank = 'permata';
-
-                }
-
-                $payment->update([
-
-                    'status' => 'unpaid',
-
-                    'transaction_status' => 'pending',
-
-                    'payment_type' => $request->payment_type,
-
-                    'bank' => $bank,
-
-                    'va_number' => $vaNumber
+                    'status' => 'booked'
 
                 ]);
 
             }
-            // PAYMENT FAILED / CANCEL / EXPIRE
-            if(
-                $request->transaction_status == 'expire' ||
-                $request->transaction_status == 'cancel' ||
-                $request->transaction_status == 'deny'
-            ){
 
-                 $payment->update([
+        }
 
-                'transaction_status' => $request->transaction_status
 
-             ]);
+        if(
+            $request->transaction_status == 'expire' ||
+            $request->transaction_status == 'cancel' ||
+            $request->transaction_status == 'deny'
+        ){
 
-                $booking->update([
+            $payment->update([
+
+                'transaction_status' => $request->transaction_status,
+
+                'status' => 'unpaid'
+
+            ]);
+
+            $booking->update([
 
                 'status' => 'inactive'
 
             ]);
 
-            }
         }
 
-        return response()->json([
-            'message' => 'Callback success'
-        ]);
     }
+
+    return response()->json([
+        'message' => 'Callback success'
+    ]);
+}
 
     public function downloadReceipt(Payment $payment)
         {

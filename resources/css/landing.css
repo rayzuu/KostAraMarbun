@@ -26,14 +26,10 @@ body {
     color: white !important;
 }
 
-/* =========================
-NAVBAR
-========================= */
-
 .navbar {
     background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(12px);
-    padding: 16px 15px;
+    padding: 16px 16px;
     position: relative;
     top: 0;
     border-bottom: 1px solid #edf2f7;
@@ -43,14 +39,22 @@ NAVBAR
 .navbar-brand {
     display: flex;
     align-items: center;
-    gap: 12px;
-    color:  #4CAF50;
+    color:#4CAF50;
+    gap: 10px;
+    font-size: 18px;
+    min-width: 220px;
+}
 
+.navbar-brand span {
+    color: #1f2937;
+    align-items: center;
+    font-weight: 700;
+    font-size: 18px;
 }
 
 .navbar-brand img {
-    width: 50px;
-    height: 50px;
+    width: 20px;
+    height: 20px;
     object-fit: contain;
 }
 
@@ -63,15 +67,20 @@ NAVBAR
 
 .brand-subtitle {
     font-size: 12px;
-    color: #6b7280;
+    color: #807b6b;
 }
 
 .nav-link {
-    color: #374151 !important;
-    font-weight: 600;
-    margin: 0 12px;
+    color:#1f2937 !important;
+    font-weight: 700;
+    font-size: 16px;
     position: relative;
     transition:0.3s;
+}
+
+.nav-item.dropdown {
+    min-width: 220px;
+    text-align: right;
 }
 
 .nav-link:hover{
@@ -93,11 +102,21 @@ NAVBAR
     background: #4CAF50;
 }
 
+.dropdown-menu {
+    min-width: 150px;
+}
+
+.dropdown-item {
+    white-space: nowrap;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
 .navbar-action {
     display: flex;
     gap: 12px;
 }
-
 
 
 /* BUTTON */
@@ -813,6 +832,64 @@ FOOTER
 .wa-floating:hover {
     color: white;
     background: #43a047;
+}
+
+/* PROFILE */
+
+.profile-header {
+    background: linear-gradient(
+        135deg,
+        #4CAF50,
+        #81C784
+    );
+
+    padding: 50px 30px;
+
+    text-align: center;
+
+    color: white;
+}
+
+.profile-avatar {
+
+    width: 100px;
+    height: 100px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    color: #4CAF50;
+
+    font-size: 42px;
+
+    font-weight: 700;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: 0 auto 20px;
+
+    box-shadow:
+        0 8px 25px rgba(
+            0,
+            0,
+            0,
+            0.12
+        );
+}
+
+.profile-avatar {
+
+    transition: .3s ease;
+}
+
+.profile-avatar:hover {
+
+    transform: scale(1.05);
 }
 
 /* MOBILE */

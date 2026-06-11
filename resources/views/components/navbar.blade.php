@@ -2,26 +2,13 @@
 
     <div class="container">
 
-        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="{{ url('/') }}">
-
-            <div class="logo-box">
-
-                <i class="bi bi-house-door-fill"></i>
-
-            </div>
-
-            <div class="d-flex flex-column lh-sm">
-
-                <span class="fw-bold text-dark">
-
-                    Kost Ara Marbun
-
-                </span>
-
-
-
-            </div>
-
+        <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
+            <i class="bi bi-house-door-fill text-success"></i>
+        
+            <span>
+                Kost Ara Marbun
+            </span>
+        
         </a>
 
         <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
@@ -34,21 +21,14 @@
 
         <div class="collapse navbar-collapse" id="navbarMenu">
 
-            <ul class="navbar-nav mx-auto align-items-lg-center gap-lg-3">
-
-
+            <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
 
                     <a href="{{ url('/') }}"
                         class="nav-link nav-custom {{ request()->is('/') ? 'active-nav' : '' }}">
-
                         Beranda
-
                     </a>
-
                 </li>
-
-
             </ul>
 
             {{-- GUEST --}}
@@ -75,7 +55,7 @@
             {{-- AUTH --}}
             @auth
 
-                <li class="nav-item dropdown list-unstyled">
+                <li class="nav-item dropdown list-unstyled" >
 
                     <a class="nav-link dropdown-toggle fw-semibold" href="#" data-bs-toggle="dropdown">
 
@@ -107,11 +87,17 @@
                             @if (auth()->user()->role == 'customer')
                                 <li class="nav-item">
 
-                                    <a class="nav-link" href="{{ route('payment.history') }}">
+                                     <a class="dropdown-item py-2" href="{{ route('payment.history') }}">
+                                            History Pembayaran
+                                     </a>
 
-                                        History Pembayaran
+                                </li>
 
-                                    </a>
+                                <li class="nav-item">
+
+                                     <a class="dropdown-item py-2" href="{{ route('profile.edit') }}">
+                                            Profile
+                                     </a>
 
                                 </li>
                             @endif
@@ -119,19 +105,12 @@
                         @endauth
 
                         <li>
-
                             <form method="POST" action="{{ route('logout') }}">
-
-                                @csrf
-
-                                <button type="submit" class="dropdown-item py-2">
-
-                                    Logout
-
-                                </button>
-
+                                 @csrf
+                                    <button type="submit" class="dropdown-item py-2 text-danger">
+                                        Logout
+                                    </button>
                             </form>
-
                         </li>
 
                     </ul>

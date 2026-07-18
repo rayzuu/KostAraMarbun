@@ -100,6 +100,36 @@
             </tr>
 
             <tr>
+
+                <td class="label">
+
+                    Harga / Bulan
+
+                </td>
+
+                <td>
+
+                    Rp {{ number_format($payment->booking->monthly_price, 0, ',', '.') }}
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td class="label">
+
+                    Masa Sewa
+
+                </td>
+
+                <td>
+
+                    {{ $payment->duration }} Bulan
+
+                </td>
+
+            <tr>
                 <td class="label">Jumlah Pembayaran</td>
                 <td>
                     Rp {{ number_format($payment->amount) }}
@@ -136,7 +166,7 @@
 
         </table>
 
-        
+
 
     </div>
 

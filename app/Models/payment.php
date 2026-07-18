@@ -24,6 +24,8 @@ class Payment extends Model
 
     'transaction_status',
 
+    'duration',
+    
     'payment_type',
 
     'bank',

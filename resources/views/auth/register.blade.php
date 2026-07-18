@@ -26,7 +26,8 @@
 
                         </p>
 
-                        <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85"
+                        <img src="https://i.ibb.co.com/yFPxq6tj/kosara1.png"
+                               
                             class="img-fluid rounded-4 shadow">
 
                     </div>
@@ -81,7 +82,44 @@
                                 <input type="email" name="email" class="form-control auth-input" required>
 
                             </div>
+                            {{-- PHONE --}}
+                            <div class="mb-3">
 
+                                <label class="form-label">
+
+                                    Nomor Handphone
+
+                                </label>
+
+                                <input type="text" name="phone" class="form-control auth-input" required>
+
+                            </div>
+
+                            {{-- TEMPAT LAHIR --}}
+                            <div class="mb-3">
+
+                                <label class="form-label">
+
+                                    Tempat Lahir
+
+                                </label>
+
+                                <input type="text" name="birth_place" class="form-control auth-input" required>
+
+                            </div>
+
+                            {{-- TANGGAL LAHIR --}}
+                            <div class="mb-3">
+
+                                <label class="form-label">
+
+                                    Tanggal Lahir
+
+                                </label>
+
+                                <input type="date" name="birth_date" class="form-control auth-input" required>
+
+                            </div>
                             {{-- PASSWORD --}}
                             <div class="mb-3">
 

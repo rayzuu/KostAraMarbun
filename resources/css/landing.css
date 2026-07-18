@@ -136,6 +136,78 @@ body {
     font-weight: 600;
 }
 
+/* ===============================
+   DURATION PICKER
+=================================*/
+
+.duration-box{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    border:1px solid #dee2e6;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    height:56px;
+
+    background:#fff;
+
+}
+
+.duration-btn{
+
+    width:56px;
+
+    height:56px;
+
+    border:none;
+
+    background:#f8f9fa;
+
+    transition:.3s;
+
+    font-size:18px;
+
+}
+
+.duration-btn:hover{
+
+    background:#4CAF50;
+
+    color:white;
+
+}
+
+#duration{
+
+    border:none;
+
+    width:100%;
+
+    text-align:center;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    background:white;
+
+}
+
+#duration:focus{
+
+    outline:none;
+
+    box-shadow:none;
+
+}
+
 /* =========================
 HERO SECTION
 ========================= */

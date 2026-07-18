@@ -92,16 +92,26 @@
                                         <div class="row">
 
                                             {{-- NAMA --}}
-                                            <div class="col-md-12 mb-3">
+                                            <div class="col-md-6 mb-3">
 
                                                 <label class="form-label">
-
                                                     Nama Lengkap
-
                                                 </label>
 
                                                 <input type="text" name="name" class="form-control booking-input"
-                                                    placeholder="Masukkan nama lengkap" required>
+                                                    value="{{ auth()->user()->name }}" readonly>
+
+                                            </div>
+
+                                            {{-- EMAIL --}}
+                                            <div class="col-md-6 mb-3">
+
+                                                <label class="form-label">
+                                                    Email
+                                                </label>
+
+                                                <input type="email" class="form-control booking-input"
+                                                    value="{{ auth()->user()->email }}" readonly>
 
                                             </div>
 
@@ -109,13 +119,11 @@
                                             <div class="col-md-6 mb-3">
 
                                                 <label class="form-label">
-
                                                     Nomor Handphone
-
                                                 </label>
 
                                                 <input type="text" name="phone" class="form-control booking-input"
-                                                    placeholder="08xxxxxxxxxx" required>
+                                                    value="{{ auth()->user()->phone }}" readonly>
 
                                             </div>
 
@@ -123,13 +131,11 @@
                                             <div class="col-md-6 mb-3">
 
                                                 <label class="form-label">
-
                                                     Tempat Lahir
-
                                                 </label>
 
                                                 <input type="text" name="birth_place" class="form-control booking-input"
-                                                    placeholder="Contoh: Jakarta" required>
+                                                    value="{{ auth()->user()->birth_place }}" readonly>
 
                                             </div>
 
@@ -137,13 +143,11 @@
                                             <div class="col-md-6 mb-3">
 
                                                 <label class="form-label">
-
                                                     Tanggal Lahir
-
                                                 </label>
 
                                                 <input type="date" name="birth_date" class="form-control booking-input"
-                                                    required>
+                                                    value="{{ auth()->user()->birth_date }}" readonly>
 
                                             </div>
 
@@ -151,38 +155,36 @@
                                             <div class="col-md-6 mb-3">
 
                                                 <label class="form-label">
-
                                                     Tanggal Mulai Sewa
-
                                                 </label>
 
-                                                <input type="date" name="start_date" class="form-control booking-input"
+                                                <input type="date" name="start_date" id="start_date"
+                                                    class="form-control booking-input" min="{{ now()->toDateString() }}"
                                                     required>
 
                                             </div>
 
                                             {{-- KAMAR --}}
-                                            <div class="col-md-12 mb-4">
+                                            <div class="col-md-6 mb-3">
 
                                                 <label class="form-label">
-
                                                     Pilih Kamar
-
                                                 </label>
 
-                                                <select name="room_id" class="form-control booking-input" required>
+                                                <select name="room_id" id="room" class="form-control booking-input"
+                                                    required>
 
                                                     <option value="">
                                                         -- Pilih Kamar --
                                                     </option>
 
                                                     @foreach ($rooms as $room)
-                                                        <option value="{{ $room->id }}"
+                                                        <option value="{{ $room->id }}" data-price="{{ $room->price }}"
                                                             {{ $selectedRoom == $room->id ? 'selected' : '' }}>
 
                                                             {{ $room->name }}
                                                             -
-                                                            Rp {{ number_format($room->price) }}
+                                                            Rp {{ number_format($room->price, 0, ',', '.') }}/bulan
 
                                                         </option>
                                                     @endforeach
@@ -191,10 +193,117 @@
 
                                             </div>
 
+                                            {{-- DURASI --}}
+                                            <div class="col-md-6 mb-4">
+
+                                                <label class="form-label">
+                                                    Durasi Sewa (Bulan)
+                                                </label>
+
+                                                <div class="col-md-12 mb-4">
+
+                                                    <div class="duration-box">
+
+                                                        <button type="button" id="minusDuration" class="duration-btn">
+
+                                                            <i class="bi bi-dash-lg"></i>
+
+                                                        </button>
+
+                                                        <input type="text" id="duration" name="duration" value="1"
+                                                            readonly>
+
+                                                        <button type="button" id="plusDuration" class="duration-btn">
+
+                                                            <i class="bi bi-plus-lg"></i>
+
+                                                        </button>
+
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+
+                                            {{-- RINGKASAN --}}
+                                            <div class="col-md-12 mb-4">
+
+                                                <div class="card border-0 shadow-sm rounded-4">
+
+                                                    <div class="card-body">
+
+                                                        <h5 class="fw-bold mb-3">
+
+                                                            <i class="bi bi-receipt-cutoff text-success me-2"></i>
+
+                                                            Ringkasan Pembayaran
+
+                                                        </h5>
+
+                                                        <div class="d-flex justify-content-between mb-2">
+
+                                                            <span>Harga / Bulan</span>
+
+                                                            <strong id="monthlyPrice">
+
+                                                                Rp0
+
+                                                            </strong>
+
+                                                        </div>
+
+                                                        <div class="d-flex justify-content-between mb-2">
+
+                                                            <span>Durasi</span>
+
+                                                            <strong id="durationText">
+
+                                                                1 Bulan
+
+                                                            </strong>
+
+                                                        </div>
+
+                                                        <div class="d-flex justify-content-between mb-2">
+
+                                                            <span>Estimasi Selesai Sewa</span>
+
+                                                            <strong id="endDate">
+
+                                                                -
+
+                                                            </strong>
+
+                                                        </div>
+
+                                                        <hr>
+
+                                                        <div class="d-flex justify-content-between align-items-center">
+
+                                                            <h5 class="mb-0">
+
+                                                                Total Bayar
+
+                                                            </h5>
+
+                                                            <h4 class="fw-bold text-success mb-0" id="totalPrice">
+
+                                                                Rp0
+
+                                                            </h4>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
                                             <div class="col-md-12">
 
-                                               <button type="submit" class="btn booking-btn w-100">
-
+                                                <button type="submit" class="btn booking-btn w-100">
 
                                                     Lanjut ke Pembayaran
 
@@ -205,7 +314,6 @@
                                         </div>
 
                                     </form>
-
                                 </div>
 
                             </div>

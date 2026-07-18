@@ -76,7 +76,7 @@
 
                 <strong>
 
-                    Rp {{ number_format($room->price, 0, ',', '.') }}
+                    Rp {{ number_format($totalPayment, 0, ',', '.') }}
 
                 </strong>
 

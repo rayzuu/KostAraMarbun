@@ -9,6 +9,7 @@ use App\Models\Booking;
 use App\Models\Payment;
 use Midtrans\Config;
 use Midtrans\Snap;
+use Carbon\Carbon; 
 
 class BookingController extends Controller
 {
@@ -50,7 +51,25 @@ class BookingController extends Controller
     }
 
     public function store(Request $request)
-{
+{   
+
+$request->validate([
+
+    'room_id' => 'required|exists:rooms,id',
+
+    'name' => 'required',
+
+    'phone' => 'required',
+
+    'birth_place' => 'required',
+
+    'birth_date' => 'required|date',
+
+    'start_date' => 'required|date',
+
+    'duration' => 'required|integer|min:1',
+
+]);
 
     $room = Room::find($request->room_id);
 
@@ -79,6 +98,13 @@ class BookingController extends Controller
 
     }
 
+    $totalPayment = $room->price * $request->duration;
+
+    $duration = (int) $request->duration;
+
+    $endDate = Carbon::parse($request->start_date)
+        ->addMonths($duration);
+
     $orderId = 'BOOKING-' . time();
 
     $booking = Booking::create([
@@ -87,15 +113,18 @@ class BookingController extends Controller
 
         'room_id' => $request->room_id,
 
-        'name' => $request->name,
+        // SNAPSHOT DATA USER
+        'name' => auth()->user()->name,
 
-        'phone' => $request->phone,
+        'phone' => auth()->user()->phone,
 
-        'birth_place' => $request->birth_place,
+        'birth_place' => auth()->user()->birth_place,
 
-        'birth_date' => $request->birth_date,
+        'birth_date' => auth()->user()->birth_date,
 
         'start_date' => $request->start_date,
+
+        'end_date' => $endDate,
 
         'monthly_price' => $room->price,
 
@@ -113,7 +142,9 @@ class BookingController extends Controller
 
     'payment_year' => now()->year,
 
-    'amount' => $room->price,
+    'amount' => $totalPayment,
+
+    'duration' => $duration,
 
     'status' => 'unpaid'
 
@@ -125,16 +156,15 @@ class BookingController extends Controller
 
             'order_id' => $orderId,
 
-            'gross_amount' => $room->price,
+            'gross_amount' => $totalPayment,
 
         ],
 
         'customer_details' => [
 
-            'first_name' => $booking->name,
+            'first_name' => auth()->user()->name,
 
-            'phone' => $booking->phone,
-
+            'phone' => auth()->user()->phone,
         ],
 
     ];
@@ -144,7 +174,8 @@ class BookingController extends Controller
     return view('booking.payment', compact(
         'snapToken',
         'booking',
-        'room'
+        'room',
+        'totalPayment'
     ));
 }
 

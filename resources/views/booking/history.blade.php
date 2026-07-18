@@ -36,6 +36,7 @@
 
                                     <th>Kamar</th>
                                     <th>Total</th>
+                                    <th>Masa Sewa</th>
                                     <th>Metode</th>
                                     <th>VA Number</th>
                                     <th>Status</th>
@@ -66,6 +67,12 @@
                                             <span class="fw-bold text-success">
                                                 Rp {{ number_format($payment->amount) }}
                                             </span>
+
+                                        </td>
+
+                                        <td>
+
+                                            {{ $payment->duration }} Bulan
 
                                         </td>
 
@@ -151,7 +158,8 @@
                                         <td>
 
                                             @if ($payment->status == 'paid')
-                                                <a href="{{ route('payment.receipt', $payment->id) }}" class="btn btn-sm btn-dark rounded-pill px-3">
+                                                <a href="{{ route('payment.receipt', $payment->id) }}"
+                                                    class="btn btn-sm btn-dark rounded-pill px-3">
 
                                                     <i class="bi bi-download me-1"></i>
                                                     Bukti

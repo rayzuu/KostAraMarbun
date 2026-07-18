@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-                Schema::create('payments', function (Blueprint $table) {
+            Schema::create('payments', function (Blueprint $table) {
 
             $table->id();
 
@@ -28,8 +28,12 @@ return new class extends Migration
             // TAHUN TAGIHAN
             $table->integer('payment_year');
 
+            $table->integer('duration')->default(1);
+
+            
             // TOTAL BAYAR
             $table->bigInteger('amount');
+            
 
             // STATUS BAYAR
             $table->enum('status', [

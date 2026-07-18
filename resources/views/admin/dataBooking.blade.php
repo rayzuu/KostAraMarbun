@@ -39,6 +39,7 @@
                             <th>Tanggal Keluar</th>
                             <th>Status Penyewa</th>
                             <th>Status Pembayaran</th>
+                            <th>Masa Sewa</th>
                             <th>Total Bayar</th>
                             <th>Aksi</th>
 
@@ -150,12 +151,24 @@
 
                                 </td>
 
+                                <td>
+
+                                    @if ($latestPayment)
+                                        {{ $latestPayment->duration }} Bulan
+                                    @else
+                                        -
+                                    @endif
+
+                                </td>
+
                                 {{-- TOTAL PEMBAYARAN --}}
                                 <td>
 
                                     Rp {{ number_format($totalPaid, 0, ',', '.') }}
 
                                 </td>
+
+
 
                                 <td>
 

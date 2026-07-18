@@ -24,16 +24,11 @@
                         <select name="month" class="form-select">
 
                             @for ($i = 1; $i <= 12; $i++)
-
-                                <option
-                                    value="{{ $i }}"
-                                    {{ $month == $i ? 'selected' : '' }}
-                                >
+                                <option value="{{ $i }}" {{ $month == $i ? 'selected' : '' }}>
 
                                     {{ \Carbon\Carbon::create()->month($i)->translatedFormat('F') }}
 
                                 </option>
-
                             @endfor
 
                         </select>
@@ -49,16 +44,11 @@
                         <select name="year" class="form-select">
 
                             @for ($i = now()->year; $i >= 2024; $i--)
-
-                                <option
-                                    value="{{ $i }}"
-                                    {{ $year == $i ? 'selected' : '' }}
-                                >
+                                <option value="{{ $i }}" {{ $year == $i ? 'selected' : '' }}>
 
                                     {{ $i }}
 
                                 </option>
-
                             @endfor
 
                         </select>
@@ -167,22 +157,20 @@
 
             <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <h5 class="fw-bold mb-0">
-        Data Pembayaran
-    </h5>
+                <h5 class="fw-bold mb-0">
+                    Data Pembayaran
+                </h5>
 
-    <a
-        href="{{ route('report.payment.pdf', request()->query()) }}"
-        class="btn btn-danger">
+                <a href="{{ route('report.payment.pdf', request()->query()) }}" class="btn btn-danger">
 
-        <i class="bi bi-file-earmark-pdf"></i>
-        Download PDF
+                    <i class="bi bi-file-earmark-pdf"></i>
+                    Download PDF
 
-    </a>
+                </a>
 
-</div>
+            </div>
 
-            
+
             <div class="table-responsive">
 
                 <table class="table align-middle">
@@ -206,7 +194,6 @@
                     <tbody>
 
                         @forelse($reports as $report)
-
                             <tr>
 
                                 <td>
@@ -241,36 +228,28 @@
 
                                 <td>
 
-                                    @if($report->status == 'paid')
-
+                                    @if ($report->status == 'paid')
                                         <span class="badge bg-success px-3 py-2">
 
                                             Paid
 
                                         </span>
-
                                     @else
-
                                         <span class="badge bg-warning text-dark px-3 py-2">
 
                                             Unpaid
 
                                         </span>
-
                                     @endif
 
                                 </td>
 
                                 <td>
 
-                                    @if($report->paid_at)
-
+                                    @if ($report->paid_at)
                                         {{ \Carbon\Carbon::parse($report->paid_at)->format('d M Y H:i') }}
-
                                     @else
-
                                         -
-
                                     @endif
 
                                 </td>
@@ -288,7 +267,6 @@
                                 </td>
 
                             </tr>
-
                         @endforelse
 
                     </tbody>
